@@ -1,0 +1,1089 @@
+ARM GAS  /tmp/cc1lionE.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.MX_GPIO_Init,"ax",%progbits
+  20              		.align	2
+  21              		.thumb
+  22              		.thumb_func
+  24              	MX_GPIO_Init:
+  25              	.LFB71:
+  26              		.file 1 "Src/main.c"
+   1:Src/main.c    **** 
+   2:Src/main.c    **** /**
+   3:Src/main.c    ****   ******************************************************************************
+   4:Src/main.c    ****   * @file           : main.c
+   5:Src/main.c    ****   * @brief          : Main program body
+   6:Src/main.c    ****   ******************************************************************************
+   7:Src/main.c    ****   * This notice applies to any and all portions of this file
+   8:Src/main.c    ****   * that are not between comment pairs USER CODE BEGIN and
+   9:Src/main.c    ****   * USER CODE END. Other portions of this file, whether 
+  10:Src/main.c    ****   * inserted by the user or by software development tools
+  11:Src/main.c    ****   * are owned by their respective copyright owners.
+  12:Src/main.c    ****   *
+  13:Src/main.c    ****   * Copyright (c) 2018 STMicroelectronics International N.V. 
+  14:Src/main.c    ****   * All rights reserved.
+  15:Src/main.c    ****   *
+  16:Src/main.c    ****   * Redistribution and use in source and binary forms, with or without 
+  17:Src/main.c    ****   * modification, are permitted, provided that the following conditions are met:
+  18:Src/main.c    ****   *
+  19:Src/main.c    ****   * 1. Redistribution of source code must retain the above copyright notice, 
+  20:Src/main.c    ****   *    this list of conditions and the following disclaimer.
+  21:Src/main.c    ****   * 2. Redistributions in binary form must reproduce the above copyright notice,
+  22:Src/main.c    ****   *    this list of conditions and the following disclaimer in the documentation
+  23:Src/main.c    ****   *    and/or other materials provided with the distribution.
+  24:Src/main.c    ****   * 3. Neither the name of STMicroelectronics nor the names of other 
+  25:Src/main.c    ****   *    contributors to this software may be used to endorse or promote products 
+  26:Src/main.c    ****   *    derived from this software without specific written permission.
+  27:Src/main.c    ****   * 4. This software, including modifications and/or derivative works of this 
+  28:Src/main.c    ****   *    software, must execute solely and exclusively on microcontroller or
+  29:Src/main.c    ****   *    microprocessor devices manufactured by or for STMicroelectronics.
+  30:Src/main.c    ****   * 5. Redistribution and use of this software other than as permitted under 
+  31:Src/main.c    ****   *    this license is void and will automatically terminate your rights under 
+  32:Src/main.c    ****   *    this license. 
+ARM GAS  /tmp/cc1lionE.s 			page 2
+
+
+  33:Src/main.c    ****   *
+  34:Src/main.c    ****   * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  35:Src/main.c    ****   * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  36:Src/main.c    ****   * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  37:Src/main.c    ****   * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  38:Src/main.c    ****   * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  39:Src/main.c    ****   * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  40:Src/main.c    ****   * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  41:Src/main.c    ****   * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  42:Src/main.c    ****   * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  43:Src/main.c    ****   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  44:Src/main.c    ****   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  45:Src/main.c    ****   * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  46:Src/main.c    ****   *
+  47:Src/main.c    ****   ******************************************************************************
+  48:Src/main.c    ****   */
+  49:Src/main.c    **** /* Includes ------------------------------------------------------------------*/
+  50:Src/main.c    **** #include "main.h"
+  51:Src/main.c    **** #include "stm32f1xx_hal.h"
+  52:Src/main.c    **** #include "cmsis_os.h"
+  53:Src/main.c    **** 
+  54:Src/main.c    **** /* USER CODE BEGIN Includes */
+  55:Src/main.c    **** 
+  56:Src/main.c    **** /* USER CODE END Includes */
+  57:Src/main.c    **** 
+  58:Src/main.c    **** /* Private variables ---------------------------------------------------------*/
+  59:Src/main.c    **** osThreadId MailProducerHandle;
+  60:Src/main.c    **** osThreadId MailConsumerHandle;
+  61:Src/main.c    **** 
+  62:Src/main.c    **** /* USER CODE BEGIN PV */
+  63:Src/main.c    **** /* Private variables ---------------------------------------------------------*/
+  64:Src/main.c    **** 
+  65:Src/main.c    **** /* USER CODE END PV */
+  66:Src/main.c    **** 
+  67:Src/main.c    **** /* Private function prototypes -----------------------------------------------*/
+  68:Src/main.c    **** void SystemClock_Config(void);
+  69:Src/main.c    **** static void MX_GPIO_Init(void);
+  70:Src/main.c    **** void MailProducerTask(void const * argument);
+  71:Src/main.c    **** void MailConsumerTask(void const * argument);
+  72:Src/main.c    **** 
+  73:Src/main.c    **** /* USER CODE BEGIN PFP */
+  74:Src/main.c    **** /* Private function prototypes -----------------------------------------------*/
+  75:Src/main.c    **** 
+  76:Src/main.c    **** /* USER CODE END PFP */
+  77:Src/main.c    **** //定义邮箱队列要使用的数据结构
+  78:Src/main.c    **** typedef struct
+  79:Src/main.c    **** {
+  80:Src/main.c    **** 	uint32_t var1;
+  81:Src/main.c    **** 	uint32_t var2;
+  82:Src/main.c    **** 	uint8_t var3;
+  83:Src/main.c    **** } Amail_TypeDef;
+  84:Src/main.c    **** 
+  85:Src/main.c    **** //创建一个osMailQId变量，实际就是一个指针
+  86:Src/main.c    **** osMailQId mailQ01Handle;
+  87:Src/main.c    **** 
+  88:Src/main.c    **** /* USER CODE BEGIN 0 */
+  89:Src/main.c    **** 
+ARM GAS  /tmp/cc1lionE.s 			page 3
+
+
+  90:Src/main.c    **** /* USER CODE END 0 */
+  91:Src/main.c    **** 
+  92:Src/main.c    **** /**
+  93:Src/main.c    ****   * @brief  The application entry point.
+  94:Src/main.c    ****   *
+  95:Src/main.c    ****   * @retval None
+  96:Src/main.c    ****   */
+  97:Src/main.c    **** int main(void)
+  98:Src/main.c    **** {
+  99:Src/main.c    ****   /* USER CODE BEGIN 1 */
+ 100:Src/main.c    **** 
+ 101:Src/main.c    ****   /* USER CODE END 1 */
+ 102:Src/main.c    **** 
+ 103:Src/main.c    ****   /* MCU Configuration----------------------------------------------------------*/
+ 104:Src/main.c    **** 
+ 105:Src/main.c    ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+ 106:Src/main.c    ****   HAL_Init();
+ 107:Src/main.c    **** 
+ 108:Src/main.c    ****   /* USER CODE BEGIN Init */
+ 109:Src/main.c    **** 
+ 110:Src/main.c    ****   /* USER CODE END Init */
+ 111:Src/main.c    **** 
+ 112:Src/main.c    ****   /* Configure the system clock */
+ 113:Src/main.c    ****   SystemClock_Config();
+ 114:Src/main.c    **** 
+ 115:Src/main.c    ****   /* USER CODE BEGIN SysInit */
+ 116:Src/main.c    **** 
+ 117:Src/main.c    ****   /* USER CODE END SysInit */
+ 118:Src/main.c    **** 
+ 119:Src/main.c    ****   /* Initialize all configured peripherals */
+ 120:Src/main.c    ****   MX_GPIO_Init();
+ 121:Src/main.c    ****   /* USER CODE BEGIN 2 */
+ 122:Src/main.c    ****   //创建邮箱队列，队列深度为15
+ 123:Src/main.c    ****   osMailQDef(mailQ01, 15, Amail_TypeDef);
+ 124:Src/main.c    ****   mailQ01Handle = osMailCreate(osMailQ(mailQ01), NULL);
+ 125:Src/main.c    **** 
+ 126:Src/main.c    ****   /* USER CODE END 2 */
+ 127:Src/main.c    **** 
+ 128:Src/main.c    ****   /* USER CODE BEGIN RTOS_MUTEX */
+ 129:Src/main.c    ****   /* add mutexes, ... */
+ 130:Src/main.c    ****   /* USER CODE END RTOS_MUTEX */
+ 131:Src/main.c    **** 
+ 132:Src/main.c    ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
+ 133:Src/main.c    ****   /* add semaphores, ... */
+ 134:Src/main.c    ****   /* USER CODE END RTOS_SEMAPHORES */
+ 135:Src/main.c    **** 
+ 136:Src/main.c    ****   /* USER CODE BEGIN RTOS_TIMERS */
+ 137:Src/main.c    ****   /* start timers, add new ones, ... */
+ 138:Src/main.c    ****   /* USER CODE END RTOS_TIMERS */
+ 139:Src/main.c    **** 
+ 140:Src/main.c    ****   /* Create the thread(s) */
+ 141:Src/main.c    ****   /* definition and creation of MailProducer */
+ 142:Src/main.c    ****   osThreadDef(MailProducer, MailProducerTask, osPriorityNormal, 0, 128);
+ 143:Src/main.c    ****   MailProducerHandle = osThreadCreate(osThread(MailProducer), NULL);
+ 144:Src/main.c    **** 
+ 145:Src/main.c    ****   /* definition and creation of MailConsumer */
+ 146:Src/main.c    ****   osThreadDef(MailConsumer, MailConsumerTask, osPriorityNormal, 0, 128);
+ARM GAS  /tmp/cc1lionE.s 			page 4
+
+
+ 147:Src/main.c    ****   MailConsumerHandle = osThreadCreate(osThread(MailConsumer), NULL);
+ 148:Src/main.c    **** 
+ 149:Src/main.c    ****   /* USER CODE BEGIN RTOS_THREADS */
+ 150:Src/main.c    ****   /* add threads, ... */
+ 151:Src/main.c    ****   /* USER CODE END RTOS_THREADS */
+ 152:Src/main.c    **** 
+ 153:Src/main.c    ****   /* USER CODE BEGIN RTOS_QUEUES */
+ 154:Src/main.c    ****   /* add queues, ... */
+ 155:Src/main.c    ****   /* USER CODE END RTOS_QUEUES */
+ 156:Src/main.c    ****  
+ 157:Src/main.c    **** 
+ 158:Src/main.c    ****   /* Start scheduler */
+ 159:Src/main.c    ****   osKernelStart();
+ 160:Src/main.c    ****   
+ 161:Src/main.c    ****   /* We should never get here as control is now taken by the scheduler */
+ 162:Src/main.c    **** 
+ 163:Src/main.c    ****   /* Infinite loop */
+ 164:Src/main.c    ****   /* USER CODE BEGIN WHILE */
+ 165:Src/main.c    ****   while (1)
+ 166:Src/main.c    ****   {
+ 167:Src/main.c    **** 
+ 168:Src/main.c    ****   /* USER CODE END WHILE */
+ 169:Src/main.c    **** 
+ 170:Src/main.c    ****   /* USER CODE BEGIN 3 */
+ 171:Src/main.c    **** 
+ 172:Src/main.c    ****   }
+ 173:Src/main.c    ****   /* USER CODE END 3 */
+ 174:Src/main.c    **** 
+ 175:Src/main.c    **** }
+ 176:Src/main.c    **** 
+ 177:Src/main.c    **** /**
+ 178:Src/main.c    ****   * @brief System Clock Configuration
+ 179:Src/main.c    ****   * @retval None
+ 180:Src/main.c    ****   */
+ 181:Src/main.c    **** void SystemClock_Config(void)
+ 182:Src/main.c    **** {
+ 183:Src/main.c    **** 
+ 184:Src/main.c    ****   RCC_OscInitTypeDef RCC_OscInitStruct;
+ 185:Src/main.c    ****   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+ 186:Src/main.c    **** 
+ 187:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
+ 188:Src/main.c    ****     */
+ 189:Src/main.c    ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+ 190:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 191:Src/main.c    ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 192:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 193:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 194:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 195:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 196:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 197:Src/main.c    ****   {
+ 198:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 199:Src/main.c    ****   }
+ 200:Src/main.c    **** 
+ 201:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
+ 202:Src/main.c    ****     */
+ 203:Src/main.c    ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ARM GAS  /tmp/cc1lionE.s 			page 5
+
+
+ 204:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 205:Src/main.c    ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 206:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 207:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 208:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 209:Src/main.c    **** 
+ 210:Src/main.c    ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+ 211:Src/main.c    ****   {
+ 212:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 213:Src/main.c    ****   }
+ 214:Src/main.c    **** 
+ 215:Src/main.c    ****     /**Configure the Systick interrupt time 
+ 216:Src/main.c    ****     */
+ 217:Src/main.c    ****   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+ 218:Src/main.c    **** 
+ 219:Src/main.c    ****     /**Configure the Systick 
+ 220:Src/main.c    ****     */
+ 221:Src/main.c    ****   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+ 222:Src/main.c    **** 
+ 223:Src/main.c    ****   /* SysTick_IRQn interrupt configuration */
+ 224:Src/main.c    ****   HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
+ 225:Src/main.c    **** }
+ 226:Src/main.c    **** 
+ 227:Src/main.c    **** /** Configure pins as 
+ 228:Src/main.c    ****         * Analog 
+ 229:Src/main.c    ****         * Input 
+ 230:Src/main.c    ****         * Output
+ 231:Src/main.c    ****         * EVENT_OUT
+ 232:Src/main.c    ****         * EXTI
+ 233:Src/main.c    **** */
+ 234:Src/main.c    **** static void MX_GPIO_Init(void)
+ 235:Src/main.c    **** {
+  27              		.loc 1 235 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 24
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 24
+  34              		.cfi_offset 4, -24
+  35              		.cfi_offset 5, -20
+  36              		.cfi_offset 6, -16
+  37              		.cfi_offset 7, -12
+  38              		.cfi_offset 8, -8
+  39              		.cfi_offset 14, -4
+  40 0004 86B0     		sub	sp, sp, #24
+  41              	.LCFI1:
+  42              		.cfi_def_cfa_offset 48
+  43              	.LBB2:
+ 236:Src/main.c    **** 
+ 237:Src/main.c    ****   GPIO_InitTypeDef GPIO_InitStruct;
+ 238:Src/main.c    **** 
+ 239:Src/main.c    ****   /* GPIO Ports Clock Enable */
+ 240:Src/main.c    ****   __HAL_RCC_GPIOD_CLK_ENABLE();
+  44              		.loc 1 240 0
+  45 0006 1D4B     		ldr	r3, .L3
+  46 0008 9A69     		ldr	r2, [r3, #24]
+ARM GAS  /tmp/cc1lionE.s 			page 6
+
+
+  47 000a 42F02002 		orr	r2, r2, #32
+  48 000e 9A61     		str	r2, [r3, #24]
+  49 0010 9A69     		ldr	r2, [r3, #24]
+  50 0012 02F02002 		and	r2, r2, #32
+  51 0016 0092     		str	r2, [sp]
+  52 0018 009A     		ldr	r2, [sp]
+  53              	.LBE2:
+  54              	.LBB3:
+ 241:Src/main.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  55              		.loc 1 241 0
+  56 001a 9A69     		ldr	r2, [r3, #24]
+  57 001c 42F00402 		orr	r2, r2, #4
+  58 0020 9A61     		str	r2, [r3, #24]
+  59 0022 9B69     		ldr	r3, [r3, #24]
+  60 0024 03F00403 		and	r3, r3, #4
+  61 0028 0193     		str	r3, [sp, #4]
+  62 002a 019B     		ldr	r3, [sp, #4]
+  63              	.LBE3:
+ 242:Src/main.c    **** 
+ 243:Src/main.c    ****   /*Configure GPIO pin Output Level */
+ 244:Src/main.c    ****   HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
+  64              		.loc 1 244 0
+  65 002c DFF85480 		ldr	r8, .L3+8
+  66 0030 0022     		movs	r2, #0
+  67 0032 4FF48071 		mov	r1, #256
+  68 0036 4046     		mov	r0, r8
+  69 0038 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  70              	.LVL0:
+ 245:Src/main.c    **** 
+ 246:Src/main.c    ****   /*Configure GPIO pin Output Level */
+ 247:Src/main.c    ****   HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+  71              		.loc 1 247 0
+  72 003c 104C     		ldr	r4, .L3+4
+  73 003e 0022     		movs	r2, #0
+  74 0040 0421     		movs	r1, #4
+  75 0042 2046     		mov	r0, r4
+  76 0044 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  77              	.LVL1:
+ 248:Src/main.c    **** 
+ 249:Src/main.c    ****   /*Configure GPIO pin : LED0_Pin */
+ 250:Src/main.c    ****   GPIO_InitStruct.Pin = LED0_Pin;
+  78              		.loc 1 250 0
+  79 0048 4FF48073 		mov	r3, #256
+  80 004c 0293     		str	r3, [sp, #8]
+ 251:Src/main.c    ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  81              		.loc 1 251 0
+  82 004e 0127     		movs	r7, #1
+  83 0050 0397     		str	r7, [sp, #12]
+ 252:Src/main.c    ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  84              		.loc 1 252 0
+  85 0052 0026     		movs	r6, #0
+  86 0054 0496     		str	r6, [sp, #16]
+ 253:Src/main.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  87              		.loc 1 253 0
+  88 0056 0225     		movs	r5, #2
+  89 0058 0595     		str	r5, [sp, #20]
+ 254:Src/main.c    ****   HAL_GPIO_Init(LED0_GPIO_Port, &GPIO_InitStruct);
+ARM GAS  /tmp/cc1lionE.s 			page 7
+
+
+  90              		.loc 1 254 0
+  91 005a 02A9     		add	r1, sp, #8
+  92 005c 4046     		mov	r0, r8
+  93 005e FFF7FEFF 		bl	HAL_GPIO_Init
+  94              	.LVL2:
+ 255:Src/main.c    **** 
+ 256:Src/main.c    ****   /*Configure GPIO pin : LED2_Pin */
+ 257:Src/main.c    ****   GPIO_InitStruct.Pin = LED2_Pin;
+  95              		.loc 1 257 0
+  96 0062 0423     		movs	r3, #4
+  97 0064 0293     		str	r3, [sp, #8]
+ 258:Src/main.c    ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  98              		.loc 1 258 0
+  99 0066 0397     		str	r7, [sp, #12]
+ 259:Src/main.c    ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 100              		.loc 1 259 0
+ 101 0068 0496     		str	r6, [sp, #16]
+ 260:Src/main.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 102              		.loc 1 260 0
+ 103 006a 0595     		str	r5, [sp, #20]
+ 261:Src/main.c    ****   HAL_GPIO_Init(LED2_GPIO_Port, &GPIO_InitStruct);
+ 104              		.loc 1 261 0
+ 105 006c 02A9     		add	r1, sp, #8
+ 106 006e 2046     		mov	r0, r4
+ 107 0070 FFF7FEFF 		bl	HAL_GPIO_Init
+ 108              	.LVL3:
+ 262:Src/main.c    **** 
+ 263:Src/main.c    **** }
+ 109              		.loc 1 263 0
+ 110 0074 06B0     		add	sp, sp, #24
+ 111              	.LCFI2:
+ 112              		.cfi_def_cfa_offset 24
+ 113              		@ sp needed
+ 114 0076 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 115              	.L4:
+ 116 007a 00BF     		.align	2
+ 117              	.L3:
+ 118 007c 00100240 		.word	1073876992
+ 119 0080 00140140 		.word	1073812480
+ 120 0084 00080140 		.word	1073809408
+ 121              		.cfi_endproc
+ 122              	.LFE71:
+ 124              		.section	.text.MailProducerTask,"ax",%progbits
+ 125              		.align	2
+ 126              		.global	MailProducerTask
+ 127              		.thumb
+ 128              		.thumb_func
+ 130              	MailProducerTask:
+ 131              	.LFB72:
+ 264:Src/main.c    **** 
+ 265:Src/main.c    **** /* USER CODE BEGIN 4 */
+ 266:Src/main.c    **** 
+ 267:Src/main.c    **** /* USER CODE END 4 */
+ 268:Src/main.c    **** 
+ 269:Src/main.c    **** /* MailProducerTask function */
+ 270:Src/main.c    **** void MailProducerTask(void const * argument)
+ 271:Src/main.c    **** {
+ARM GAS  /tmp/cc1lionE.s 			page 8
+
+
+ 132              		.loc 1 271 0
+ 133              		.cfi_startproc
+ 134              		@ args = 0, pretend = 0, frame = 40
+ 135              		@ frame_needed = 0, uses_anonymous_args = 0
+ 136              	.LVL4:
+ 137 0000 10B5     		push	{r4, lr}
+ 138              	.LCFI3:
+ 139              		.cfi_def_cfa_offset 8
+ 140              		.cfi_offset 4, -8
+ 141              		.cfi_offset 14, -4
+ 142 0002 8AB0     		sub	sp, sp, #40
+ 143              	.LCFI4:
+ 144              		.cfi_def_cfa_offset 48
+ 272:Src/main.c    **** 
+ 273:Src/main.c    ****   /* USER CODE BEGIN 5 */
+ 274:Src/main.c    ****   Amail_TypeDef Mail[3];
+ 275:Src/main.c    **** 
+ 276:Src/main.c    ****   Mail[0].var1 = 0x01;  //设置邮件内容
+ 145              		.loc 1 276 0
+ 146 0004 0123     		movs	r3, #1
+ 147 0006 0193     		str	r3, [sp, #4]
+ 277:Src/main.c    ****   Mail[0].var2 = 0x02;
+ 148              		.loc 1 277 0
+ 149 0008 0222     		movs	r2, #2
+ 150 000a 0292     		str	r2, [sp, #8]
+ 278:Src/main.c    ****   Mail[0].var3 = 0x03;
+ 151              		.loc 1 278 0
+ 152 000c 0323     		movs	r3, #3
+ 153 000e 8DF80C30 		strb	r3, [sp, #12]
+ 279:Src/main.c    ****    
+ 280:Src/main.c    ****   Mail[1].var1 = 0x02;
+ 154              		.loc 1 280 0
+ 155 0012 0492     		str	r2, [sp, #16]
+ 281:Src/main.c    ****   Mail[1].var2 = 0x03;
+ 156              		.loc 1 281 0
+ 157 0014 0593     		str	r3, [sp, #20]
+ 282:Src/main.c    ****   Mail[1].var3 = 0x04;
+ 158              		.loc 1 282 0
+ 159 0016 0422     		movs	r2, #4
+ 160 0018 8DF81820 		strb	r2, [sp, #24]
+ 283:Src/main.c    ****    
+ 284:Src/main.c    ****   Mail[2].var1 = 0x03;
+ 161              		.loc 1 284 0
+ 162 001c 0793     		str	r3, [sp, #28]
+ 285:Src/main.c    ****   Mail[2].var2 = 0x04;
+ 163              		.loc 1 285 0
+ 164 001e 0892     		str	r2, [sp, #32]
+ 286:Src/main.c    ****   Mail[2].var3 = 0x05;
+ 165              		.loc 1 286 0
+ 166 0020 0523     		movs	r3, #5
+ 167 0022 8DF82430 		strb	r3, [sp, #36]
+ 168              	.LVL5:
+ 169              	.L6:
+ 287:Src/main.c    ****   /* Infinite loop */
+ 288:Src/main.c    ****   for(;;)
+ 289:Src/main.c    ****   {
+ 290:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[0]); //发送邮件
+ARM GAS  /tmp/cc1lionE.s 			page 9
+
+
+ 170              		.loc 1 290 0 discriminator 1
+ 171 0026 0D4C     		ldr	r4, .L8
+ 172 0028 01A9     		add	r1, sp, #4
+ 173 002a 2068     		ldr	r0, [r4]
+ 174 002c FFF7FEFF 		bl	osMailPut
+ 175              	.LVL6:
+ 291:Src/main.c    ****     osDelay(1000);
+ 176              		.loc 1 291 0 discriminator 1
+ 177 0030 4FF47A70 		mov	r0, #1000
+ 178 0034 FFF7FEFF 		bl	osDelay
+ 179              	.LVL7:
+ 292:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[1]); //发送邮件
+ 180              		.loc 1 292 0 discriminator 1
+ 181 0038 04A9     		add	r1, sp, #16
+ 182 003a 2068     		ldr	r0, [r4]
+ 183 003c FFF7FEFF 		bl	osMailPut
+ 184              	.LVL8:
+ 293:Src/main.c    ****     osDelay(1000);
+ 185              		.loc 1 293 0 discriminator 1
+ 186 0040 4FF47A70 		mov	r0, #1000
+ 187 0044 FFF7FEFF 		bl	osDelay
+ 188              	.LVL9:
+ 294:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[2]); //发送邮件
+ 189              		.loc 1 294 0 discriminator 1
+ 190 0048 07A9     		add	r1, sp, #28
+ 191 004a 2068     		ldr	r0, [r4]
+ 192 004c FFF7FEFF 		bl	osMailPut
+ 193              	.LVL10:
+ 295:Src/main.c    ****     osDelay(3000);
+ 194              		.loc 1 295 0 discriminator 1
+ 195 0050 40F6B830 		movw	r0, #3000
+ 196 0054 FFF7FEFF 		bl	osDelay
+ 197              	.LVL11:
+ 198 0058 E5E7     		b	.L6
+ 199              	.L9:
+ 200 005a 00BF     		.align	2
+ 201              	.L8:
+ 202 005c 00000000 		.word	mailQ01Handle
+ 203              		.cfi_endproc
+ 204              	.LFE72:
+ 206              		.section	.text.MailConsumerTask,"ax",%progbits
+ 207              		.align	2
+ 208              		.global	MailConsumerTask
+ 209              		.thumb
+ 210              		.thumb_func
+ 212              	MailConsumerTask:
+ 213              	.LFB73:
+ 296:Src/main.c    ****   }
+ 297:Src/main.c    ****   /* USER CODE END 5 */ 
+ 298:Src/main.c    **** }
+ 299:Src/main.c    **** 
+ 300:Src/main.c    **** /* MailConsumerTask function */
+ 301:Src/main.c    **** void MailConsumerTask(void const * argument)
+ 302:Src/main.c    **** {
+ 214              		.loc 1 302 0
+ 215              		.cfi_startproc
+ 216              		@ args = 0, pretend = 0, frame = 16
+ARM GAS  /tmp/cc1lionE.s 			page 10
+
+
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218              	.LVL12:
+ 219 0000 70B5     		push	{r4, r5, r6, lr}
+ 220              	.LCFI5:
+ 221              		.cfi_def_cfa_offset 16
+ 222              		.cfi_offset 4, -16
+ 223              		.cfi_offset 5, -12
+ 224              		.cfi_offset 6, -8
+ 225              		.cfi_offset 14, -4
+ 226 0002 84B0     		sub	sp, sp, #16
+ 227              	.LCFI6:
+ 228              		.cfi_def_cfa_offset 32
+ 229              	.LVL13:
+ 230              	.L11:
+ 303:Src/main.c    ****   /* USER CODE BEGIN MailConsumerTask */
+ 304:Src/main.c    ****   osEvent event;
+ 305:Src/main.c    ****   Amail_TypeDef *pMail;
+ 306:Src/main.c    ****   uint32_t cnt;
+ 307:Src/main.c    ****   /* Infinite loop */
+ 308:Src/main.c    ****   for(;;)
+ 309:Src/main.c    ****   {
+ 310:Src/main.c    ****     event = osMailGet(mailQ01Handle, osWaitForever); 
+ 231              		.loc 1 310 0
+ 232 0004 4FF0FF32 		mov	r2, #-1
+ 233 0008 164B     		ldr	r3, .L16
+ 234 000a 1968     		ldr	r1, [r3]
+ 235 000c 01A8     		add	r0, sp, #4
+ 236 000e FFF7FEFF 		bl	osMailGet
+ 237              	.LVL14:
+ 311:Src/main.c    ****     if(event.status == osEventMail)
+ 238              		.loc 1 311 0
+ 239 0012 019B     		ldr	r3, [sp, #4]
+ 240 0014 202B     		cmp	r3, #32
+ 241 0016 F5D1     		bne	.L11
+ 312:Src/main.c    ****     {
+ 313:Src/main.c    ****         pMail = event.value.p; 
+ 242              		.loc 1 313 0
+ 243 0018 029B     		ldr	r3, [sp, #8]
+ 244              	.LVL15:
+ 314:Src/main.c    ****         cnt = pMail -> var1; 
+ 245              		.loc 1 314 0
+ 246 001a 1B68     		ldr	r3, [r3]
+ 247              	.LVL16:
+ 315:Src/main.c    ****         while(cnt--)
+ 248              		.loc 1 315 0
+ 249 001c 1EE0     		b	.L12
+ 250              	.LVL17:
+ 251              	.L13:
+ 316:Src/main.c    ****         {
+ 317:Src/main.c    ****             HAL_GPIO_WritePin( LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
+ 252              		.loc 1 317 0
+ 253 001e 124D     		ldr	r5, .L16+4
+ 254 0020 0022     		movs	r2, #0
+ 255 0022 4FF48071 		mov	r1, #256
+ 256 0026 2846     		mov	r0, r5
+ 257 0028 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 258              	.LVL18:
+ARM GAS  /tmp/cc1lionE.s 			page 11
+
+
+ 318:Src/main.c    ****             HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+ 259              		.loc 1 318 0
+ 260 002c 0F4C     		ldr	r4, .L16+8
+ 261 002e 0022     		movs	r2, #0
+ 262 0030 0421     		movs	r1, #4
+ 263 0032 2046     		mov	r0, r4
+ 264 0034 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 265              	.LVL19:
+ 319:Src/main.c    ****             osDelay(100);
+ 266              		.loc 1 319 0
+ 267 0038 6420     		movs	r0, #100
+ 268 003a FFF7FEFF 		bl	osDelay
+ 269              	.LVL20:
+ 320:Src/main.c    ****             HAL_GPIO_WritePin( LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
+ 270              		.loc 1 320 0
+ 271 003e 0122     		movs	r2, #1
+ 272 0040 4FF48071 		mov	r1, #256
+ 273 0044 2846     		mov	r0, r5
+ 274 0046 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 275              	.LVL21:
+ 321:Src/main.c    ****             HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+ 276              		.loc 1 321 0
+ 277 004a 0122     		movs	r2, #1
+ 278 004c 0421     		movs	r1, #4
+ 279 004e 2046     		mov	r0, r4
+ 280 0050 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 281              	.LVL22:
+ 322:Src/main.c    ****             osDelay(100);
+ 282              		.loc 1 322 0
+ 283 0054 6420     		movs	r0, #100
+ 284 0056 FFF7FEFF 		bl	osDelay
+ 285              	.LVL23:
+ 315:Src/main.c    ****         {
+ 286              		.loc 1 315 0
+ 287 005a 3346     		mov	r3, r6
+ 288              	.LVL24:
+ 289              	.L12:
+ 290 005c 5E1E     		subs	r6, r3, #1
+ 291              	.LVL25:
+ 292 005e 002B     		cmp	r3, #0
+ 293 0060 DDD1     		bne	.L13
+ 294 0062 CFE7     		b	.L11
+ 295              	.L17:
+ 296              		.align	2
+ 297              	.L16:
+ 298 0064 00000000 		.word	mailQ01Handle
+ 299 0068 00080140 		.word	1073809408
+ 300 006c 00140140 		.word	1073812480
+ 301              		.cfi_endproc
+ 302              	.LFE73:
+ 304              		.section	.text.HAL_TIM_PeriodElapsedCallback,"ax",%progbits
+ 305              		.align	2
+ 306              		.global	HAL_TIM_PeriodElapsedCallback
+ 307              		.thumb
+ 308              		.thumb_func
+ 310              	HAL_TIM_PeriodElapsedCallback:
+ 311              	.LFB74:
+ARM GAS  /tmp/cc1lionE.s 			page 12
+
+
+ 323:Src/main.c    ****         }
+ 324:Src/main.c    ****     }
+ 325:Src/main.c    ****   }
+ 326:Src/main.c    ****   /* USER CODE END MailConsumerTask */
+ 327:Src/main.c    **** }
+ 328:Src/main.c    **** 
+ 329:Src/main.c    **** /**
+ 330:Src/main.c    ****   * @brief  Period elapsed callback in non blocking mode
+ 331:Src/main.c    ****   * @note   This function is called  when TIM4 interrupt took place, inside
+ 332:Src/main.c    ****   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+ 333:Src/main.c    ****   * a global variable "uwTick" used as application time base.
+ 334:Src/main.c    ****   * @param  htim : TIM handle
+ 335:Src/main.c    ****   * @retval None
+ 336:Src/main.c    ****   */
+ 337:Src/main.c    **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+ 338:Src/main.c    **** {
+ 312              		.loc 1 338 0
+ 313              		.cfi_startproc
+ 314              		@ args = 0, pretend = 0, frame = 0
+ 315              		@ frame_needed = 0, uses_anonymous_args = 0
+ 316              	.LVL26:
+ 317 0000 08B5     		push	{r3, lr}
+ 318              	.LCFI7:
+ 319              		.cfi_def_cfa_offset 8
+ 320              		.cfi_offset 3, -8
+ 321              		.cfi_offset 14, -4
+ 339:Src/main.c    ****   /* USER CODE BEGIN Callback 0 */
+ 340:Src/main.c    **** 
+ 341:Src/main.c    ****   /* USER CODE END Callback 0 */
+ 342:Src/main.c    ****   if (htim->Instance == TIM4) {
+ 322              		.loc 1 342 0
+ 323 0002 0268     		ldr	r2, [r0]
+ 324 0004 024B     		ldr	r3, .L21
+ 325 0006 9A42     		cmp	r2, r3
+ 326 0008 01D1     		bne	.L18
+ 343:Src/main.c    ****     HAL_IncTick();
+ 327              		.loc 1 343 0
+ 328 000a FFF7FEFF 		bl	HAL_IncTick
+ 329              	.LVL27:
+ 330              	.L18:
+ 331 000e 08BD     		pop	{r3, pc}
+ 332              	.L22:
+ 333              		.align	2
+ 334              	.L21:
+ 335 0010 00080040 		.word	1073743872
+ 336              		.cfi_endproc
+ 337              	.LFE74:
+ 339              		.section	.text._Error_Handler,"ax",%progbits
+ 340              		.align	2
+ 341              		.global	_Error_Handler
+ 342              		.thumb
+ 343              		.thumb_func
+ 345              	_Error_Handler:
+ 346              	.LFB75:
+ 344:Src/main.c    ****   }
+ 345:Src/main.c    ****   /* USER CODE BEGIN Callback 1 */
+ 346:Src/main.c    **** 
+ARM GAS  /tmp/cc1lionE.s 			page 13
+
+
+ 347:Src/main.c    ****   /* USER CODE END Callback 1 */
+ 348:Src/main.c    **** }
+ 349:Src/main.c    **** 
+ 350:Src/main.c    **** /**
+ 351:Src/main.c    ****   * @brief  This function is executed in case of error occurrence.
+ 352:Src/main.c    ****   * @param  file: The file name as string.
+ 353:Src/main.c    ****   * @param  line: The line in file as a number.
+ 354:Src/main.c    ****   * @retval None
+ 355:Src/main.c    ****   */
+ 356:Src/main.c    **** void _Error_Handler(char *file, int line)
+ 357:Src/main.c    **** {
+ 347              		.loc 1 357 0
+ 348              		.cfi_startproc
+ 349              		@ Volatile: function does not return.
+ 350              		@ args = 0, pretend = 0, frame = 0
+ 351              		@ frame_needed = 0, uses_anonymous_args = 0
+ 352              		@ link register save eliminated.
+ 353              	.LVL28:
+ 354              	.L24:
+ 355 0000 FEE7     		b	.L24
+ 356              		.cfi_endproc
+ 357              	.LFE75:
+ 359 0002 00BF     		.section	.text.SystemClock_Config,"ax",%progbits
+ 360              		.align	2
+ 361              		.global	SystemClock_Config
+ 362              		.thumb
+ 363              		.thumb_func
+ 365              	SystemClock_Config:
+ 366              	.LFB70:
+ 182:Src/main.c    **** 
+ 367              		.loc 1 182 0
+ 368              		.cfi_startproc
+ 369              		@ args = 0, pretend = 0, frame = 64
+ 370              		@ frame_needed = 0, uses_anonymous_args = 0
+ 182:Src/main.c    **** 
+ 371              		.loc 1 182 0
+ 372 0000 00B5     		push	{lr}
+ 373              	.LCFI8:
+ 374              		.cfi_def_cfa_offset 4
+ 375              		.cfi_offset 14, -4
+ 376 0002 91B0     		sub	sp, sp, #68
+ 377              	.LCFI9:
+ 378              		.cfi_def_cfa_offset 72
+ 189:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 379              		.loc 1 189 0
+ 380 0004 0122     		movs	r2, #1
+ 381 0006 0692     		str	r2, [sp, #24]
+ 190:Src/main.c    ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 382              		.loc 1 190 0
+ 383 0008 4FF48033 		mov	r3, #65536
+ 384 000c 0793     		str	r3, [sp, #28]
+ 191:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 385              		.loc 1 191 0
+ 386 000e 0021     		movs	r1, #0
+ 387 0010 0891     		str	r1, [sp, #32]
+ 192:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 388              		.loc 1 192 0
+ARM GAS  /tmp/cc1lionE.s 			page 14
+
+
+ 389 0012 0A92     		str	r2, [sp, #40]
+ 193:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 390              		.loc 1 193 0
+ 391 0014 0222     		movs	r2, #2
+ 392 0016 0D92     		str	r2, [sp, #52]
+ 194:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 393              		.loc 1 194 0
+ 394 0018 0E93     		str	r3, [sp, #56]
+ 195:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 395              		.loc 1 195 0
+ 396 001a 4FF4E013 		mov	r3, #1835008
+ 397 001e 0F93     		str	r3, [sp, #60]
+ 196:Src/main.c    ****   {
+ 398              		.loc 1 196 0
+ 399 0020 06A8     		add	r0, sp, #24
+ 400 0022 FFF7FEFF 		bl	HAL_RCC_OscConfig
+ 401              	.LVL29:
+ 402 0026 18B1     		cbz	r0, .L26
+ 198:Src/main.c    ****   }
+ 403              		.loc 1 198 0
+ 404 0028 C621     		movs	r1, #198
+ 405 002a 1448     		ldr	r0, .L29
+ 406 002c FFF7FEFF 		bl	_Error_Handler
+ 407              	.LVL30:
+ 408              	.L26:
+ 203:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 409              		.loc 1 203 0
+ 410 0030 0F23     		movs	r3, #15
+ 411 0032 0193     		str	r3, [sp, #4]
+ 205:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 412              		.loc 1 205 0
+ 413 0034 0221     		movs	r1, #2
+ 414 0036 0291     		str	r1, [sp, #8]
+ 206:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 415              		.loc 1 206 0
+ 416 0038 0023     		movs	r3, #0
+ 417 003a 0393     		str	r3, [sp, #12]
+ 207:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 418              		.loc 1 207 0
+ 419 003c 4FF48062 		mov	r2, #1024
+ 420 0040 0492     		str	r2, [sp, #16]
+ 208:Src/main.c    **** 
+ 421              		.loc 1 208 0
+ 422 0042 0593     		str	r3, [sp, #20]
+ 210:Src/main.c    ****   {
+ 423              		.loc 1 210 0
+ 424 0044 01A8     		add	r0, sp, #4
+ 425 0046 FFF7FEFF 		bl	HAL_RCC_ClockConfig
+ 426              	.LVL31:
+ 427 004a 18B1     		cbz	r0, .L27
+ 212:Src/main.c    ****   }
+ 428              		.loc 1 212 0
+ 429 004c D421     		movs	r1, #212
+ 430 004e 0B48     		ldr	r0, .L29
+ 431 0050 FFF7FEFF 		bl	_Error_Handler
+ 432              	.LVL32:
+ 433              	.L27:
+ARM GAS  /tmp/cc1lionE.s 			page 15
+
+
+ 217:Src/main.c    **** 
+ 434              		.loc 1 217 0
+ 435 0054 FFF7FEFF 		bl	HAL_RCC_GetHCLKFreq
+ 436              	.LVL33:
+ 437 0058 094B     		ldr	r3, .L29+4
+ 438 005a A3FB0030 		umull	r3, r0, r3, r0
+ 439 005e 8009     		lsrs	r0, r0, #6
+ 440 0060 FFF7FEFF 		bl	HAL_SYSTICK_Config
+ 441              	.LVL34:
+ 221:Src/main.c    **** 
+ 442              		.loc 1 221 0
+ 443 0064 0420     		movs	r0, #4
+ 444 0066 FFF7FEFF 		bl	HAL_SYSTICK_CLKSourceConfig
+ 445              	.LVL35:
+ 224:Src/main.c    **** }
+ 446              		.loc 1 224 0
+ 447 006a 0022     		movs	r2, #0
+ 448 006c 0F21     		movs	r1, #15
+ 449 006e 4FF0FF30 		mov	r0, #-1
+ 450 0072 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 451              	.LVL36:
+ 225:Src/main.c    **** 
+ 452              		.loc 1 225 0
+ 453 0076 11B0     		add	sp, sp, #68
+ 454              	.LCFI10:
+ 455              		.cfi_def_cfa_offset 4
+ 456              		@ sp needed
+ 457 0078 5DF804FB 		ldr	pc, [sp], #4
+ 458              	.L30:
+ 459              		.align	2
+ 460              	.L29:
+ 461 007c 00000000 		.word	.LC4
+ 462 0080 D34D6210 		.word	274877907
+ 463              		.cfi_endproc
+ 464              	.LFE70:
+ 466              		.section	.text.main,"ax",%progbits
+ 467              		.align	2
+ 468              		.global	main
+ 469              		.thumb
+ 470              		.thumb_func
+ 472              	main:
+ 473              	.LFB69:
+  98:Src/main.c    ****   /* USER CODE BEGIN 1 */
+ 474              		.loc 1 98 0
+ 475              		.cfi_startproc
+ 476              		@ args = 0, pretend = 0, frame = 56
+ 477              		@ frame_needed = 0, uses_anonymous_args = 0
+ 478 0000 70B5     		push	{r4, r5, r6, lr}
+ 479              	.LCFI11:
+ 480              		.cfi_def_cfa_offset 16
+ 481              		.cfi_offset 4, -16
+ 482              		.cfi_offset 5, -12
+ 483              		.cfi_offset 6, -8
+ 484              		.cfi_offset 14, -4
+ 485 0002 8EB0     		sub	sp, sp, #56
+ 486              	.LCFI12:
+ 487              		.cfi_def_cfa_offset 72
+ARM GAS  /tmp/cc1lionE.s 			page 16
+
+
+ 106:Src/main.c    **** 
+ 488              		.loc 1 106 0
+ 489 0004 FFF7FEFF 		bl	HAL_Init
+ 490              	.LVL37:
+ 113:Src/main.c    **** 
+ 491              		.loc 1 113 0
+ 492 0008 FFF7FEFF 		bl	SystemClock_Config
+ 493              	.LVL38:
+ 120:Src/main.c    ****   /* USER CODE BEGIN 2 */
+ 494              		.loc 1 120 0
+ 495 000c FFF7FEFF 		bl	MX_GPIO_Init
+ 496              	.LVL39:
+ 123:Src/main.c    ****   mailQ01Handle = osMailCreate(osMailQ(mailQ01), NULL);
+ 497              		.loc 1 123 0
+ 498 0010 0F23     		movs	r3, #15
+ 499 0012 0A93     		str	r3, [sp, #40]
+ 500 0014 0C23     		movs	r3, #12
+ 501 0016 0B93     		str	r3, [sp, #44]
+ 502 0018 0DAB     		add	r3, sp, #52
+ 503 001a 0C93     		str	r3, [sp, #48]
+ 124:Src/main.c    **** 
+ 504              		.loc 1 124 0
+ 505 001c 0021     		movs	r1, #0
+ 506 001e 0AA8     		add	r0, sp, #40
+ 507 0020 FFF7FEFF 		bl	osMailCreate
+ 508              	.LVL40:
+ 509 0024 0E4B     		ldr	r3, .L34
+ 510 0026 1860     		str	r0, [r3]
+ 142:Src/main.c    ****   MailProducerHandle = osThreadCreate(osThread(MailProducer), NULL);
+ 511              		.loc 1 142 0
+ 512 0028 0E4C     		ldr	r4, .L34+4
+ 513 002a 05AD     		add	r5, sp, #20
+ 514 002c 2646     		mov	r6, r4
+ 515 002e 0FCE     		ldmia	r6!, {r0, r1, r2, r3}
+ 516 0030 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 517 0032 3368     		ldr	r3, [r6]
+ 518 0034 2B60     		str	r3, [r5]
+ 143:Src/main.c    **** 
+ 519              		.loc 1 143 0
+ 520 0036 0021     		movs	r1, #0
+ 521 0038 05A8     		add	r0, sp, #20
+ 522 003a FFF7FEFF 		bl	osThreadCreate
+ 523              	.LVL41:
+ 524 003e 0A4B     		ldr	r3, .L34+8
+ 525 0040 1860     		str	r0, [r3]
+ 146:Src/main.c    ****   MailConsumerHandle = osThreadCreate(osThread(MailConsumer), NULL);
+ 526              		.loc 1 146 0
+ 527 0042 6D46     		mov	r5, sp
+ 528 0044 1434     		adds	r4, r4, #20
+ 529 0046 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 530 0048 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 531 004a 2368     		ldr	r3, [r4]
+ 532 004c 2B60     		str	r3, [r5]
+ 147:Src/main.c    **** 
+ 533              		.loc 1 147 0
+ 534 004e 0021     		movs	r1, #0
+ 535 0050 6846     		mov	r0, sp
+ARM GAS  /tmp/cc1lionE.s 			page 17
+
+
+ 536 0052 FFF7FEFF 		bl	osThreadCreate
+ 537              	.LVL42:
+ 538 0056 054B     		ldr	r3, .L34+12
+ 539 0058 1860     		str	r0, [r3]
+ 159:Src/main.c    ****   
+ 540              		.loc 1 159 0
+ 541 005a FFF7FEFF 		bl	osKernelStart
+ 542              	.LVL43:
+ 543              	.L32:
+ 544 005e FEE7     		b	.L32
+ 545              	.L35:
+ 546              		.align	2
+ 547              	.L34:
+ 548 0060 00000000 		.word	mailQ01Handle
+ 549 0064 00000000 		.word	.LANCHOR0
+ 550 0068 00000000 		.word	MailProducerHandle
+ 551 006c 00000000 		.word	MailConsumerHandle
+ 552              		.cfi_endproc
+ 553              	.LFE69:
+ 555              		.comm	mailQ01Handle,4,4
+ 556              		.comm	MailConsumerHandle,4,4
+ 557              		.comm	MailProducerHandle,4,4
+ 558              		.section	.rodata
+ 559              		.align	2
+ 560              		.set	.LANCHOR0,. + 0
+ 561              	.LC5:
+ 562 0000 1C000000 		.word	.LC0
+ 563 0004 00000000 		.word	MailProducerTask
+ 564 0008 0000     		.short	0
+ 565 000a 0000     		.space	2
+ 566 000c 00000000 		.word	0
+ 567 0010 80000000 		.word	128
+ 568              	.LC6:
+ 569 0014 0C000000 		.word	.LC2
+ 570 0018 00000000 		.word	MailConsumerTask
+ 571 001c 0000     		.short	0
+ 572 001e 0000     		.space	2
+ 573 0020 00000000 		.word	0
+ 574 0024 80000000 		.word	128
+ 575              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 576              		.align	2
+ 577              	.LC4:
+ 578 0000 5372632F 		.ascii	"Src/main.c\000"
+ 578      6D61696E 
+ 578      2E6300
+ 579 000b 00       		.space	1
+ 580              	.LC2:
+ 581 000c 4D61696C 		.ascii	"MailConsumer\000"
+ 581      436F6E73 
+ 581      756D6572 
+ 581      00
+ 582 0019 000000   		.space	3
+ 583              	.LC0:
+ 584 001c 4D61696C 		.ascii	"MailProducer\000"
+ 584      50726F64 
+ 584      75636572 
+ 584      00
+ARM GAS  /tmp/cc1lionE.s 			page 18
+
+
+ 585              		.text
+ 586              	.Letext0:
+ 587              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 588              		.file 3 "/usr/include/newlib/sys/_stdint.h"
+ 589              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h"
+ 590              		.file 5 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 591              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h"
+ 592              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h"
+ 593              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
+ 594              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 595              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h"
+ 596              		.file 11 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 597              		.file 12 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 598              		.file 13 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 599              		.file 14 "Drivers/CMSIS/Include/core_cm3.h"
+ 600              		.file 15 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 601              		.file 16 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h"
+ARM GAS  /tmp/cc1lionE.s 			page 19
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+     /tmp/cc1lionE.s:20     .text.MX_GPIO_Init:00000000 $t
+     /tmp/cc1lionE.s:24     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
+     /tmp/cc1lionE.s:118    .text.MX_GPIO_Init:0000007c $d
+     /tmp/cc1lionE.s:125    .text.MailProducerTask:00000000 $t
+     /tmp/cc1lionE.s:130    .text.MailProducerTask:00000000 MailProducerTask
+     /tmp/cc1lionE.s:202    .text.MailProducerTask:0000005c $d
+                            *COM*:00000004 mailQ01Handle
+     /tmp/cc1lionE.s:207    .text.MailConsumerTask:00000000 $t
+     /tmp/cc1lionE.s:212    .text.MailConsumerTask:00000000 MailConsumerTask
+     /tmp/cc1lionE.s:298    .text.MailConsumerTask:00000064 $d
+     /tmp/cc1lionE.s:305    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
+     /tmp/cc1lionE.s:310    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
+     /tmp/cc1lionE.s:335    .text.HAL_TIM_PeriodElapsedCallback:00000010 $d
+     /tmp/cc1lionE.s:340    .text._Error_Handler:00000000 $t
+     /tmp/cc1lionE.s:345    .text._Error_Handler:00000000 _Error_Handler
+     /tmp/cc1lionE.s:360    .text.SystemClock_Config:00000000 $t
+     /tmp/cc1lionE.s:365    .text.SystemClock_Config:00000000 SystemClock_Config
+     /tmp/cc1lionE.s:461    .text.SystemClock_Config:0000007c $d
+     /tmp/cc1lionE.s:467    .text.main:00000000 $t
+     /tmp/cc1lionE.s:472    .text.main:00000000 main
+     /tmp/cc1lionE.s:548    .text.main:00000060 $d
+                            *COM*:00000004 MailProducerHandle
+                            *COM*:00000004 MailConsumerHandle
+     /tmp/cc1lionE.s:559    .rodata:00000000 $d
+     /tmp/cc1lionE.s:576    .rodata.str1.4:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+HAL_GPIO_Init
+osMailPut
+osDelay
+osMailGet
+HAL_IncTick
+HAL_RCC_OscConfig
+HAL_RCC_ClockConfig
+HAL_RCC_GetHCLKFreq
+HAL_SYSTICK_Config
+HAL_SYSTICK_CLKSourceConfig
+HAL_NVIC_SetPriority
+HAL_Init
+osMailCreate
+osThreadCreate
+osKernelStart
