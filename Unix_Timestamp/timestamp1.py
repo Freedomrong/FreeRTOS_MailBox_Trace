@@ -15,18 +15,23 @@ file_object = open(str(sys.argv[2]) + '.txt', 'w')
 #Capturedfile_Name = 'MailBox_tracing.sr'
 Capturedfile_Name = '-' + str(sys.argv[1])
 Capturedfile_Format = '.vcd'
+#Capturedfile_Format = '.sr'
 
-for i in range(0,10):
+
+CapturedTimes = sys.argv[3]
+
+for i in range(0,int(CapturedTimes)):
     begin = datetime.datetime.now();
-    print(str(i) + " begin timestamp: ", begin)
-
-    #subprocess.call("sigrok-cli --time 50 -d fx2lafw -c samplerate=24MHz -C 0=SWO,1=LED0,2=LED2 -o MailBox_tracing.sr", shell = True)
-    subprocess.call("sigrok-cli --samples 500k -d fx2lafw -c samplerate=24MHz -C 0=SWO,1=LED0,2=LED2 -O vcd -o "+ str(i) + Capturedfile_Name + Capturedfile_Format, shell = True)
+    #print(str(i) + " begin timestamp: ", begin)
+   
+    #CapturedCommand = ("sigrok-cli --samples 1M -d fx2lafw -c samplerate=24MHz -C 0=SWO,1=LED0,2=LED2_Tick,3=CLK_Pulse -o "+ str(i) + Capturedfile_Name + Capturedfile_Format)
+    CapturedCommand = ("sigrok-cli --samples 1M -d fx2lafw -c samplerate=24MHz -C 0=SWO,1=LED0,2=LED2_Tick,3=CLK_Pulse -O vcd -o "+ str(i) + Capturedfile_Name + Capturedfile_Format)
+    subprocess.call(CapturedCommand, shell = True)
     #subprocess.call("sigrok-cli --samples 500k -d fx2lafw -c samplerate=24MHz -C 0=SWO -O vcd -o "+ str(i) + Capturedfile_Name + Capturedfile_Format, shell = True)
 
     end = datetime.datetime.now();
-    print(str(i) + " end time stamp", end)
-    print('*****************************')
+    #print(str(i) + " end time stamp", end)
+    #print('*****************************')
 
     file_object.write(str(i) + Capturedfile_Name+';')
     file_object.write(str(begin) + ';')
@@ -39,3 +44,4 @@ for i in range(0,10):
     #sigrok-cli -d fx2lafw -c samplerate=24MHz -C 0=SWO,1=LED0,2=LED2 -o MailBox_tracing.vcd --time 50
 
 file_object.close();
+

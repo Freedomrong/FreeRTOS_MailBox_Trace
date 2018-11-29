@@ -63,6 +63,7 @@ osThreadId MailConsumerHandle;
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 int globalCounter = 0;
+int InterruptCounter = 0;
 
 /* USER CODE END PV */
 
@@ -119,12 +120,12 @@ void configure_tracing()
     
     /* Configure instrumentation trace macroblock */
     ITM->LAR = 0xC5ACCE55;
-    ITM->TCR = (1 << ITM_TCR_TraceBusID_Pos) // Trace bus ID for TPIU
-             | (1 << ITM_TCR_DWTENA_Pos) // Enable events from DWT
-             | (1 << ITM_TCR_SYNCENA_Pos) // Enable sync packets
-             | (1 << ITM_TCR_ITMENA_Pos) // Main enable for ITM
-             | (1 << ITM_TCR_TSENA_Pos); // 使能ITM时间戳
-             //| (1 << ITM_TCR_TSPrescale_Pos); //先不设置时间戳
+    ITM->TCR = (1 << ITM_TCR_TraceBusID_Pos)  // Trace bus ID for TPIU
+             | (1 << ITM_TCR_DWTENA_Pos)      // Enable events from DWT
+             | (1 << ITM_TCR_SYNCENA_Pos)     // Enable sync packets
+             | (1 << ITM_TCR_ITMENA_Pos)      // Main enable for ITM
+             | (1 << ITM_TCR_TSENA_Pos)       // 使能ITM时间戳
+             | (0 << ITM_TCR_TSPrescale_Pos); // 先不设置时间戳分频系数,00:不分频，01:4分频，10:16分频，11:64分频
     ITM->TER = 0xFFFFFFFF; // Enable all stimulus ports
 
 
@@ -162,20 +163,22 @@ void configure_watchpoint()
     
     /* Monitor all accesses to GPIOC (range length 32 bytes) */
     //DWT->COMP0 = (uint32_t)bubble_sort;                      //改为了比GPIOC
-    DWT->COMP0 = (uint32_t)GPIOC;                      //改为了比较GPIOC
+    DWT->COMP0 = (uint32_t)GPIOA;                      //改为了比较GPIOC
     DWT->MASK0 = 8;							 //屏蔽掉数据地址的后5位，目前DWT->COMP0的值是GPIOA的地址:0x40010800
 											//可能是出于加快比较速度的原因吧，那为什么不把MASK[3:0]
 										        //设置为8,反正0x40010800最后八位都是0
 										        
-    DWT->FUNCTION0 = (2 << DWT_FUNCTION_FUNCTION_Pos) // Report data and addr on watchpoint hit
-                   | (1 << DWT_FUNCTION_EMITRANGE_Pos);
-                   //| (1 << DWT_FUNCTION_CYCMATCH_Pos);
+    DWT->FUNCTION0 = (2 << DWT_FUNCTION_FUNCTION_Pos)   // Report data and addr on watchpoint hit
+                   | (1 << DWT_FUNCTION_EMITRANGE_Pos); // 这一位为1，前面那四位是0010表示在读和写操作时通过ITM发出数据和地址偏移量
+                   
+                 //    (4 << DWT_FUNCTION_FUNCTION_Pos)
+                 //  | (1 << DWT_FUNCTION_CYCMATCH_Pos); // 这一位为1,前面那四位是0100,表示比较器0与PC采样计数器比较，匹配时打watchpoint
     
     /* Monitor all accesses to globalCounter (range length 4 bytes) */
-//    DWT->COMP1 = (uint32_t)&globalCounter;
-//    DWT->MASK1 = 2;
-//    DWT->FUNCTION1 = //(2 << DWT_FUNCTION_FUNCTION_Pos);
-//                     (3 << DWT_FUNCTION_FUNCTION_Pos); // Report data and PC on watchpoint hit
+    DWT->COMP1 = (uint32_t)&globalCounter;
+    DWT->MASK1 = 2;
+    DWT->FUNCTION1 = (3 << DWT_FUNCTION_FUNCTION_Pos) // Report data and PC on watchpoint hit
+                   | (1 << DWT_FUNCTION_EMITRANGE_Pos);  
 }
 
 void ITM_Print(int port, const char *p)
@@ -439,6 +442,8 @@ void MailProducerTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+    globalCounter = 0x0A;
+
     osMailPut(mailQ01Handle, &Mail[0]); //发送邮件
     osDelay(5);
     osMailPut(mailQ01Handle, &Mail[1]); //发送邮件
@@ -459,6 +464,8 @@ void MailConsumerTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+    globalCounter = 0x0B;
+
     event = osMailGet(mailQ01Handle, osWaitForever); 
     if(event.status == osEventMail)
     {
@@ -468,11 +475,11 @@ void MailConsumerTask(void const * argument)
         {
             ETM_TraceMode();
             HAL_GPIO_WritePin( LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
-            HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+            //HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
             ETM_SetupMode();
             osDelay(10);
             HAL_GPIO_WritePin( LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
-            HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+            //HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
             osDelay(10);
         }
     }
@@ -495,6 +502,17 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM4) {
     HAL_IncTick();
+
+    ++InterruptCounter;
+    if(InterruptCounter == 1)
+    {
+        HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+    }
+    if(InterruptCounter == 2)
+    {       
+        HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+        InterruptCounter = 0;
+    }
   }
   /* USER CODE BEGIN Callback 1 */
 
