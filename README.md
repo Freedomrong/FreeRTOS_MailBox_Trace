@@ -11,17 +11,14 @@
 
 
 注:
-    We edit the code in session.c of sigrokcli-0.5.0
-    From
-    <code>
+We edit the code in session.c of sigrokcli-0.5.0
+From
     if (sr_session_start() != SR_OK) {
         g_critical("Failed to start session.");
         sr_session_destroy();
         return;
     }
-    </code>
-    To
-    <code>
+To
     if (sr_session_start() != SR_OK) {
         g_critical("Failed to start session.");
         sr_session_destroy();
@@ -31,9 +28,7 @@
         printf("Begin");
         Print_Timestamp();
     }
-    </code>
-    And the definition of Print_Timestamp
-    <code>
+And the definition of Print_Timestamp
     int Print_Timestamp()
     {
         /*Unix年月日十分秒*/
@@ -47,5 +42,4 @@
         // 注意在C语言函数库中，月份是0到11,0是实际的1月，11是12月
         printf("c timestamp: %d/%d/%d %d:%d:%d.%ld\n",lt->tm_year+1900, lt->tm_mon+1, lt->tm_mday, lt->tm_hour, lt->tm_min, lt->tm_sec, tv.tv_usec);
         return 0;
-    }
-    </code>
+}
