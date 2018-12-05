@@ -177,8 +177,7 @@ void configure_watchpoint()
     /* Monitor all accesses to globalCounter (range length 4 bytes) */
     DWT->COMP1 = (uint32_t)&globalCounter;
     DWT->MASK1 = 2;
-    DWT->FUNCTION1 = (3 << DWT_FUNCTION_FUNCTION_Pos) // Report data and PC on watchpoint hit
-                   | (1 << DWT_FUNCTION_EMITRANGE_Pos);  
+    DWT->FUNCTION1 = (3 << DWT_FUNCTION_FUNCTION_Pos); // Report data and PC on watchpoint hit  
 }
 
 void ITM_Print(int port, const char *p)
@@ -506,10 +505,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     ++InterruptCounter;
     if(InterruptCounter == 1)
     {
+        globalCounter = 0xE20;
         HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
     }
     if(InterruptCounter == 2)
     {       
+        globalCounter = 0xE21;
         HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
         InterruptCounter = 0;
     }

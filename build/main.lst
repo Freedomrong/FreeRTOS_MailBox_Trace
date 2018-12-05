@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc4FZvfY.s 			page 1
+ARM GAS  /tmp/ccWzQPUk.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
   30:Src/main.c    ****   * 5. Redistribution and use of this software other than as permitted under 
   31:Src/main.c    ****   *    this license is void and will automatically terminate your rights under 
   32:Src/main.c    ****   *    this license. 
-ARM GAS  /tmp/cc4FZvfY.s 			page 2
+ARM GAS  /tmp/ccWzQPUk.s 			page 2
 
 
   33:Src/main.c    ****   *
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
   87:Src/main.c    ****     
   88:Src/main.c    ****     if (!(DBGMCU->CR & DBGMCU_CR_TRACE_IOEN))
   89:Src/main.c    ****     {
-ARM GAS  /tmp/cc4FZvfY.s 			page 3
+ARM GAS  /tmp/ccWzQPUk.s 			page 3
 
 
   90:Src/main.c    ****         // Some (all?) STM32s don't allow writes to DBGMCU register until
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  144:Src/main.c    ****             | ETM_CR_BRANCH_OUTPUT // Report all branches
  145:Src/main.c    ****             | (1 << 4);//port_size位21,6,5,4是0001表示8bit，这里目前认为复位值都是0
  146:Src/main.c    ****     ETM->TRACEIDR = 2; // Trace bus ID for TPIU
-ARM GAS  /tmp/cc4FZvfY.s 			page 4
+ARM GAS  /tmp/ccWzQPUk.s 			page 4
 
 
  147:Src/main.c    ****     ETM->TECR1 = ETM_TECR1_EXCLUDE; // Trace always enabled
@@ -214,230 +214,229 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  177:Src/main.c    ****     /* Monitor all accesses to globalCounter (range length 4 bytes) */
  178:Src/main.c    ****     DWT->COMP1 = (uint32_t)&globalCounter;
  179:Src/main.c    ****     DWT->MASK1 = 2;
- 180:Src/main.c    ****     DWT->FUNCTION1 = (3 << DWT_FUNCTION_FUNCTION_Pos) // Report data and PC on watchpoint hit
- 181:Src/main.c    ****                    | (1 << DWT_FUNCTION_EMITRANGE_Pos);  
- 182:Src/main.c    **** }
- 183:Src/main.c    **** 
- 184:Src/main.c    **** void ITM_Print(int port, const char *p)
- 185:Src/main.c    **** {
- 186:Src/main.c    ****     globalCounter = 0x0C;
- 187:Src/main.c    ****     if ((ITM->TCR & ITM_TCR_ITMENA_Msk) && (ITM->TER & (1UL << port)))
- 188:Src/main.c    ****     {
- 189:Src/main.c    ****         while (*p)
- 190:Src/main.c    ****         {
- 191:Src/main.c    ****             while (ITM->PORT[port].u32 == 0);//时间片下多进程使用一个查询函数在这�
- 192:Src/main.c    ****             ITM->PORT[port].u8 = *p++;
- 193:Src/main.c    ****         }   
- 194:Src/main.c    ****     }
- 195:Src/main.c    **** }
- 196:Src/main.c    **** 
- 197:Src/main.c    **** void ITM_SendValue (int port, uint32_t value)
- 198:Src/main.c    **** {
- 199:Src/main.c    ****     if ((ITM->TCR & ITM_TCR_ITMENA_Msk) && (ITM->TER & (1UL << port)))
- 200:Src/main.c    ****     {
- 201:Src/main.c    ****         while (ITM->PORT[port].u32 == 0);
- 202:Src/main.c    ****         ITM->PORT[port].u32 = value;
- 203:Src/main.c    ****     }
-ARM GAS  /tmp/cc4FZvfY.s 			page 5
+ 180:Src/main.c    ****     DWT->FUNCTION1 = (3 << DWT_FUNCTION_FUNCTION_Pos); // Report data and PC on watchpoint hit  
+ 181:Src/main.c    **** }
+ 182:Src/main.c    **** 
+ 183:Src/main.c    **** void ITM_Print(int port, const char *p)
+ 184:Src/main.c    **** {
+ 185:Src/main.c    ****     globalCounter = 0x0C;
+ 186:Src/main.c    ****     if ((ITM->TCR & ITM_TCR_ITMENA_Msk) && (ITM->TER & (1UL << port)))
+ 187:Src/main.c    ****     {
+ 188:Src/main.c    ****         while (*p)
+ 189:Src/main.c    ****         {
+ 190:Src/main.c    ****             while (ITM->PORT[port].u32 == 0);//时间片下多进程使用一个查询函数在这�
+ 191:Src/main.c    ****             ITM->PORT[port].u8 = *p++;
+ 192:Src/main.c    ****         }   
+ 193:Src/main.c    ****     }
+ 194:Src/main.c    **** }
+ 195:Src/main.c    **** 
+ 196:Src/main.c    **** void ITM_SendValue (int port, uint32_t value)
+ 197:Src/main.c    **** {
+ 198:Src/main.c    ****     if ((ITM->TCR & ITM_TCR_ITMENA_Msk) && (ITM->TER & (1UL << port)))
+ 199:Src/main.c    ****     {
+ 200:Src/main.c    ****         while (ITM->PORT[port].u32 == 0);
+ 201:Src/main.c    ****         ITM->PORT[port].u32 = value;
+ 202:Src/main.c    ****     }
+ 203:Src/main.c    **** }
+ARM GAS  /tmp/ccWzQPUk.s 			page 5
 
 
- 204:Src/main.c    **** }
- 205:Src/main.c    **** 
- 206:Src/main.c    **** void bubble_sort (int *a, int n) 
- 207:Src/main.c    **** {
- 208:Src/main.c    ****     int i, t, s = 1;
- 209:Src/main.c    ****     globalCounter = 0x0D;
- 210:Src/main.c    ****     while (s) 
- 211:Src/main.c    ****     {
- 212:Src/main.c    ****         s = 0;
- 213:Src/main.c    ****         for (i = 1; i < n; i++) 
- 214:Src/main.c    ****         {
- 215:Src/main.c    ****             if (a[i] < a[i - 1]) 
- 216:Src/main.c    ****             {
- 217:Src/main.c    ****                 t = a[i];
- 218:Src/main.c    ****                 a[i] = a[i - 1];
- 219:Src/main.c    ****                 a[i - 1] = t;
- 220:Src/main.c    ****                 s = 1;            
- 221:Src/main.c    ****             }
- 222:Src/main.c    ****         }
- 223:Src/main.c    ****     }
- 224:Src/main.c    **** }
- 225:Src/main.c    **** 
- 226:Src/main.c    **** /* USER CODE END PFP */
- 227:Src/main.c    **** //定义邮箱队列要使用的数据结构
- 228:Src/main.c    **** typedef struct
- 229:Src/main.c    **** {
- 230:Src/main.c    **** 	uint32_t var1;
- 231:Src/main.c    **** 	uint32_t var2;
- 232:Src/main.c    **** 	uint8_t var3;
- 233:Src/main.c    **** } Amail_TypeDef;
- 234:Src/main.c    **** 
- 235:Src/main.c    **** //创建一个osMailQId变量，实际就是一个指针
- 236:Src/main.c    **** osMailQId mailQ01Handle;
- 237:Src/main.c    **** 
- 238:Src/main.c    **** /* USER CODE BEGIN 0 */
- 239:Src/main.c    **** 
- 240:Src/main.c    **** /* USER CODE END 0 */
- 241:Src/main.c    **** 
- 242:Src/main.c    **** /**
- 243:Src/main.c    ****   * @brief  The application entry point.
- 244:Src/main.c    ****   *
- 245:Src/main.c    ****   * @retval None
- 246:Src/main.c    ****   */
- 247:Src/main.c    **** int main(void)
- 248:Src/main.c    **** {
- 249:Src/main.c    ****   /* USER CODE BEGIN 1 */
- 250:Src/main.c    **** 
- 251:Src/main.c    ****   /* USER CODE END 1 */
- 252:Src/main.c    **** 
- 253:Src/main.c    ****   /* MCU Configuration----------------------------------------------------------*/
- 254:Src/main.c    **** 
- 255:Src/main.c    ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
- 256:Src/main.c    ****   HAL_Init();
- 257:Src/main.c    **** 
- 258:Src/main.c    ****   /* USER CODE BEGIN Init */
- 259:Src/main.c    **** 
- 260:Src/main.c    ****   /* USER CODE END Init */
-ARM GAS  /tmp/cc4FZvfY.s 			page 6
+ 204:Src/main.c    **** 
+ 205:Src/main.c    **** void bubble_sort (int *a, int n) 
+ 206:Src/main.c    **** {
+ 207:Src/main.c    ****     int i, t, s = 1;
+ 208:Src/main.c    ****     globalCounter = 0x0D;
+ 209:Src/main.c    ****     while (s) 
+ 210:Src/main.c    ****     {
+ 211:Src/main.c    ****         s = 0;
+ 212:Src/main.c    ****         for (i = 1; i < n; i++) 
+ 213:Src/main.c    ****         {
+ 214:Src/main.c    ****             if (a[i] < a[i - 1]) 
+ 215:Src/main.c    ****             {
+ 216:Src/main.c    ****                 t = a[i];
+ 217:Src/main.c    ****                 a[i] = a[i - 1];
+ 218:Src/main.c    ****                 a[i - 1] = t;
+ 219:Src/main.c    ****                 s = 1;            
+ 220:Src/main.c    ****             }
+ 221:Src/main.c    ****         }
+ 222:Src/main.c    ****     }
+ 223:Src/main.c    **** }
+ 224:Src/main.c    **** 
+ 225:Src/main.c    **** /* USER CODE END PFP */
+ 226:Src/main.c    **** //定义邮箱队列要使用的数据结构
+ 227:Src/main.c    **** typedef struct
+ 228:Src/main.c    **** {
+ 229:Src/main.c    **** 	uint32_t var1;
+ 230:Src/main.c    **** 	uint32_t var2;
+ 231:Src/main.c    **** 	uint8_t var3;
+ 232:Src/main.c    **** } Amail_TypeDef;
+ 233:Src/main.c    **** 
+ 234:Src/main.c    **** //创建一个osMailQId变量，实际就是一个指针
+ 235:Src/main.c    **** osMailQId mailQ01Handle;
+ 236:Src/main.c    **** 
+ 237:Src/main.c    **** /* USER CODE BEGIN 0 */
+ 238:Src/main.c    **** 
+ 239:Src/main.c    **** /* USER CODE END 0 */
+ 240:Src/main.c    **** 
+ 241:Src/main.c    **** /**
+ 242:Src/main.c    ****   * @brief  The application entry point.
+ 243:Src/main.c    ****   *
+ 244:Src/main.c    ****   * @retval None
+ 245:Src/main.c    ****   */
+ 246:Src/main.c    **** int main(void)
+ 247:Src/main.c    **** {
+ 248:Src/main.c    ****   /* USER CODE BEGIN 1 */
+ 249:Src/main.c    **** 
+ 250:Src/main.c    ****   /* USER CODE END 1 */
+ 251:Src/main.c    **** 
+ 252:Src/main.c    ****   /* MCU Configuration----------------------------------------------------------*/
+ 253:Src/main.c    **** 
+ 254:Src/main.c    ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+ 255:Src/main.c    ****   HAL_Init();
+ 256:Src/main.c    **** 
+ 257:Src/main.c    ****   /* USER CODE BEGIN Init */
+ 258:Src/main.c    **** 
+ 259:Src/main.c    ****   /* USER CODE END Init */
+ 260:Src/main.c    **** 
+ARM GAS  /tmp/ccWzQPUk.s 			page 6
 
 
- 261:Src/main.c    **** 
- 262:Src/main.c    ****   /* Configure the system clock */
- 263:Src/main.c    ****   SystemClock_Config();
- 264:Src/main.c    **** 
- 265:Src/main.c    ****   /* USER CODE BEGIN SysInit */
- 266:Src/main.c    **** 
- 267:Src/main.c    ****   /* USER CODE END SysInit */
- 268:Src/main.c    **** 
- 269:Src/main.c    ****   /* Initialize all configured peripherals */
- 270:Src/main.c    ****   MX_GPIO_Init();
- 271:Src/main.c    **** 
- 272:Src/main.c    ****   //追踪初始化
- 273:Src/main.c    ****   configure_tracing(); 
- 274:Src/main.c    ****   configure_watchpoint();
- 275:Src/main.c    **** 
- 276:Src/main.c    ****   /* USER CODE BEGIN 2 */
- 277:Src/main.c    ****   //创建邮箱队列，队列深度为15
- 278:Src/main.c    ****   osMailQDef(mailQ01, 15, Amail_TypeDef);
- 279:Src/main.c    ****   mailQ01Handle = osMailCreate(osMailQ(mailQ01), NULL);
- 280:Src/main.c    **** 
- 281:Src/main.c    ****   /* USER CODE END 2 */
- 282:Src/main.c    **** 
- 283:Src/main.c    ****   /* USER CODE BEGIN RTOS_MUTEX */
- 284:Src/main.c    ****   /* add mutexes, ... */
- 285:Src/main.c    ****   /* USER CODE END RTOS_MUTEX */
- 286:Src/main.c    **** 
- 287:Src/main.c    ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
- 288:Src/main.c    ****   /* add semaphores, ... */
- 289:Src/main.c    ****   /* USER CODE END RTOS_SEMAPHORES */
- 290:Src/main.c    **** 
- 291:Src/main.c    ****   /* USER CODE BEGIN RTOS_TIMERS */
- 292:Src/main.c    ****   /* start timers, add new ones, ... */
- 293:Src/main.c    ****   /* USER CODE END RTOS_TIMERS */
- 294:Src/main.c    **** 
- 295:Src/main.c    ****   /* Create the thread(s) */
- 296:Src/main.c    ****   /* definition and creation of MailProducer */
- 297:Src/main.c    ****   osThreadDef(MailProducer, MailProducerTask, osPriorityNormal, 0, 128);
- 298:Src/main.c    ****   MailProducerHandle = osThreadCreate(osThread(MailProducer), NULL);
- 299:Src/main.c    **** 
- 300:Src/main.c    ****   /* definition and creation of MailConsumer */
- 301:Src/main.c    ****   osThreadDef(MailConsumer, MailConsumerTask, osPriorityNormal, 0, 128);
- 302:Src/main.c    ****   MailConsumerHandle = osThreadCreate(osThread(MailConsumer), NULL);
- 303:Src/main.c    **** 
- 304:Src/main.c    ****   /* USER CODE BEGIN RTOS_THREADS */
- 305:Src/main.c    ****   /* add threads, ... */
- 306:Src/main.c    ****   /* USER CODE END RTOS_THREADS */
- 307:Src/main.c    **** 
- 308:Src/main.c    ****   /* USER CODE BEGIN RTOS_QUEUES */
- 309:Src/main.c    ****   /* add queues, ... */
- 310:Src/main.c    ****   /* USER CODE END RTOS_QUEUES */
- 311:Src/main.c    ****  
- 312:Src/main.c    **** 
- 313:Src/main.c    ****   /* Start scheduler */
- 314:Src/main.c    ****   osKernelStart();
- 315:Src/main.c    ****   
- 316:Src/main.c    ****   /* We should never get here as control is now taken by the scheduler */
- 317:Src/main.c    **** 
-ARM GAS  /tmp/cc4FZvfY.s 			page 7
+ 261:Src/main.c    ****   /* Configure the system clock */
+ 262:Src/main.c    ****   SystemClock_Config();
+ 263:Src/main.c    **** 
+ 264:Src/main.c    ****   /* USER CODE BEGIN SysInit */
+ 265:Src/main.c    **** 
+ 266:Src/main.c    ****   /* USER CODE END SysInit */
+ 267:Src/main.c    **** 
+ 268:Src/main.c    ****   /* Initialize all configured peripherals */
+ 269:Src/main.c    ****   MX_GPIO_Init();
+ 270:Src/main.c    **** 
+ 271:Src/main.c    ****   //追踪初始化
+ 272:Src/main.c    ****   configure_tracing(); 
+ 273:Src/main.c    ****   configure_watchpoint();
+ 274:Src/main.c    **** 
+ 275:Src/main.c    ****   /* USER CODE BEGIN 2 */
+ 276:Src/main.c    ****   //创建邮箱队列，队列深度为15
+ 277:Src/main.c    ****   osMailQDef(mailQ01, 15, Amail_TypeDef);
+ 278:Src/main.c    ****   mailQ01Handle = osMailCreate(osMailQ(mailQ01), NULL);
+ 279:Src/main.c    **** 
+ 280:Src/main.c    ****   /* USER CODE END 2 */
+ 281:Src/main.c    **** 
+ 282:Src/main.c    ****   /* USER CODE BEGIN RTOS_MUTEX */
+ 283:Src/main.c    ****   /* add mutexes, ... */
+ 284:Src/main.c    ****   /* USER CODE END RTOS_MUTEX */
+ 285:Src/main.c    **** 
+ 286:Src/main.c    ****   /* USER CODE BEGIN RTOS_SEMAPHORES */
+ 287:Src/main.c    ****   /* add semaphores, ... */
+ 288:Src/main.c    ****   /* USER CODE END RTOS_SEMAPHORES */
+ 289:Src/main.c    **** 
+ 290:Src/main.c    ****   /* USER CODE BEGIN RTOS_TIMERS */
+ 291:Src/main.c    ****   /* start timers, add new ones, ... */
+ 292:Src/main.c    ****   /* USER CODE END RTOS_TIMERS */
+ 293:Src/main.c    **** 
+ 294:Src/main.c    ****   /* Create the thread(s) */
+ 295:Src/main.c    ****   /* definition and creation of MailProducer */
+ 296:Src/main.c    ****   osThreadDef(MailProducer, MailProducerTask, osPriorityNormal, 0, 128);
+ 297:Src/main.c    ****   MailProducerHandle = osThreadCreate(osThread(MailProducer), NULL);
+ 298:Src/main.c    **** 
+ 299:Src/main.c    ****   /* definition and creation of MailConsumer */
+ 300:Src/main.c    ****   osThreadDef(MailConsumer, MailConsumerTask, osPriorityNormal, 0, 128);
+ 301:Src/main.c    ****   MailConsumerHandle = osThreadCreate(osThread(MailConsumer), NULL);
+ 302:Src/main.c    **** 
+ 303:Src/main.c    ****   /* USER CODE BEGIN RTOS_THREADS */
+ 304:Src/main.c    ****   /* add threads, ... */
+ 305:Src/main.c    ****   /* USER CODE END RTOS_THREADS */
+ 306:Src/main.c    **** 
+ 307:Src/main.c    ****   /* USER CODE BEGIN RTOS_QUEUES */
+ 308:Src/main.c    ****   /* add queues, ... */
+ 309:Src/main.c    ****   /* USER CODE END RTOS_QUEUES */
+ 310:Src/main.c    ****  
+ 311:Src/main.c    **** 
+ 312:Src/main.c    ****   /* Start scheduler */
+ 313:Src/main.c    ****   osKernelStart();
+ 314:Src/main.c    ****   
+ 315:Src/main.c    ****   /* We should never get here as control is now taken by the scheduler */
+ 316:Src/main.c    **** 
+ 317:Src/main.c    ****   /* Infinite loop */
+ARM GAS  /tmp/ccWzQPUk.s 			page 7
 
 
- 318:Src/main.c    ****   /* Infinite loop */
- 319:Src/main.c    ****   /* USER CODE BEGIN WHILE */
- 320:Src/main.c    ****   while (1)
- 321:Src/main.c    ****   {
- 322:Src/main.c    **** 
- 323:Src/main.c    ****   /* USER CODE END WHILE */
- 324:Src/main.c    **** 
- 325:Src/main.c    ****   /* USER CODE BEGIN 3 */
- 326:Src/main.c    **** 
- 327:Src/main.c    ****   }
- 328:Src/main.c    ****   /* USER CODE END 3 */
- 329:Src/main.c    **** 
- 330:Src/main.c    **** }
- 331:Src/main.c    **** 
- 332:Src/main.c    **** /**
- 333:Src/main.c    ****   * @brief System Clock Configuration
- 334:Src/main.c    ****   * @retval None
- 335:Src/main.c    ****   */
- 336:Src/main.c    **** void SystemClock_Config(void)
- 337:Src/main.c    **** {
- 338:Src/main.c    **** 
- 339:Src/main.c    ****   RCC_OscInitTypeDef RCC_OscInitStruct;
- 340:Src/main.c    ****   RCC_ClkInitTypeDef RCC_ClkInitStruct;
- 341:Src/main.c    **** 
- 342:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
- 343:Src/main.c    ****     */
- 344:Src/main.c    ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
- 345:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 346:Src/main.c    ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 347:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 348:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 349:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 350:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 351:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 352:Src/main.c    ****   {
- 353:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
- 354:Src/main.c    ****   }
- 355:Src/main.c    **** 
- 356:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
- 357:Src/main.c    ****     */
- 358:Src/main.c    ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
- 359:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 360:Src/main.c    ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
- 361:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 362:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 363:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 364:Src/main.c    **** 
- 365:Src/main.c    ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
- 366:Src/main.c    ****   {
- 367:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
- 368:Src/main.c    ****   }
- 369:Src/main.c    **** 
- 370:Src/main.c    ****     /**Configure the Systick interrupt time 
- 371:Src/main.c    ****     */
- 372:Src/main.c    ****   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
- 373:Src/main.c    **** 
- 374:Src/main.c    ****     /**Configure the Systick 
-ARM GAS  /tmp/cc4FZvfY.s 			page 8
+ 318:Src/main.c    ****   /* USER CODE BEGIN WHILE */
+ 319:Src/main.c    ****   while (1)
+ 320:Src/main.c    ****   {
+ 321:Src/main.c    **** 
+ 322:Src/main.c    ****   /* USER CODE END WHILE */
+ 323:Src/main.c    **** 
+ 324:Src/main.c    ****   /* USER CODE BEGIN 3 */
+ 325:Src/main.c    **** 
+ 326:Src/main.c    ****   }
+ 327:Src/main.c    ****   /* USER CODE END 3 */
+ 328:Src/main.c    **** 
+ 329:Src/main.c    **** }
+ 330:Src/main.c    **** 
+ 331:Src/main.c    **** /**
+ 332:Src/main.c    ****   * @brief System Clock Configuration
+ 333:Src/main.c    ****   * @retval None
+ 334:Src/main.c    ****   */
+ 335:Src/main.c    **** void SystemClock_Config(void)
+ 336:Src/main.c    **** {
+ 337:Src/main.c    **** 
+ 338:Src/main.c    ****   RCC_OscInitTypeDef RCC_OscInitStruct;
+ 339:Src/main.c    ****   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+ 340:Src/main.c    **** 
+ 341:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
+ 342:Src/main.c    ****     */
+ 343:Src/main.c    ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+ 344:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 345:Src/main.c    ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 346:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 347:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 348:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 349:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 350:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 351:Src/main.c    ****   {
+ 352:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 353:Src/main.c    ****   }
+ 354:Src/main.c    **** 
+ 355:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
+ 356:Src/main.c    ****     */
+ 357:Src/main.c    ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 358:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 359:Src/main.c    ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 360:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 361:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 362:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 363:Src/main.c    **** 
+ 364:Src/main.c    ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+ 365:Src/main.c    ****   {
+ 366:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 367:Src/main.c    ****   }
+ 368:Src/main.c    **** 
+ 369:Src/main.c    ****     /**Configure the Systick interrupt time 
+ 370:Src/main.c    ****     */
+ 371:Src/main.c    ****   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+ 372:Src/main.c    **** 
+ 373:Src/main.c    ****     /**Configure the Systick 
+ 374:Src/main.c    ****     */
+ARM GAS  /tmp/ccWzQPUk.s 			page 8
 
 
- 375:Src/main.c    ****     */
- 376:Src/main.c    ****   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
- 377:Src/main.c    **** 
- 378:Src/main.c    ****   /* SysTick_IRQn interrupt configuration */
- 379:Src/main.c    ****   HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
- 380:Src/main.c    **** }
- 381:Src/main.c    **** 
- 382:Src/main.c    **** /** Configure pins as 
- 383:Src/main.c    ****         * Analog 
- 384:Src/main.c    ****         * Input 
- 385:Src/main.c    ****         * Output
- 386:Src/main.c    ****         * EVENT_OUT
- 387:Src/main.c    ****         * EXTI
- 388:Src/main.c    **** */
- 389:Src/main.c    **** static void MX_GPIO_Init(void)
- 390:Src/main.c    **** {
-  27              		.loc 1 390 0
+ 375:Src/main.c    ****   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+ 376:Src/main.c    **** 
+ 377:Src/main.c    ****   /* SysTick_IRQn interrupt configuration */
+ 378:Src/main.c    ****   HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
+ 379:Src/main.c    **** }
+ 380:Src/main.c    **** 
+ 381:Src/main.c    **** /** Configure pins as 
+ 382:Src/main.c    ****         * Analog 
+ 383:Src/main.c    ****         * Input 
+ 384:Src/main.c    ****         * Output
+ 385:Src/main.c    ****         * EVENT_OUT
+ 386:Src/main.c    ****         * EXTI
+ 387:Src/main.c    **** */
+ 388:Src/main.c    **** static void MX_GPIO_Init(void)
+ 389:Src/main.c    **** {
+  27              		.loc 1 389 0
   28              		.cfi_startproc
   29              		@ args = 0, pretend = 0, frame = 24
   30              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -454,12 +453,12 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
   41              	.LCFI1:
   42              		.cfi_def_cfa_offset 48
   43              	.LBB2:
- 391:Src/main.c    **** 
- 392:Src/main.c    ****   GPIO_InitTypeDef GPIO_InitStruct;
- 393:Src/main.c    **** 
- 394:Src/main.c    ****   /* GPIO Ports Clock Enable */
- 395:Src/main.c    ****   __HAL_RCC_GPIOD_CLK_ENABLE();
-  44              		.loc 1 395 0
+ 390:Src/main.c    **** 
+ 391:Src/main.c    ****   GPIO_InitTypeDef GPIO_InitStruct;
+ 392:Src/main.c    **** 
+ 393:Src/main.c    ****   /* GPIO Ports Clock Enable */
+ 394:Src/main.c    ****   __HAL_RCC_GPIOD_CLK_ENABLE();
+  44              		.loc 1 394 0
   45 0006 1D4B     		ldr	r3, .L3
   46 0008 9A69     		ldr	r2, [r3, #24]
   47 000a 42F02002 		orr	r2, r2, #32
@@ -470,90 +469,90 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
   52 0018 009A     		ldr	r2, [sp]
   53              	.LBE2:
   54              	.LBB3:
- 396:Src/main.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
-  55              		.loc 1 396 0
+ 395:Src/main.c    ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  55              		.loc 1 395 0
   56 001a 9A69     		ldr	r2, [r3, #24]
   57 001c 42F00402 		orr	r2, r2, #4
   58 0020 9A61     		str	r2, [r3, #24]
   59 0022 9B69     		ldr	r3, [r3, #24]
   60 0024 03F00403 		and	r3, r3, #4
   61 0028 0193     		str	r3, [sp, #4]
-ARM GAS  /tmp/cc4FZvfY.s 			page 9
-
-
   62 002a 019B     		ldr	r3, [sp, #4]
+ARM GAS  /tmp/ccWzQPUk.s 			page 9
+
+
   63              	.LBE3:
- 397:Src/main.c    **** 
- 398:Src/main.c    ****   /*Configure GPIO pin Output Level */
- 399:Src/main.c    ****   HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
-  64              		.loc 1 399 0
+ 396:Src/main.c    **** 
+ 397:Src/main.c    ****   /*Configure GPIO pin Output Level */
+ 398:Src/main.c    ****   HAL_GPIO_WritePin(LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
+  64              		.loc 1 398 0
   65 002c DFF85480 		ldr	r8, .L3+8
   66 0030 0022     		movs	r2, #0
   67 0032 4FF48071 		mov	r1, #256
   68 0036 4046     		mov	r0, r8
   69 0038 FFF7FEFF 		bl	HAL_GPIO_WritePin
   70              	.LVL0:
- 400:Src/main.c    **** 
- 401:Src/main.c    ****   /*Configure GPIO pin Output Level */
- 402:Src/main.c    ****   HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
-  71              		.loc 1 402 0
+ 399:Src/main.c    **** 
+ 400:Src/main.c    ****   /*Configure GPIO pin Output Level */
+ 401:Src/main.c    ****   HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+  71              		.loc 1 401 0
   72 003c 104C     		ldr	r4, .L3+4
   73 003e 0022     		movs	r2, #0
   74 0040 0421     		movs	r1, #4
   75 0042 2046     		mov	r0, r4
   76 0044 FFF7FEFF 		bl	HAL_GPIO_WritePin
   77              	.LVL1:
- 403:Src/main.c    **** 
- 404:Src/main.c    ****   /*Configure GPIO pin : LED0_Pin */
- 405:Src/main.c    ****   GPIO_InitStruct.Pin = LED0_Pin;
-  78              		.loc 1 405 0
+ 402:Src/main.c    **** 
+ 403:Src/main.c    ****   /*Configure GPIO pin : LED0_Pin */
+ 404:Src/main.c    ****   GPIO_InitStruct.Pin = LED0_Pin;
+  78              		.loc 1 404 0
   79 0048 4FF48073 		mov	r3, #256
   80 004c 0293     		str	r3, [sp, #8]
- 406:Src/main.c    ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  81              		.loc 1 406 0
+ 405:Src/main.c    ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  81              		.loc 1 405 0
   82 004e 0127     		movs	r7, #1
   83 0050 0397     		str	r7, [sp, #12]
- 407:Src/main.c    ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  84              		.loc 1 407 0
+ 406:Src/main.c    ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  84              		.loc 1 406 0
   85 0052 0026     		movs	r6, #0
   86 0054 0496     		str	r6, [sp, #16]
- 408:Src/main.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  87              		.loc 1 408 0
+ 407:Src/main.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  87              		.loc 1 407 0
   88 0056 0225     		movs	r5, #2
   89 0058 0595     		str	r5, [sp, #20]
- 409:Src/main.c    ****   HAL_GPIO_Init(LED0_GPIO_Port, &GPIO_InitStruct);
-  90              		.loc 1 409 0
+ 408:Src/main.c    ****   HAL_GPIO_Init(LED0_GPIO_Port, &GPIO_InitStruct);
+  90              		.loc 1 408 0
   91 005a 02A9     		add	r1, sp, #8
   92 005c 4046     		mov	r0, r8
   93 005e FFF7FEFF 		bl	HAL_GPIO_Init
   94              	.LVL2:
- 410:Src/main.c    **** 
- 411:Src/main.c    ****   /*Configure GPIO pin : LED2_Pin */
- 412:Src/main.c    ****   GPIO_InitStruct.Pin = LED2_Pin;
-  95              		.loc 1 412 0
+ 409:Src/main.c    **** 
+ 410:Src/main.c    ****   /*Configure GPIO pin : LED2_Pin */
+ 411:Src/main.c    ****   GPIO_InitStruct.Pin = LED2_Pin;
+  95              		.loc 1 411 0
   96 0062 0423     		movs	r3, #4
   97 0064 0293     		str	r3, [sp, #8]
- 413:Src/main.c    ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  98              		.loc 1 413 0
+ 412:Src/main.c    ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  98              		.loc 1 412 0
   99 0066 0397     		str	r7, [sp, #12]
- 414:Src/main.c    ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
- 100              		.loc 1 414 0
-ARM GAS  /tmp/cc4FZvfY.s 			page 10
-
-
+ 413:Src/main.c    ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 100              		.loc 1 413 0
  101 0068 0496     		str	r6, [sp, #16]
- 415:Src/main.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
- 102              		.loc 1 415 0
+ARM GAS  /tmp/ccWzQPUk.s 			page 10
+
+
+ 414:Src/main.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+ 102              		.loc 1 414 0
  103 006a 0595     		str	r5, [sp, #20]
- 416:Src/main.c    ****   HAL_GPIO_Init(LED2_GPIO_Port, &GPIO_InitStruct);
- 104              		.loc 1 416 0
+ 415:Src/main.c    ****   HAL_GPIO_Init(LED2_GPIO_Port, &GPIO_InitStruct);
+ 104              		.loc 1 415 0
  105 006c 02A9     		add	r1, sp, #8
  106 006e 2046     		mov	r0, r4
  107 0070 FFF7FEFF 		bl	HAL_GPIO_Init
  108              	.LVL3:
- 417:Src/main.c    **** 
- 418:Src/main.c    **** }
- 109              		.loc 1 418 0
+ 416:Src/main.c    **** 
+ 417:Src/main.c    **** }
+ 109              		.loc 1 417 0
  110 0074 06B0     		add	sp, sp, #24
  111              	.LCFI2:
  112              		.cfi_def_cfa_offset 24
@@ -574,15 +573,15 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  128              		.thumb_func
  130              	MailProducerTask:
  131              	.LFB77:
- 419:Src/main.c    **** 
- 420:Src/main.c    **** /* USER CODE BEGIN 4 */
- 421:Src/main.c    **** 
- 422:Src/main.c    **** /* USER CODE END 4 */
- 423:Src/main.c    **** 
- 424:Src/main.c    **** /* MailProducerTask function */
- 425:Src/main.c    **** void MailProducerTask(void const * argument)
- 426:Src/main.c    **** {
- 132              		.loc 1 426 0
+ 418:Src/main.c    **** 
+ 419:Src/main.c    **** /* USER CODE BEGIN 4 */
+ 420:Src/main.c    **** 
+ 421:Src/main.c    **** /* USER CODE END 4 */
+ 422:Src/main.c    **** 
+ 423:Src/main.c    **** /* MailProducerTask function */
+ 424:Src/main.c    **** void MailProducerTask(void const * argument)
+ 425:Src/main.c    **** {
+ 132              		.loc 1 425 0
  133              		.cfi_startproc
  134              		@ args = 0, pretend = 0, frame = 40
  135              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -595,92 +594,92 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  142 0002 8AB0     		sub	sp, sp, #40
  143              	.LCFI4:
  144              		.cfi_def_cfa_offset 48
- 427:Src/main.c    **** 
- 428:Src/main.c    ****   /* USER CODE BEGIN 5 */
- 429:Src/main.c    ****   Amail_TypeDef Mail[3];
-ARM GAS  /tmp/cc4FZvfY.s 			page 11
+ 426:Src/main.c    **** 
+ 427:Src/main.c    ****   /* USER CODE BEGIN 5 */
+ 428:Src/main.c    ****   Amail_TypeDef Mail[3];
+ 429:Src/main.c    **** 
+ARM GAS  /tmp/ccWzQPUk.s 			page 11
 
 
- 430:Src/main.c    **** 
- 431:Src/main.c    ****   Mail[0].var1 = 0x01;  //设置邮件内容
- 145              		.loc 1 431 0
+ 430:Src/main.c    ****   Mail[0].var1 = 0x01;  //设置邮件内容
+ 145              		.loc 1 430 0
  146 0004 0123     		movs	r3, #1
  147 0006 0193     		str	r3, [sp, #4]
- 432:Src/main.c    ****   Mail[0].var2 = 0x02;
- 148              		.loc 1 432 0
+ 431:Src/main.c    ****   Mail[0].var2 = 0x02;
+ 148              		.loc 1 431 0
  149 0008 0222     		movs	r2, #2
  150 000a 0292     		str	r2, [sp, #8]
- 433:Src/main.c    ****   Mail[0].var3 = 0x03;
- 151              		.loc 1 433 0
+ 432:Src/main.c    ****   Mail[0].var3 = 0x03;
+ 151              		.loc 1 432 0
  152 000c 0323     		movs	r3, #3
  153 000e 8DF80C30 		strb	r3, [sp, #12]
- 434:Src/main.c    ****    
- 435:Src/main.c    ****   Mail[1].var1 = 0x02;
- 154              		.loc 1 435 0
+ 433:Src/main.c    ****    
+ 434:Src/main.c    ****   Mail[1].var1 = 0x02;
+ 154              		.loc 1 434 0
  155 0012 0492     		str	r2, [sp, #16]
- 436:Src/main.c    ****   Mail[1].var2 = 0x03;
- 156              		.loc 1 436 0
+ 435:Src/main.c    ****   Mail[1].var2 = 0x03;
+ 156              		.loc 1 435 0
  157 0014 0593     		str	r3, [sp, #20]
- 437:Src/main.c    ****   Mail[1].var3 = 0x04;
- 158              		.loc 1 437 0
+ 436:Src/main.c    ****   Mail[1].var3 = 0x04;
+ 158              		.loc 1 436 0
  159 0016 0422     		movs	r2, #4
  160 0018 8DF81820 		strb	r2, [sp, #24]
- 438:Src/main.c    ****    
- 439:Src/main.c    ****   Mail[2].var1 = 0x03;
- 161              		.loc 1 439 0
+ 437:Src/main.c    ****    
+ 438:Src/main.c    ****   Mail[2].var1 = 0x03;
+ 161              		.loc 1 438 0
  162 001c 0793     		str	r3, [sp, #28]
- 440:Src/main.c    ****   Mail[2].var2 = 0x04;
- 163              		.loc 1 440 0
+ 439:Src/main.c    ****   Mail[2].var2 = 0x04;
+ 163              		.loc 1 439 0
  164 001e 0892     		str	r2, [sp, #32]
- 441:Src/main.c    ****   Mail[2].var3 = 0x05;
- 165              		.loc 1 441 0
+ 440:Src/main.c    ****   Mail[2].var3 = 0x05;
+ 165              		.loc 1 440 0
  166 0020 0523     		movs	r3, #5
  167 0022 8DF82430 		strb	r3, [sp, #36]
  168              	.LVL5:
  169              	.L6:
- 442:Src/main.c    ****   /* Infinite loop */
- 443:Src/main.c    ****   for(;;)
- 444:Src/main.c    ****   {
- 445:Src/main.c    ****     globalCounter = 0x0A;
- 170              		.loc 1 445 0 discriminator 1
+ 441:Src/main.c    ****   /* Infinite loop */
+ 442:Src/main.c    ****   for(;;)
+ 443:Src/main.c    ****   {
+ 444:Src/main.c    ****     globalCounter = 0x0A;
+ 170              		.loc 1 444 0 discriminator 1
  171 0026 0A22     		movs	r2, #10
  172 0028 0C4B     		ldr	r3, .L8
  173 002a 1A60     		str	r2, [r3]
- 446:Src/main.c    **** 
- 447:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[0]); //发送邮件
- 174              		.loc 1 447 0 discriminator 1
+ 445:Src/main.c    **** 
+ 446:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[0]); //发送邮件
+ 174              		.loc 1 446 0 discriminator 1
  175 002c 0C4C     		ldr	r4, .L8+4
  176 002e 01A9     		add	r1, sp, #4
  177 0030 2068     		ldr	r0, [r4]
  178 0032 FFF7FEFF 		bl	osMailPut
  179              	.LVL6:
- 448:Src/main.c    ****     osDelay(5);
- 180              		.loc 1 448 0 discriminator 1
+ 447:Src/main.c    ****     osDelay(5);
+ 180              		.loc 1 447 0 discriminator 1
  181 0036 0520     		movs	r0, #5
  182 0038 FFF7FEFF 		bl	osDelay
-ARM GAS  /tmp/cc4FZvfY.s 			page 12
-
-
  183              	.LVL7:
- 449:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[1]); //发送邮件
- 184              		.loc 1 449 0 discriminator 1
+ARM GAS  /tmp/ccWzQPUk.s 			page 12
+
+
+ 448:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[1]); //发送邮件
+ 184              		.loc 1 448 0 discriminator 1
  185 003c 04A9     		add	r1, sp, #16
  186 003e 2068     		ldr	r0, [r4]
  187 0040 FFF7FEFF 		bl	osMailPut
  188              	.LVL8:
- 450:Src/main.c    ****     osDelay(5);
- 189              		.loc 1 450 0 discriminator 1
+ 449:Src/main.c    ****     osDelay(5);
+ 189              		.loc 1 449 0 discriminator 1
  190 0044 0520     		movs	r0, #5
  191 0046 FFF7FEFF 		bl	osDelay
  192              	.LVL9:
- 451:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[2]); //发送邮件
- 193              		.loc 1 451 0 discriminator 1
+ 450:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[2]); //发送邮件
+ 193              		.loc 1 450 0 discriminator 1
  194 004a 07A9     		add	r1, sp, #28
  195 004c 2068     		ldr	r0, [r4]
  196 004e FFF7FEFF 		bl	osMailPut
  197              	.LVL10:
- 452:Src/main.c    ****     osDelay(15);
- 198              		.loc 1 452 0 discriminator 1
+ 451:Src/main.c    ****     osDelay(15);
+ 198              		.loc 1 451 0 discriminator 1
  199 0052 0F20     		movs	r0, #15
  200 0054 FFF7FEFF 		bl	osDelay
  201              	.LVL11:
@@ -699,14 +698,14 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  215              		.thumb_func
  217              	MailConsumerTask:
  218              	.LFB78:
- 453:Src/main.c    ****   }
- 454:Src/main.c    ****   /* USER CODE END 5 */ 
- 455:Src/main.c    **** }
- 456:Src/main.c    **** 
- 457:Src/main.c    **** /* MailConsumerTask function */
- 458:Src/main.c    **** void MailConsumerTask(void const * argument)
- 459:Src/main.c    **** {
- 219              		.loc 1 459 0
+ 452:Src/main.c    ****   }
+ 453:Src/main.c    ****   /* USER CODE END 5 */ 
+ 454:Src/main.c    **** }
+ 455:Src/main.c    **** 
+ 456:Src/main.c    **** /* MailConsumerTask function */
+ 457:Src/main.c    **** void MailConsumerTask(void const * argument)
+ 458:Src/main.c    **** {
+ 219              		.loc 1 458 0
  220              		.cfi_startproc
  221              		@ args = 0, pretend = 0, frame = 16
  222              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -718,98 +717,98 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  228              		.cfi_offset 5, -12
  229              		.cfi_offset 6, -8
  230              		.cfi_offset 14, -4
-ARM GAS  /tmp/cc4FZvfY.s 			page 13
-
-
  231 0002 84B0     		sub	sp, sp, #16
+ARM GAS  /tmp/ccWzQPUk.s 			page 13
+
+
  232              	.LCFI6:
  233              		.cfi_def_cfa_offset 32
  234              	.LVL13:
  235              	.L11:
- 460:Src/main.c    ****   /* USER CODE BEGIN MailConsumerTask */
- 461:Src/main.c    ****   osEvent event;
- 462:Src/main.c    ****   Amail_TypeDef *pMail;
- 463:Src/main.c    ****   uint32_t cnt;
- 464:Src/main.c    ****   /* Infinite loop */
- 465:Src/main.c    ****   for(;;)
- 466:Src/main.c    ****   {
- 467:Src/main.c    ****     globalCounter = 0x0B;
- 236              		.loc 1 467 0
+ 459:Src/main.c    ****   /* USER CODE BEGIN MailConsumerTask */
+ 460:Src/main.c    ****   osEvent event;
+ 461:Src/main.c    ****   Amail_TypeDef *pMail;
+ 462:Src/main.c    ****   uint32_t cnt;
+ 463:Src/main.c    ****   /* Infinite loop */
+ 464:Src/main.c    ****   for(;;)
+ 465:Src/main.c    ****   {
+ 466:Src/main.c    ****     globalCounter = 0x0B;
+ 236              		.loc 1 466 0
  237 0004 0B22     		movs	r2, #11
  238 0006 184B     		ldr	r3, .L16
  239 0008 1A60     		str	r2, [r3]
- 468:Src/main.c    **** 
- 469:Src/main.c    ****     event = osMailGet(mailQ01Handle, osWaitForever); 
- 240              		.loc 1 469 0
+ 467:Src/main.c    **** 
+ 468:Src/main.c    ****     event = osMailGet(mailQ01Handle, osWaitForever); 
+ 240              		.loc 1 468 0
  241 000a 4FF0FF32 		mov	r2, #-1
  242 000e 174B     		ldr	r3, .L16+4
  243 0010 1968     		ldr	r1, [r3]
  244 0012 01A8     		add	r0, sp, #4
  245 0014 FFF7FEFF 		bl	osMailGet
  246              	.LVL14:
- 470:Src/main.c    ****     if(event.status == osEventMail)
- 247              		.loc 1 470 0
+ 469:Src/main.c    ****     if(event.status == osEventMail)
+ 247              		.loc 1 469 0
  248 0018 019B     		ldr	r3, [sp, #4]
  249 001a 202B     		cmp	r3, #32
  250 001c F2D1     		bne	.L11
- 471:Src/main.c    ****     {
- 472:Src/main.c    ****         pMail = event.value.p; 
- 251              		.loc 1 472 0
+ 470:Src/main.c    ****     {
+ 471:Src/main.c    ****         pMail = event.value.p; 
+ 251              		.loc 1 471 0
  252 001e 029B     		ldr	r3, [sp, #8]
  253              	.LVL15:
- 473:Src/main.c    ****         cnt = pMail -> var1; 
- 254              		.loc 1 473 0
+ 472:Src/main.c    ****         cnt = pMail -> var1; 
+ 254              		.loc 1 472 0
  255 0020 1B68     		ldr	r3, [r3]
  256              	.LVL16:
- 474:Src/main.c    ****         while(cnt--)
- 257              		.loc 1 474 0
+ 473:Src/main.c    ****         while(cnt--)
+ 257              		.loc 1 473 0
  258 0022 1CE0     		b	.L12
  259              	.LVL17:
  260              	.L13:
- 475:Src/main.c    ****         {
- 476:Src/main.c    ****             ETM_TraceMode();
- 261              		.loc 1 476 0
+ 474:Src/main.c    ****         {
+ 475:Src/main.c    ****             ETM_TraceMode();
+ 261              		.loc 1 475 0
  262 0024 124C     		ldr	r4, .L16+8
  263 0026 2368     		ldr	r3, [r4]
  264 0028 23F48063 		bic	r3, r3, #1024
  265 002c 2360     		str	r3, [r4]
- 477:Src/main.c    ****             HAL_GPIO_WritePin( LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
- 266              		.loc 1 477 0
+ 476:Src/main.c    ****             HAL_GPIO_WritePin( LED0_GPIO_Port, LED0_Pin, GPIO_PIN_RESET);
+ 266              		.loc 1 476 0
  267 002e 114D     		ldr	r5, .L16+12
  268 0030 0022     		movs	r2, #0
  269 0032 4FF48071 		mov	r1, #256
-ARM GAS  /tmp/cc4FZvfY.s 			page 14
-
-
  270 0036 2846     		mov	r0, r5
+ARM GAS  /tmp/ccWzQPUk.s 			page 14
+
+
  271 0038 FFF7FEFF 		bl	HAL_GPIO_WritePin
  272              	.LVL18:
- 478:Src/main.c    ****             //HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
- 479:Src/main.c    ****             ETM_SetupMode();
- 273              		.loc 1 479 0
+ 477:Src/main.c    ****             //HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+ 478:Src/main.c    ****             ETM_SetupMode();
+ 273              		.loc 1 478 0
  274 003c 2368     		ldr	r3, [r4]
  275 003e 43F48063 		orr	r3, r3, #1024
  276 0042 2360     		str	r3, [r4]
- 480:Src/main.c    ****             osDelay(10);
- 277              		.loc 1 480 0
+ 479:Src/main.c    ****             osDelay(10);
+ 277              		.loc 1 479 0
  278 0044 0A20     		movs	r0, #10
  279 0046 FFF7FEFF 		bl	osDelay
  280              	.LVL19:
- 481:Src/main.c    ****             HAL_GPIO_WritePin( LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
- 281              		.loc 1 481 0
+ 480:Src/main.c    ****             HAL_GPIO_WritePin( LED0_GPIO_Port, LED0_Pin, GPIO_PIN_SET);
+ 281              		.loc 1 480 0
  282 004a 0122     		movs	r2, #1
  283 004c 4FF48071 		mov	r1, #256
  284 0050 2846     		mov	r0, r5
  285 0052 FFF7FEFF 		bl	HAL_GPIO_WritePin
  286              	.LVL20:
- 482:Src/main.c    ****             //HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
- 483:Src/main.c    ****             osDelay(10);
- 287              		.loc 1 483 0
+ 481:Src/main.c    ****             //HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+ 482:Src/main.c    ****             osDelay(10);
+ 287              		.loc 1 482 0
  288 0056 0A20     		movs	r0, #10
  289 0058 FFF7FEFF 		bl	osDelay
  290              	.LVL21:
- 474:Src/main.c    ****         {
- 291              		.loc 1 474 0
+ 473:Src/main.c    ****         {
+ 291              		.loc 1 473 0
  292 005c 3346     		mov	r3, r6
  293              	.LVL22:
  294              	.L12:
@@ -838,10 +837,10 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  318              		.loc 1 82 0
  319              		.cfi_startproc
  320              		@ args = 0, pretend = 0, frame = 0
-ARM GAS  /tmp/cc4FZvfY.s 			page 15
-
-
  321              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccWzQPUk.s 			page 15
+
+
  322              		@ link register save eliminated.
   84:Src/main.c    ****     AFIO->MAPR |= (2 << 24); // Disable JTAG to release TRACESWO
  323              		.loc 1 84 0
@@ -898,10 +897,10 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  365 005a A2F6AC32 		subw	r2, r2, #2988
  366 005e C3F8B02F 		str	r2, [r3, #4016]
  123:Src/main.c    ****              | (1 << ITM_TCR_DWTENA_Pos)      // Enable events from DWT
-ARM GAS  /tmp/cc4FZvfY.s 			page 16
-
-
  367              		.loc 1 123 0
+ARM GAS  /tmp/ccWzQPUk.s 			page 16
+
+
  368 0062 1548     		ldr	r0, .L20+20
  369 0064 C3F8800E 		str	r0, [r3, #3712]
  129:Src/main.c    **** 
@@ -958,10 +957,10 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  411              	.LFE69:
  413              		.section	.text.configure_watchpoint,"ax",%progbits
  414              		.align	2
-ARM GAS  /tmp/cc4FZvfY.s 			page 17
-
-
  415              		.global	configure_watchpoint
+ARM GAS  /tmp/ccWzQPUk.s 			page 17
+
+
  416              		.thumb
  417              		.thumb_func
  419              	configure_watchpoint:
@@ -989,13 +988,13 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  436              		.loc 1 178 0
  437 000e 054A     		ldr	r2, .L23+8
  438 0010 1A63     		str	r2, [r3, #48]
- 179:Src/main.c    ****     DWT->FUNCTION1 = (3 << DWT_FUNCTION_FUNCTION_Pos) // Report data and PC on watchpoint hit
+ 179:Src/main.c    ****     DWT->FUNCTION1 = (3 << DWT_FUNCTION_FUNCTION_Pos); // Report data and PC on watchpoint hit  
  439              		.loc 1 179 0
  440 0012 0222     		movs	r2, #2
  441 0014 5A63     		str	r2, [r3, #52]
- 180:Src/main.c    ****                    | (1 << DWT_FUNCTION_EMITRANGE_Pos);  
+ 180:Src/main.c    **** }
  442              		.loc 1 180 0
- 443 0016 2322     		movs	r2, #35
+ 443 0016 0322     		movs	r2, #3
  444 0018 9A63     		str	r2, [r3, #56]
  445 001a 7047     		bx	lr
  446              	.L24:
@@ -1013,29 +1012,29 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  459              		.thumb_func
  461              	ITM_Print:
  462              	.LFB71:
- 185:Src/main.c    ****     globalCounter = 0x0C;
- 463              		.loc 1 185 0
+ 184:Src/main.c    ****     globalCounter = 0x0C;
+ 463              		.loc 1 184 0
  464              		.cfi_startproc
  465              		@ args = 0, pretend = 0, frame = 0
  466              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/cc4FZvfY.s 			page 18
-
-
  467              		@ link register save eliminated.
+ARM GAS  /tmp/ccWzQPUk.s 			page 18
+
+
  468              	.LVL24:
- 186:Src/main.c    ****     if ((ITM->TCR & ITM_TCR_ITMENA_Msk) && (ITM->TER & (1UL << port)))
- 469              		.loc 1 186 0
+ 185:Src/main.c    ****     if ((ITM->TCR & ITM_TCR_ITMENA_Msk) && (ITM->TER & (1UL << port)))
+ 469              		.loc 1 185 0
  470 0000 0C22     		movs	r2, #12
  471 0002 104B     		ldr	r3, .L29
  472 0004 1A60     		str	r2, [r3]
- 187:Src/main.c    ****     {
- 473              		.loc 1 187 0
+ 186:Src/main.c    ****     {
+ 473              		.loc 1 186 0
  474 0006 4FF06043 		mov	r3, #-536870912
  475 000a D3F8803E 		ldr	r3, [r3, #3712]
  476 000e 13F0010F 		tst	r3, #1
  477 0012 16D0     		beq	.L25
- 187:Src/main.c    ****     {
- 478              		.loc 1 187 0 is_stmt 0 discriminator 1
+ 186:Src/main.c    ****     {
+ 478              		.loc 1 186 0 is_stmt 0 discriminator 1
  479 0014 4FF06043 		mov	r3, #-536870912
  480 0018 D3F8003E 		ldr	r3, [r3, #3584]
  481 001c C340     		lsrs	r3, r3, r0
@@ -1043,21 +1042,21 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  483 0022 0BD1     		bne	.L27
  484 0024 7047     		bx	lr
  485              	.L28:
- 191:Src/main.c    ****             ITM->PORT[port].u8 = *p++;
- 486              		.loc 1 191 0 is_stmt 1 discriminator 1
+ 190:Src/main.c    ****             ITM->PORT[port].u8 = *p++;
+ 486              		.loc 1 190 0 is_stmt 1 discriminator 1
  487 0026 4FF06043 		mov	r3, #-536870912
  488 002a 53F82030 		ldr	r3, [r3, r0, lsl #2]
  489 002e 002B     		cmp	r3, #0
  490 0030 F9D0     		beq	.L28
- 192:Src/main.c    ****         }   
- 491              		.loc 1 192 0
+ 191:Src/main.c    ****         }   
+ 491              		.loc 1 191 0
  492 0032 0131     		adds	r1, r1, #1
  493              	.LVL25:
  494 0034 4FF06043 		mov	r3, #-536870912
  495 0038 03F82020 		strb	r2, [r3, r0, lsl #2]
  496              	.L27:
- 189:Src/main.c    ****         {
- 497              		.loc 1 189 0
+ 188:Src/main.c    ****         {
+ 497              		.loc 1 188 0
  498 003c 0A78     		ldrb	r2, [r1]	@ zero_extendqisi2
  499 003e 002A     		cmp	r2, #0
  500 0040 F1D1     		bne	.L28
@@ -1076,38 +1075,38 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  514              		.thumb_func
  516              	ITM_SendValue:
  517              	.LFB72:
- 198:Src/main.c    ****     if ((ITM->TCR & ITM_TCR_ITMENA_Msk) && (ITM->TER & (1UL << port)))
- 518              		.loc 1 198 0
-ARM GAS  /tmp/cc4FZvfY.s 			page 19
-
-
+ 197:Src/main.c    ****     if ((ITM->TCR & ITM_TCR_ITMENA_Msk) && (ITM->TER & (1UL << port)))
+ 518              		.loc 1 197 0
  519              		.cfi_startproc
+ARM GAS  /tmp/ccWzQPUk.s 			page 19
+
+
  520              		@ args = 0, pretend = 0, frame = 0
  521              		@ frame_needed = 0, uses_anonymous_args = 0
  522              		@ link register save eliminated.
  523              	.LVL26:
- 199:Src/main.c    ****     {
- 524              		.loc 1 199 0
+ 198:Src/main.c    ****     {
+ 524              		.loc 1 198 0
  525 0000 4FF06043 		mov	r3, #-536870912
  526 0004 D3F8803E 		ldr	r3, [r3, #3712]
  527 0008 13F0010F 		tst	r3, #1
  528 000c 11D0     		beq	.L31
- 199:Src/main.c    ****     {
- 529              		.loc 1 199 0 is_stmt 0 discriminator 1
+ 198:Src/main.c    ****     {
+ 529              		.loc 1 198 0 is_stmt 0 discriminator 1
  530 000e 4FF06043 		mov	r3, #-536870912
  531 0012 D3F8003E 		ldr	r3, [r3, #3584]
  532 0016 C340     		lsrs	r3, r3, r0
  533 0018 13F0010F 		tst	r3, #1
  534 001c 09D0     		beq	.L31
  535              	.L33:
- 201:Src/main.c    ****         ITM->PORT[port].u32 = value;
- 536              		.loc 1 201 0 is_stmt 1 discriminator 1
+ 200:Src/main.c    ****         ITM->PORT[port].u32 = value;
+ 536              		.loc 1 200 0 is_stmt 1 discriminator 1
  537 001e 4FF06043 		mov	r3, #-536870912
  538 0022 53F82030 		ldr	r3, [r3, r0, lsl #2]
  539 0026 002B     		cmp	r3, #0
  540 0028 F9D0     		beq	.L33
- 202:Src/main.c    ****     }
- 541              		.loc 1 202 0
+ 201:Src/main.c    ****     }
+ 541              		.loc 1 201 0
  542 002a 4FF06043 		mov	r3, #-536870912
  543 002e 43F82010 		str	r1, [r3, r0, lsl #2]
  544              	.L31:
@@ -1121,8 +1120,8 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  553              		.thumb_func
  555              	bubble_sort:
  556              	.LFB73:
- 207:Src/main.c    ****     int i, t, s = 1;
- 557              		.loc 1 207 0
+ 206:Src/main.c    ****     int i, t, s = 1;
+ 557              		.loc 1 206 0
  558              		.cfi_startproc
  559              		@ args = 0, pretend = 0, frame = 0
  560              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1135,24 +1134,24 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  567              		.cfi_offset 5, -8
  568              		.cfi_offset 6, -4
  569              	.LVL28:
- 209:Src/main.c    ****     while (s) 
- 570              		.loc 1 209 0
+ 208:Src/main.c    ****     while (s) 
+ 570              		.loc 1 208 0
  571 0002 0D22     		movs	r2, #13
-ARM GAS  /tmp/cc4FZvfY.s 			page 20
-
-
  572 0004 0D4B     		ldr	r3, .L41
+ARM GAS  /tmp/ccWzQPUk.s 			page 20
+
+
  573 0006 1A60     		str	r2, [r3]
- 208:Src/main.c    ****     globalCounter = 0x0D;
- 574              		.loc 1 208 0
+ 207:Src/main.c    ****     globalCounter = 0x0D;
+ 574              		.loc 1 207 0
  575 0008 0126     		movs	r6, #1
- 210:Src/main.c    ****     {
- 576              		.loc 1 210 0
+ 209:Src/main.c    ****     {
+ 576              		.loc 1 209 0
  577 000a 13E0     		b	.L35
  578              	.LVL29:
  579              	.L37:
- 215:Src/main.c    ****             {
- 580              		.loc 1 215 0
+ 214:Src/main.c    ****             {
+ 580              		.loc 1 214 0
  581 000c 50F82340 		ldr	r4, [r0, r3, lsl #2]
  582 0010 03F18042 		add	r2, r3, #1073741824
  583 0014 013A     		subs	r2, r2, #1
@@ -1160,20 +1159,20 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  585 001a AC42     		cmp	r4, r5
  586 001c 04DA     		bge	.L36
  587              	.LVL30:
- 218:Src/main.c    ****                 a[i - 1] = t;
- 588              		.loc 1 218 0
+ 217:Src/main.c    ****                 a[i - 1] = t;
+ 588              		.loc 1 217 0
  589 001e 40F82350 		str	r5, [r0, r3, lsl #2]
- 219:Src/main.c    ****                 s = 1;            
- 590              		.loc 1 219 0
+ 218:Src/main.c    ****                 s = 1;            
+ 590              		.loc 1 218 0
  591 0022 40F82240 		str	r4, [r0, r2, lsl #2]
  592              	.LVL31:
- 220:Src/main.c    ****             }
- 593              		.loc 1 220 0
+ 219:Src/main.c    ****             }
+ 593              		.loc 1 219 0
  594 0026 0126     		movs	r6, #1
  595              	.LVL32:
  596              	.L36:
- 213:Src/main.c    ****         {
- 597              		.loc 1 213 0 discriminator 2
+ 212:Src/main.c    ****         {
+ 597              		.loc 1 212 0 discriminator 2
  598 0028 0133     		adds	r3, r3, #1
  599              	.LVL33:
  600 002a 01E0     		b	.L38
@@ -1184,24 +1183,24 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  605 002e 0123     		movs	r3, #1
  606              	.L38:
  607              	.LVL36:
- 213:Src/main.c    ****         {
- 608              		.loc 1 213 0 is_stmt 0 discriminator 1
+ 212:Src/main.c    ****         {
+ 608              		.loc 1 212 0 is_stmt 0 discriminator 1
  609 0030 8B42     		cmp	r3, r1
  610 0032 EBDB     		blt	.L37
  611              	.LVL37:
  612              	.L35:
- 210:Src/main.c    ****     {
- 613              		.loc 1 210 0 is_stmt 1
+ 209:Src/main.c    ****     {
+ 613              		.loc 1 209 0 is_stmt 1
  614 0034 002E     		cmp	r6, #0
  615 0036 F9D1     		bne	.L39
- 224:Src/main.c    **** 
- 616              		.loc 1 224 0
+ 223:Src/main.c    **** 
+ 616              		.loc 1 223 0
  617 0038 70BC     		pop	{r4, r5, r6}
  618              	.LCFI8:
-ARM GAS  /tmp/cc4FZvfY.s 			page 21
-
-
  619              		.cfi_restore 6
+ARM GAS  /tmp/ccWzQPUk.s 			page 21
+
+
  620              		.cfi_restore 5
  621              		.cfi_restore 4
  622              		.cfi_def_cfa_offset 0
@@ -1220,23 +1219,23 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  636              		.thumb_func
  638              	HAL_TIM_PeriodElapsedCallback:
  639              	.LFB79:
- 484:Src/main.c    ****         }
- 485:Src/main.c    ****     }
- 486:Src/main.c    ****   }
- 487:Src/main.c    ****   /* USER CODE END MailConsumerTask */
- 488:Src/main.c    **** }
- 489:Src/main.c    **** 
- 490:Src/main.c    **** /**
- 491:Src/main.c    ****   * @brief  Period elapsed callback in non blocking mode
- 492:Src/main.c    ****   * @note   This function is called  when TIM4 interrupt took place, inside
- 493:Src/main.c    ****   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
- 494:Src/main.c    ****   * a global variable "uwTick" used as application time base.
- 495:Src/main.c    ****   * @param  htim : TIM handle
- 496:Src/main.c    ****   * @retval None
- 497:Src/main.c    ****   */
- 498:Src/main.c    **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
- 499:Src/main.c    **** {
- 640              		.loc 1 499 0
+ 483:Src/main.c    ****         }
+ 484:Src/main.c    ****     }
+ 485:Src/main.c    ****   }
+ 486:Src/main.c    ****   /* USER CODE END MailConsumerTask */
+ 487:Src/main.c    **** }
+ 488:Src/main.c    **** 
+ 489:Src/main.c    **** /**
+ 490:Src/main.c    ****   * @brief  Period elapsed callback in non blocking mode
+ 491:Src/main.c    ****   * @note   This function is called  when TIM4 interrupt took place, inside
+ 492:Src/main.c    ****   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+ 493:Src/main.c    ****   * a global variable "uwTick" used as application time base.
+ 494:Src/main.c    ****   * @param  htim : TIM handle
+ 495:Src/main.c    ****   * @retval None
+ 496:Src/main.c    ****   */
+ 497:Src/main.c    **** void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+ 498:Src/main.c    **** {
+ 640              		.loc 1 498 0
  641              		.cfi_startproc
  642              		@ args = 0, pretend = 0, frame = 0
  643              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1246,472 +1245,483 @@ ARM GAS  /tmp/cc4FZvfY.s 			page 1
  647              		.cfi_def_cfa_offset 8
  648              		.cfi_offset 3, -8
  649              		.cfi_offset 14, -4
- 500:Src/main.c    ****   /* USER CODE BEGIN Callback 0 */
- 501:Src/main.c    **** 
- 502:Src/main.c    ****   /* USER CODE END Callback 0 */
- 503:Src/main.c    ****   if (htim->Instance == TIM4) {
- 650              		.loc 1 503 0
+ 499:Src/main.c    ****   /* USER CODE BEGIN Callback 0 */
+ 500:Src/main.c    **** 
+ 501:Src/main.c    ****   /* USER CODE END Callback 0 */
+ 502:Src/main.c    ****   if (htim->Instance == TIM4) {
+ 650              		.loc 1 502 0
  651 0002 0268     		ldr	r2, [r0]
- 652 0004 0E4B     		ldr	r3, .L47
+ 652 0004 124B     		ldr	r3, .L47
  653 0006 9A42     		cmp	r2, r3
- 654 0008 18D1     		bne	.L43
- 504:Src/main.c    ****     HAL_IncTick();
- 655              		.loc 1 504 0
+ 654 0008 20D1     		bne	.L43
+ 503:Src/main.c    ****     HAL_IncTick();
+ 655              		.loc 1 503 0
  656 000a FFF7FEFF 		bl	HAL_IncTick
-ARM GAS  /tmp/cc4FZvfY.s 			page 22
-
-
  657              	.LVL40:
- 505:Src/main.c    **** 
- 506:Src/main.c    ****     ++InterruptCounter;
- 658              		.loc 1 506 0
- 659 000e 0D4A     		ldr	r2, .L47+4
+ARM GAS  /tmp/ccWzQPUk.s 			page 22
+
+
+ 504:Src/main.c    **** 
+ 505:Src/main.c    ****     ++InterruptCounter;
+ 658              		.loc 1 505 0
+ 659 000e 114A     		ldr	r2, .L47+4
  660 0010 1368     		ldr	r3, [r2]
  661 0012 0133     		adds	r3, r3, #1
  662 0014 1360     		str	r3, [r2]
- 507:Src/main.c    ****     if(InterruptCounter == 1)
- 663              		.loc 1 507 0
+ 506:Src/main.c    ****     if(InterruptCounter == 1)
+ 663              		.loc 1 506 0
  664 0016 012B     		cmp	r3, #1
- 665 0018 04D1     		bne	.L45
- 508:Src/main.c    ****     {
+ 665 0018 08D1     		bne	.L45
+ 507:Src/main.c    ****     {
+ 508:Src/main.c    ****         globalCounter = 0xE20;
+ 666              		.loc 1 508 0
+ 667 001a 4FF46262 		mov	r2, #3616
+ 668 001e 0E4B     		ldr	r3, .L47+8
+ 669 0020 1A60     		str	r2, [r3]
  509:Src/main.c    ****         HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
- 666              		.loc 1 509 0
- 667 001a 0022     		movs	r2, #0
- 668 001c 0421     		movs	r1, #4
- 669 001e 0A48     		ldr	r0, .L47+8
- 670 0020 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 671              	.LVL41:
- 672              	.L45:
+ 670              		.loc 1 509 0
+ 671 0022 0022     		movs	r2, #0
+ 672 0024 0421     		movs	r1, #4
+ 673 0026 0D48     		ldr	r0, .L47+12
+ 674 0028 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 675              	.LVL41:
+ 676              	.L45:
  510:Src/main.c    ****     }
  511:Src/main.c    ****     if(InterruptCounter == 2)
- 673              		.loc 1 511 0
- 674 0024 074B     		ldr	r3, .L47+4
- 675 0026 1B68     		ldr	r3, [r3]
- 676 0028 022B     		cmp	r3, #2
- 677 002a 07D1     		bne	.L43
+ 677              		.loc 1 511 0
+ 678 002c 094B     		ldr	r3, .L47+4
+ 679 002e 1B68     		ldr	r3, [r3]
+ 680 0030 022B     		cmp	r3, #2
+ 681 0032 0BD1     		bne	.L43
  512:Src/main.c    ****     {       
- 513:Src/main.c    ****         HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
- 678              		.loc 1 513 0
- 679 002c 0122     		movs	r2, #1
- 680 002e 0421     		movs	r1, #4
- 681 0030 0548     		ldr	r0, .L47+8
- 682 0032 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 683              	.LVL42:
- 514:Src/main.c    ****         InterruptCounter = 0;
- 684              		.loc 1 514 0
- 685 0036 0022     		movs	r2, #0
- 686 0038 024B     		ldr	r3, .L47+4
- 687 003a 1A60     		str	r2, [r3]
- 688              	.L43:
- 689 003c 08BD     		pop	{r3, pc}
- 690              	.L48:
- 691 003e 00BF     		.align	2
- 692              	.L47:
- 693 0040 00080040 		.word	1073743872
- 694 0044 00000000 		.word	.LANCHOR1
- 695 0048 00140140 		.word	1073812480
- 696              		.cfi_endproc
- 697              	.LFE79:
- 699              		.section	.text._Error_Handler,"ax",%progbits
- 700              		.align	2
- 701              		.global	_Error_Handler
- 702              		.thumb
- 703              		.thumb_func
- 705              	_Error_Handler:
-ARM GAS  /tmp/cc4FZvfY.s 			page 23
+ 513:Src/main.c    ****         globalCounter = 0xE21;
+ 682              		.loc 1 513 0
+ 683 0034 40F62162 		movw	r2, #3617
+ 684 0038 074B     		ldr	r3, .L47+8
+ 685 003a 1A60     		str	r2, [r3]
+ 514:Src/main.c    ****         HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+ 686              		.loc 1 514 0
+ 687 003c 0122     		movs	r2, #1
+ 688 003e 0421     		movs	r1, #4
+ 689 0040 0648     		ldr	r0, .L47+12
+ 690 0042 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 691              	.LVL42:
+ 515:Src/main.c    ****         InterruptCounter = 0;
+ 692              		.loc 1 515 0
+ 693 0046 0022     		movs	r2, #0
+ 694 0048 024B     		ldr	r3, .L47+4
+ 695 004a 1A60     		str	r2, [r3]
+ 696              	.L43:
+ 697 004c 08BD     		pop	{r3, pc}
+ 698              	.L48:
+ 699 004e 00BF     		.align	2
+ 700              	.L47:
+ 701 0050 00080040 		.word	1073743872
+ 702 0054 00000000 		.word	.LANCHOR1
+ARM GAS  /tmp/ccWzQPUk.s 			page 23
 
 
- 706              	.LFB80:
- 515:Src/main.c    ****     }
- 516:Src/main.c    ****   }
- 517:Src/main.c    ****   /* USER CODE BEGIN Callback 1 */
- 518:Src/main.c    **** 
- 519:Src/main.c    ****   /* USER CODE END Callback 1 */
- 520:Src/main.c    **** }
- 521:Src/main.c    **** 
- 522:Src/main.c    **** /**
- 523:Src/main.c    ****   * @brief  This function is executed in case of error occurrence.
- 524:Src/main.c    ****   * @param  file: The file name as string.
- 525:Src/main.c    ****   * @param  line: The line in file as a number.
- 526:Src/main.c    ****   * @retval None
- 527:Src/main.c    ****   */
- 528:Src/main.c    **** void _Error_Handler(char *file, int line)
- 529:Src/main.c    **** {
- 707              		.loc 1 529 0
- 708              		.cfi_startproc
- 709              		@ Volatile: function does not return.
- 710              		@ args = 0, pretend = 0, frame = 0
- 711              		@ frame_needed = 0, uses_anonymous_args = 0
- 712              		@ link register save eliminated.
- 713              	.LVL43:
- 714              	.L50:
- 715 0000 FEE7     		b	.L50
- 716              		.cfi_endproc
- 717              	.LFE80:
- 719 0002 00BF     		.section	.text.SystemClock_Config,"ax",%progbits
- 720              		.align	2
- 721              		.global	SystemClock_Config
- 722              		.thumb
- 723              		.thumb_func
- 725              	SystemClock_Config:
- 726              	.LFB75:
- 337:Src/main.c    **** 
- 727              		.loc 1 337 0
- 728              		.cfi_startproc
- 729              		@ args = 0, pretend = 0, frame = 64
- 730              		@ frame_needed = 0, uses_anonymous_args = 0
- 337:Src/main.c    **** 
- 731              		.loc 1 337 0
- 732 0000 00B5     		push	{lr}
- 733              	.LCFI10:
- 734              		.cfi_def_cfa_offset 4
- 735              		.cfi_offset 14, -4
- 736 0002 91B0     		sub	sp, sp, #68
- 737              	.LCFI11:
- 738              		.cfi_def_cfa_offset 72
- 344:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 739              		.loc 1 344 0
- 740 0004 0122     		movs	r2, #1
- 741 0006 0692     		str	r2, [sp, #24]
- 345:Src/main.c    ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 742              		.loc 1 345 0
- 743 0008 4FF48033 		mov	r3, #65536
- 744 000c 0793     		str	r3, [sp, #28]
- 346:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-ARM GAS  /tmp/cc4FZvfY.s 			page 24
+ 703 0058 00000000 		.word	.LANCHOR0
+ 704 005c 00140140 		.word	1073812480
+ 705              		.cfi_endproc
+ 706              	.LFE79:
+ 708              		.section	.text._Error_Handler,"ax",%progbits
+ 709              		.align	2
+ 710              		.global	_Error_Handler
+ 711              		.thumb
+ 712              		.thumb_func
+ 714              	_Error_Handler:
+ 715              	.LFB80:
+ 516:Src/main.c    ****     }
+ 517:Src/main.c    ****   }
+ 518:Src/main.c    ****   /* USER CODE BEGIN Callback 1 */
+ 519:Src/main.c    **** 
+ 520:Src/main.c    ****   /* USER CODE END Callback 1 */
+ 521:Src/main.c    **** }
+ 522:Src/main.c    **** 
+ 523:Src/main.c    **** /**
+ 524:Src/main.c    ****   * @brief  This function is executed in case of error occurrence.
+ 525:Src/main.c    ****   * @param  file: The file name as string.
+ 526:Src/main.c    ****   * @param  line: The line in file as a number.
+ 527:Src/main.c    ****   * @retval None
+ 528:Src/main.c    ****   */
+ 529:Src/main.c    **** void _Error_Handler(char *file, int line)
+ 530:Src/main.c    **** {
+ 716              		.loc 1 530 0
+ 717              		.cfi_startproc
+ 718              		@ Volatile: function does not return.
+ 719              		@ args = 0, pretend = 0, frame = 0
+ 720              		@ frame_needed = 0, uses_anonymous_args = 0
+ 721              		@ link register save eliminated.
+ 722              	.LVL43:
+ 723              	.L50:
+ 724 0000 FEE7     		b	.L50
+ 725              		.cfi_endproc
+ 726              	.LFE80:
+ 728 0002 00BF     		.section	.text.SystemClock_Config,"ax",%progbits
+ 729              		.align	2
+ 730              		.global	SystemClock_Config
+ 731              		.thumb
+ 732              		.thumb_func
+ 734              	SystemClock_Config:
+ 735              	.LFB75:
+ 336:Src/main.c    **** 
+ 736              		.loc 1 336 0
+ 737              		.cfi_startproc
+ 738              		@ args = 0, pretend = 0, frame = 64
+ 739              		@ frame_needed = 0, uses_anonymous_args = 0
+ 336:Src/main.c    **** 
+ 740              		.loc 1 336 0
+ 741 0000 00B5     		push	{lr}
+ 742              	.LCFI10:
+ 743              		.cfi_def_cfa_offset 4
+ 744              		.cfi_offset 14, -4
+ 745 0002 91B0     		sub	sp, sp, #68
+ 746              	.LCFI11:
+ARM GAS  /tmp/ccWzQPUk.s 			page 24
 
 
- 745              		.loc 1 346 0
- 746 000e 0021     		movs	r1, #0
- 747 0010 0891     		str	r1, [sp, #32]
- 347:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 748              		.loc 1 347 0
- 749 0012 0A92     		str	r2, [sp, #40]
- 348:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 750              		.loc 1 348 0
- 751 0014 0222     		movs	r2, #2
- 752 0016 0D92     		str	r2, [sp, #52]
- 349:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 753              		.loc 1 349 0
- 754 0018 0E93     		str	r3, [sp, #56]
- 350:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 755              		.loc 1 350 0
- 756 001a 4FF4E013 		mov	r3, #1835008
- 757 001e 0F93     		str	r3, [sp, #60]
- 351:Src/main.c    ****   {
- 758              		.loc 1 351 0
- 759 0020 06A8     		add	r0, sp, #24
- 760 0022 FFF7FEFF 		bl	HAL_RCC_OscConfig
- 761              	.LVL44:
- 762 0026 20B1     		cbz	r0, .L52
- 353:Src/main.c    ****   }
- 763              		.loc 1 353 0
- 764 0028 40F26111 		movw	r1, #353
- 765 002c 1448     		ldr	r0, .L55
- 766 002e FFF7FEFF 		bl	_Error_Handler
- 767              	.LVL45:
- 768              	.L52:
- 358:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 769              		.loc 1 358 0
- 770 0032 0F23     		movs	r3, #15
- 771 0034 0193     		str	r3, [sp, #4]
- 360:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 772              		.loc 1 360 0
- 773 0036 0221     		movs	r1, #2
- 774 0038 0291     		str	r1, [sp, #8]
- 361:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 775              		.loc 1 361 0
- 776 003a 0023     		movs	r3, #0
- 777 003c 0393     		str	r3, [sp, #12]
- 362:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 778              		.loc 1 362 0
- 779 003e 4FF48062 		mov	r2, #1024
- 780 0042 0492     		str	r2, [sp, #16]
- 363:Src/main.c    **** 
- 781              		.loc 1 363 0
- 782 0044 0593     		str	r3, [sp, #20]
- 365:Src/main.c    ****   {
- 783              		.loc 1 365 0
- 784 0046 01A8     		add	r0, sp, #4
- 785 0048 FFF7FEFF 		bl	HAL_RCC_ClockConfig
- 786              	.LVL46:
- 787 004c 20B1     		cbz	r0, .L53
- 367:Src/main.c    ****   }
- 788              		.loc 1 367 0
-ARM GAS  /tmp/cc4FZvfY.s 			page 25
+ 747              		.cfi_def_cfa_offset 72
+ 343:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 748              		.loc 1 343 0
+ 749 0004 0122     		movs	r2, #1
+ 750 0006 0692     		str	r2, [sp, #24]
+ 344:Src/main.c    ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 751              		.loc 1 344 0
+ 752 0008 4FF48033 		mov	r3, #65536
+ 753 000c 0793     		str	r3, [sp, #28]
+ 345:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 754              		.loc 1 345 0
+ 755 000e 0021     		movs	r1, #0
+ 756 0010 0891     		str	r1, [sp, #32]
+ 346:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 757              		.loc 1 346 0
+ 758 0012 0A92     		str	r2, [sp, #40]
+ 347:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 759              		.loc 1 347 0
+ 760 0014 0222     		movs	r2, #2
+ 761 0016 0D92     		str	r2, [sp, #52]
+ 348:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 762              		.loc 1 348 0
+ 763 0018 0E93     		str	r3, [sp, #56]
+ 349:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 764              		.loc 1 349 0
+ 765 001a 4FF4E013 		mov	r3, #1835008
+ 766 001e 0F93     		str	r3, [sp, #60]
+ 350:Src/main.c    ****   {
+ 767              		.loc 1 350 0
+ 768 0020 06A8     		add	r0, sp, #24
+ 769 0022 FFF7FEFF 		bl	HAL_RCC_OscConfig
+ 770              	.LVL44:
+ 771 0026 20B1     		cbz	r0, .L52
+ 352:Src/main.c    ****   }
+ 772              		.loc 1 352 0
+ 773 0028 4FF4B071 		mov	r1, #352
+ 774 002c 1448     		ldr	r0, .L55
+ 775 002e FFF7FEFF 		bl	_Error_Handler
+ 776              	.LVL45:
+ 777              	.L52:
+ 357:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 778              		.loc 1 357 0
+ 779 0032 0F23     		movs	r3, #15
+ 780 0034 0193     		str	r3, [sp, #4]
+ 359:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 781              		.loc 1 359 0
+ 782 0036 0221     		movs	r1, #2
+ 783 0038 0291     		str	r1, [sp, #8]
+ 360:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 784              		.loc 1 360 0
+ 785 003a 0023     		movs	r3, #0
+ 786 003c 0393     		str	r3, [sp, #12]
+ 361:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 787              		.loc 1 361 0
+ 788 003e 4FF48062 		mov	r2, #1024
+ 789 0042 0492     		str	r2, [sp, #16]
+ 362:Src/main.c    **** 
+ARM GAS  /tmp/ccWzQPUk.s 			page 25
 
 
- 789 004e 40F26F11 		movw	r1, #367
- 790 0052 0B48     		ldr	r0, .L55
- 791 0054 FFF7FEFF 		bl	_Error_Handler
- 792              	.LVL47:
- 793              	.L53:
- 372:Src/main.c    **** 
- 794              		.loc 1 372 0
- 795 0058 FFF7FEFF 		bl	HAL_RCC_GetHCLKFreq
- 796              	.LVL48:
- 797 005c 094B     		ldr	r3, .L55+4
- 798 005e A3FB0030 		umull	r3, r0, r3, r0
- 799 0062 8009     		lsrs	r0, r0, #6
- 800 0064 FFF7FEFF 		bl	HAL_SYSTICK_Config
- 801              	.LVL49:
- 376:Src/main.c    **** 
- 802              		.loc 1 376 0
- 803 0068 0420     		movs	r0, #4
- 804 006a FFF7FEFF 		bl	HAL_SYSTICK_CLKSourceConfig
- 805              	.LVL50:
- 379:Src/main.c    **** }
- 806              		.loc 1 379 0
- 807 006e 0022     		movs	r2, #0
- 808 0070 0F21     		movs	r1, #15
- 809 0072 4FF0FF30 		mov	r0, #-1
- 810 0076 FFF7FEFF 		bl	HAL_NVIC_SetPriority
- 811              	.LVL51:
- 380:Src/main.c    **** 
- 812              		.loc 1 380 0
- 813 007a 11B0     		add	sp, sp, #68
- 814              	.LCFI12:
- 815              		.cfi_def_cfa_offset 4
- 816              		@ sp needed
- 817 007c 5DF804FB 		ldr	pc, [sp], #4
- 818              	.L56:
- 819              		.align	2
- 820              	.L55:
- 821 0080 00000000 		.word	.LC4
- 822 0084 D34D6210 		.word	274877907
- 823              		.cfi_endproc
- 824              	.LFE75:
- 826              		.section	.text.main,"ax",%progbits
- 827              		.align	2
- 828              		.global	main
- 829              		.thumb
- 830              		.thumb_func
- 832              	main:
- 833              	.LFB74:
- 248:Src/main.c    ****   /* USER CODE BEGIN 1 */
- 834              		.loc 1 248 0
- 835              		.cfi_startproc
- 836              		@ args = 0, pretend = 0, frame = 56
- 837              		@ frame_needed = 0, uses_anonymous_args = 0
- 838 0000 70B5     		push	{r4, r5, r6, lr}
- 839              	.LCFI13:
- 840              		.cfi_def_cfa_offset 16
- 841              		.cfi_offset 4, -16
- 842              		.cfi_offset 5, -12
-ARM GAS  /tmp/cc4FZvfY.s 			page 26
+ 790              		.loc 1 362 0
+ 791 0044 0593     		str	r3, [sp, #20]
+ 364:Src/main.c    ****   {
+ 792              		.loc 1 364 0
+ 793 0046 01A8     		add	r0, sp, #4
+ 794 0048 FFF7FEFF 		bl	HAL_RCC_ClockConfig
+ 795              	.LVL46:
+ 796 004c 20B1     		cbz	r0, .L53
+ 366:Src/main.c    ****   }
+ 797              		.loc 1 366 0
+ 798 004e 4FF4B771 		mov	r1, #366
+ 799 0052 0B48     		ldr	r0, .L55
+ 800 0054 FFF7FEFF 		bl	_Error_Handler
+ 801              	.LVL47:
+ 802              	.L53:
+ 371:Src/main.c    **** 
+ 803              		.loc 1 371 0
+ 804 0058 FFF7FEFF 		bl	HAL_RCC_GetHCLKFreq
+ 805              	.LVL48:
+ 806 005c 094B     		ldr	r3, .L55+4
+ 807 005e A3FB0030 		umull	r3, r0, r3, r0
+ 808 0062 8009     		lsrs	r0, r0, #6
+ 809 0064 FFF7FEFF 		bl	HAL_SYSTICK_Config
+ 810              	.LVL49:
+ 375:Src/main.c    **** 
+ 811              		.loc 1 375 0
+ 812 0068 0420     		movs	r0, #4
+ 813 006a FFF7FEFF 		bl	HAL_SYSTICK_CLKSourceConfig
+ 814              	.LVL50:
+ 378:Src/main.c    **** }
+ 815              		.loc 1 378 0
+ 816 006e 0022     		movs	r2, #0
+ 817 0070 0F21     		movs	r1, #15
+ 818 0072 4FF0FF30 		mov	r0, #-1
+ 819 0076 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 820              	.LVL51:
+ 379:Src/main.c    **** 
+ 821              		.loc 1 379 0
+ 822 007a 11B0     		add	sp, sp, #68
+ 823              	.LCFI12:
+ 824              		.cfi_def_cfa_offset 4
+ 825              		@ sp needed
+ 826 007c 5DF804FB 		ldr	pc, [sp], #4
+ 827              	.L56:
+ 828              		.align	2
+ 829              	.L55:
+ 830 0080 00000000 		.word	.LC4
+ 831 0084 D34D6210 		.word	274877907
+ 832              		.cfi_endproc
+ 833              	.LFE75:
+ 835              		.section	.text.main,"ax",%progbits
+ 836              		.align	2
+ 837              		.global	main
+ 838              		.thumb
+ 839              		.thumb_func
+ 841              	main:
+ 842              	.LFB74:
+ARM GAS  /tmp/ccWzQPUk.s 			page 26
 
 
- 843              		.cfi_offset 6, -8
- 844              		.cfi_offset 14, -4
- 845 0002 8EB0     		sub	sp, sp, #56
- 846              	.LCFI14:
- 847              		.cfi_def_cfa_offset 72
- 256:Src/main.c    **** 
- 848              		.loc 1 256 0
- 849 0004 FFF7FEFF 		bl	HAL_Init
- 850              	.LVL52:
- 263:Src/main.c    **** 
- 851              		.loc 1 263 0
- 852 0008 FFF7FEFF 		bl	SystemClock_Config
- 853              	.LVL53:
- 270:Src/main.c    **** 
- 854              		.loc 1 270 0
- 855 000c FFF7FEFF 		bl	MX_GPIO_Init
- 856              	.LVL54:
- 273:Src/main.c    ****   configure_watchpoint();
- 857              		.loc 1 273 0
- 858 0010 FFF7FEFF 		bl	configure_tracing
- 859              	.LVL55:
- 274:Src/main.c    **** 
- 860              		.loc 1 274 0
- 861 0014 FFF7FEFF 		bl	configure_watchpoint
- 862              	.LVL56:
- 278:Src/main.c    ****   mailQ01Handle = osMailCreate(osMailQ(mailQ01), NULL);
- 863              		.loc 1 278 0
- 864 0018 0F23     		movs	r3, #15
- 865 001a 0A93     		str	r3, [sp, #40]
- 866 001c 0C23     		movs	r3, #12
- 867 001e 0B93     		str	r3, [sp, #44]
- 868 0020 0DAB     		add	r3, sp, #52
- 869 0022 0C93     		str	r3, [sp, #48]
- 279:Src/main.c    **** 
- 870              		.loc 1 279 0
- 871 0024 0021     		movs	r1, #0
- 872 0026 0AA8     		add	r0, sp, #40
- 873 0028 FFF7FEFF 		bl	osMailCreate
- 874              	.LVL57:
- 875 002c 0E4B     		ldr	r3, .L60
- 876 002e 1860     		str	r0, [r3]
- 297:Src/main.c    ****   MailProducerHandle = osThreadCreate(osThread(MailProducer), NULL);
- 877              		.loc 1 297 0
- 878 0030 0E4C     		ldr	r4, .L60+4
- 879 0032 05AD     		add	r5, sp, #20
- 880 0034 2646     		mov	r6, r4
- 881 0036 0FCE     		ldmia	r6!, {r0, r1, r2, r3}
- 882 0038 0FC5     		stmia	r5!, {r0, r1, r2, r3}
- 883 003a 3368     		ldr	r3, [r6]
- 884 003c 2B60     		str	r3, [r5]
- 298:Src/main.c    **** 
- 885              		.loc 1 298 0
- 886 003e 0021     		movs	r1, #0
- 887 0040 05A8     		add	r0, sp, #20
- 888 0042 FFF7FEFF 		bl	osThreadCreate
- 889              	.LVL58:
- 890 0046 0A4B     		ldr	r3, .L60+8
-ARM GAS  /tmp/cc4FZvfY.s 			page 27
+ 247:Src/main.c    ****   /* USER CODE BEGIN 1 */
+ 843              		.loc 1 247 0
+ 844              		.cfi_startproc
+ 845              		@ args = 0, pretend = 0, frame = 56
+ 846              		@ frame_needed = 0, uses_anonymous_args = 0
+ 847 0000 70B5     		push	{r4, r5, r6, lr}
+ 848              	.LCFI13:
+ 849              		.cfi_def_cfa_offset 16
+ 850              		.cfi_offset 4, -16
+ 851              		.cfi_offset 5, -12
+ 852              		.cfi_offset 6, -8
+ 853              		.cfi_offset 14, -4
+ 854 0002 8EB0     		sub	sp, sp, #56
+ 855              	.LCFI14:
+ 856              		.cfi_def_cfa_offset 72
+ 255:Src/main.c    **** 
+ 857              		.loc 1 255 0
+ 858 0004 FFF7FEFF 		bl	HAL_Init
+ 859              	.LVL52:
+ 262:Src/main.c    **** 
+ 860              		.loc 1 262 0
+ 861 0008 FFF7FEFF 		bl	SystemClock_Config
+ 862              	.LVL53:
+ 269:Src/main.c    **** 
+ 863              		.loc 1 269 0
+ 864 000c FFF7FEFF 		bl	MX_GPIO_Init
+ 865              	.LVL54:
+ 272:Src/main.c    ****   configure_watchpoint();
+ 866              		.loc 1 272 0
+ 867 0010 FFF7FEFF 		bl	configure_tracing
+ 868              	.LVL55:
+ 273:Src/main.c    **** 
+ 869              		.loc 1 273 0
+ 870 0014 FFF7FEFF 		bl	configure_watchpoint
+ 871              	.LVL56:
+ 277:Src/main.c    ****   mailQ01Handle = osMailCreate(osMailQ(mailQ01), NULL);
+ 872              		.loc 1 277 0
+ 873 0018 0F23     		movs	r3, #15
+ 874 001a 0A93     		str	r3, [sp, #40]
+ 875 001c 0C23     		movs	r3, #12
+ 876 001e 0B93     		str	r3, [sp, #44]
+ 877 0020 0DAB     		add	r3, sp, #52
+ 878 0022 0C93     		str	r3, [sp, #48]
+ 278:Src/main.c    **** 
+ 879              		.loc 1 278 0
+ 880 0024 0021     		movs	r1, #0
+ 881 0026 0AA8     		add	r0, sp, #40
+ 882 0028 FFF7FEFF 		bl	osMailCreate
+ 883              	.LVL57:
+ 884 002c 0E4B     		ldr	r3, .L60
+ 885 002e 1860     		str	r0, [r3]
+ 296:Src/main.c    ****   MailProducerHandle = osThreadCreate(osThread(MailProducer), NULL);
+ 886              		.loc 1 296 0
+ 887 0030 0E4C     		ldr	r4, .L60+4
+ 888 0032 05AD     		add	r5, sp, #20
+ 889 0034 2646     		mov	r6, r4
+ 890 0036 0FCE     		ldmia	r6!, {r0, r1, r2, r3}
+ARM GAS  /tmp/ccWzQPUk.s 			page 27
 
 
- 891 0048 1860     		str	r0, [r3]
- 301:Src/main.c    ****   MailConsumerHandle = osThreadCreate(osThread(MailConsumer), NULL);
- 892              		.loc 1 301 0
- 893 004a 6D46     		mov	r5, sp
- 894 004c 1434     		adds	r4, r4, #20
- 895 004e 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
- 896 0050 0FC5     		stmia	r5!, {r0, r1, r2, r3}
- 897 0052 2368     		ldr	r3, [r4]
- 898 0054 2B60     		str	r3, [r5]
- 302:Src/main.c    **** 
- 899              		.loc 1 302 0
- 900 0056 0021     		movs	r1, #0
- 901 0058 6846     		mov	r0, sp
- 902 005a FFF7FEFF 		bl	osThreadCreate
- 903              	.LVL59:
- 904 005e 054B     		ldr	r3, .L60+12
- 905 0060 1860     		str	r0, [r3]
- 314:Src/main.c    ****   
- 906              		.loc 1 314 0
- 907 0062 FFF7FEFF 		bl	osKernelStart
- 908              	.LVL60:
- 909              	.L58:
- 910 0066 FEE7     		b	.L58
- 911              	.L61:
- 912              		.align	2
- 913              	.L60:
- 914 0068 00000000 		.word	mailQ01Handle
- 915 006c 00000000 		.word	.LANCHOR2
- 916 0070 00000000 		.word	MailProducerHandle
- 917 0074 00000000 		.word	MailConsumerHandle
- 918              		.cfi_endproc
- 919              	.LFE74:
- 921              		.comm	mailQ01Handle,4,4
- 922              		.global	InterruptCounter
- 923              		.global	globalCounter
- 924              		.comm	MailConsumerHandle,4,4
- 925              		.comm	MailProducerHandle,4,4
- 926              		.section	.rodata
- 927              		.align	2
- 928              		.set	.LANCHOR2,. + 0
- 929              	.LC5:
- 930 0000 1C000000 		.word	.LC0
- 931 0004 00000000 		.word	MailProducerTask
- 932 0008 0000     		.short	0
- 933 000a 0000     		.space	2
- 934 000c 00000000 		.word	0
- 935 0010 80000000 		.word	128
- 936              	.LC6:
- 937 0014 0C000000 		.word	.LC2
- 938 0018 00000000 		.word	MailConsumerTask
- 939 001c 0000     		.short	0
- 940 001e 0000     		.space	2
- 941 0020 00000000 		.word	0
- 942 0024 80000000 		.word	128
- 943              		.section	.bss.InterruptCounter,"aw",%nobits
- 944              		.align	2
- 945              		.set	.LANCHOR1,. + 0
-ARM GAS  /tmp/cc4FZvfY.s 			page 28
+ 891 0038 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 892 003a 3368     		ldr	r3, [r6]
+ 893 003c 2B60     		str	r3, [r5]
+ 297:Src/main.c    **** 
+ 894              		.loc 1 297 0
+ 895 003e 0021     		movs	r1, #0
+ 896 0040 05A8     		add	r0, sp, #20
+ 897 0042 FFF7FEFF 		bl	osThreadCreate
+ 898              	.LVL58:
+ 899 0046 0A4B     		ldr	r3, .L60+8
+ 900 0048 1860     		str	r0, [r3]
+ 300:Src/main.c    ****   MailConsumerHandle = osThreadCreate(osThread(MailConsumer), NULL);
+ 901              		.loc 1 300 0
+ 902 004a 6D46     		mov	r5, sp
+ 903 004c 1434     		adds	r4, r4, #20
+ 904 004e 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 905 0050 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 906 0052 2368     		ldr	r3, [r4]
+ 907 0054 2B60     		str	r3, [r5]
+ 301:Src/main.c    **** 
+ 908              		.loc 1 301 0
+ 909 0056 0021     		movs	r1, #0
+ 910 0058 6846     		mov	r0, sp
+ 911 005a FFF7FEFF 		bl	osThreadCreate
+ 912              	.LVL59:
+ 913 005e 054B     		ldr	r3, .L60+12
+ 914 0060 1860     		str	r0, [r3]
+ 313:Src/main.c    ****   
+ 915              		.loc 1 313 0
+ 916 0062 FFF7FEFF 		bl	osKernelStart
+ 917              	.LVL60:
+ 918              	.L58:
+ 919 0066 FEE7     		b	.L58
+ 920              	.L61:
+ 921              		.align	2
+ 922              	.L60:
+ 923 0068 00000000 		.word	mailQ01Handle
+ 924 006c 00000000 		.word	.LANCHOR2
+ 925 0070 00000000 		.word	MailProducerHandle
+ 926 0074 00000000 		.word	MailConsumerHandle
+ 927              		.cfi_endproc
+ 928              	.LFE74:
+ 930              		.comm	mailQ01Handle,4,4
+ 931              		.global	InterruptCounter
+ 932              		.global	globalCounter
+ 933              		.comm	MailConsumerHandle,4,4
+ 934              		.comm	MailProducerHandle,4,4
+ 935              		.section	.rodata
+ 936              		.align	2
+ 937              		.set	.LANCHOR2,. + 0
+ 938              	.LC5:
+ 939 0000 1C000000 		.word	.LC0
+ 940 0004 00000000 		.word	MailProducerTask
+ 941 0008 0000     		.short	0
+ 942 000a 0000     		.space	2
+ 943 000c 00000000 		.word	0
+ 944 0010 80000000 		.word	128
+ARM GAS  /tmp/ccWzQPUk.s 			page 28
 
 
- 948              	InterruptCounter:
- 949 0000 00000000 		.space	4
- 950              		.section	.rodata.str1.4,"aMS",%progbits,1
- 951              		.align	2
- 952              	.LC4:
- 953 0000 5372632F 		.ascii	"Src/main.c\000"
- 953      6D61696E 
- 953      2E6300
- 954 000b 00       		.space	1
- 955              	.LC2:
- 956 000c 4D61696C 		.ascii	"MailConsumer\000"
- 956      436F6E73 
- 956      756D6572 
- 956      00
- 957 0019 000000   		.space	3
- 958              	.LC0:
- 959 001c 4D61696C 		.ascii	"MailProducer\000"
- 959      50726F64 
- 959      75636572 
- 959      00
- 960              		.section	.bss.globalCounter,"aw",%nobits
- 961              		.align	2
- 962              		.set	.LANCHOR0,. + 0
- 965              	globalCounter:
- 966 0000 00000000 		.space	4
- 967              		.text
- 968              	.Letext0:
- 969              		.file 2 "/usr/include/newlib/machine/_default_types.h"
- 970              		.file 3 "/usr/include/newlib/sys/_stdint.h"
- 971              		.file 4 "Drivers/CMSIS/Include/core_cm3.h"
- 972              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h"
- 973              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
- 974              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h"
- 975              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h"
- 976              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
- 977              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
- 978              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h"
- 979              		.file 12 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
- 980              		.file 13 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
- 981              		.file 14 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
- 982              		.file 15 "Inc/arm_etm.h"
- 983              		.file 16 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
- 984              		.file 17 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h"
-ARM GAS  /tmp/cc4FZvfY.s 			page 29
+ 945              	.LC6:
+ 946 0014 0C000000 		.word	.LC2
+ 947 0018 00000000 		.word	MailConsumerTask
+ 948 001c 0000     		.short	0
+ 949 001e 0000     		.space	2
+ 950 0020 00000000 		.word	0
+ 951 0024 80000000 		.word	128
+ 952              		.section	.bss.InterruptCounter,"aw",%nobits
+ 953              		.align	2
+ 954              		.set	.LANCHOR1,. + 0
+ 957              	InterruptCounter:
+ 958 0000 00000000 		.space	4
+ 959              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 960              		.align	2
+ 961              	.LC4:
+ 962 0000 5372632F 		.ascii	"Src/main.c\000"
+ 962      6D61696E 
+ 962      2E6300
+ 963 000b 00       		.space	1
+ 964              	.LC2:
+ 965 000c 4D61696C 		.ascii	"MailConsumer\000"
+ 965      436F6E73 
+ 965      756D6572 
+ 965      00
+ 966 0019 000000   		.space	3
+ 967              	.LC0:
+ 968 001c 4D61696C 		.ascii	"MailProducer\000"
+ 968      50726F64 
+ 968      75636572 
+ 968      00
+ 969              		.section	.bss.globalCounter,"aw",%nobits
+ 970              		.align	2
+ 971              		.set	.LANCHOR0,. + 0
+ 974              	globalCounter:
+ 975 0000 00000000 		.space	4
+ 976              		.text
+ 977              	.Letext0:
+ 978              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 979              		.file 3 "/usr/include/newlib/sys/_stdint.h"
+ 980              		.file 4 "Drivers/CMSIS/Include/core_cm3.h"
+ 981              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h"
+ 982              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 983              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h"
+ 984              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h"
+ 985              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
+ 986              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 987              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h"
+ 988              		.file 12 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 989              		.file 13 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 990              		.file 14 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 991              		.file 15 "Inc/arm_etm.h"
+ 992              		.file 16 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 993              		.file 17 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h"
+ARM GAS  /tmp/ccWzQPUk.s 			page 29
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-     /tmp/cc4FZvfY.s:20     .text.MX_GPIO_Init:00000000 $t
-     /tmp/cc4FZvfY.s:24     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
-     /tmp/cc4FZvfY.s:118    .text.MX_GPIO_Init:0000007c $d
-     /tmp/cc4FZvfY.s:125    .text.MailProducerTask:00000000 $t
-     /tmp/cc4FZvfY.s:130    .text.MailProducerTask:00000000 MailProducerTask
-     /tmp/cc4FZvfY.s:206    .text.MailProducerTask:0000005c $d
+     /tmp/ccWzQPUk.s:20     .text.MX_GPIO_Init:00000000 $t
+     /tmp/ccWzQPUk.s:24     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
+     /tmp/ccWzQPUk.s:118    .text.MX_GPIO_Init:0000007c $d
+     /tmp/ccWzQPUk.s:125    .text.MailProducerTask:00000000 $t
+     /tmp/ccWzQPUk.s:130    .text.MailProducerTask:00000000 MailProducerTask
+     /tmp/ccWzQPUk.s:206    .text.MailProducerTask:0000005c $d
                             *COM*:00000004 mailQ01Handle
-     /tmp/cc4FZvfY.s:212    .text.MailConsumerTask:00000000 $t
-     /tmp/cc4FZvfY.s:217    .text.MailConsumerTask:00000000 MailConsumerTask
-     /tmp/cc4FZvfY.s:303    .text.MailConsumerTask:00000068 $d
-     /tmp/cc4FZvfY.s:311    .text.configure_tracing:00000000 $t
-     /tmp/cc4FZvfY.s:316    .text.configure_tracing:00000000 configure_tracing
-     /tmp/cc4FZvfY.s:404    .text.configure_tracing:000000a4 $d
-     /tmp/cc4FZvfY.s:414    .text.configure_watchpoint:00000000 $t
-     /tmp/cc4FZvfY.s:419    .text.configure_watchpoint:00000000 configure_watchpoint
-     /tmp/cc4FZvfY.s:449    .text.configure_watchpoint:0000001c $d
-     /tmp/cc4FZvfY.s:456    .text.ITM_Print:00000000 $t
-     /tmp/cc4FZvfY.s:461    .text.ITM_Print:00000000 ITM_Print
-     /tmp/cc4FZvfY.s:506    .text.ITM_Print:00000044 $d
-     /tmp/cc4FZvfY.s:511    .text.ITM_SendValue:00000000 $t
-     /tmp/cc4FZvfY.s:516    .text.ITM_SendValue:00000000 ITM_SendValue
-     /tmp/cc4FZvfY.s:550    .text.bubble_sort:00000000 $t
-     /tmp/cc4FZvfY.s:555    .text.bubble_sort:00000000 bubble_sort
-     /tmp/cc4FZvfY.s:628    .text.bubble_sort:0000003c $d
-     /tmp/cc4FZvfY.s:633    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
-     /tmp/cc4FZvfY.s:638    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
-     /tmp/cc4FZvfY.s:693    .text.HAL_TIM_PeriodElapsedCallback:00000040 $d
-     /tmp/cc4FZvfY.s:700    .text._Error_Handler:00000000 $t
-     /tmp/cc4FZvfY.s:705    .text._Error_Handler:00000000 _Error_Handler
-     /tmp/cc4FZvfY.s:720    .text.SystemClock_Config:00000000 $t
-     /tmp/cc4FZvfY.s:725    .text.SystemClock_Config:00000000 SystemClock_Config
-     /tmp/cc4FZvfY.s:821    .text.SystemClock_Config:00000080 $d
-     /tmp/cc4FZvfY.s:827    .text.main:00000000 $t
-     /tmp/cc4FZvfY.s:832    .text.main:00000000 main
-     /tmp/cc4FZvfY.s:914    .text.main:00000068 $d
+     /tmp/ccWzQPUk.s:212    .text.MailConsumerTask:00000000 $t
+     /tmp/ccWzQPUk.s:217    .text.MailConsumerTask:00000000 MailConsumerTask
+     /tmp/ccWzQPUk.s:303    .text.MailConsumerTask:00000068 $d
+     /tmp/ccWzQPUk.s:311    .text.configure_tracing:00000000 $t
+     /tmp/ccWzQPUk.s:316    .text.configure_tracing:00000000 configure_tracing
+     /tmp/ccWzQPUk.s:404    .text.configure_tracing:000000a4 $d
+     /tmp/ccWzQPUk.s:414    .text.configure_watchpoint:00000000 $t
+     /tmp/ccWzQPUk.s:419    .text.configure_watchpoint:00000000 configure_watchpoint
+     /tmp/ccWzQPUk.s:449    .text.configure_watchpoint:0000001c $d
+     /tmp/ccWzQPUk.s:456    .text.ITM_Print:00000000 $t
+     /tmp/ccWzQPUk.s:461    .text.ITM_Print:00000000 ITM_Print
+     /tmp/ccWzQPUk.s:506    .text.ITM_Print:00000044 $d
+     /tmp/ccWzQPUk.s:511    .text.ITM_SendValue:00000000 $t
+     /tmp/ccWzQPUk.s:516    .text.ITM_SendValue:00000000 ITM_SendValue
+     /tmp/ccWzQPUk.s:550    .text.bubble_sort:00000000 $t
+     /tmp/ccWzQPUk.s:555    .text.bubble_sort:00000000 bubble_sort
+     /tmp/ccWzQPUk.s:628    .text.bubble_sort:0000003c $d
+     /tmp/ccWzQPUk.s:633    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
+     /tmp/ccWzQPUk.s:638    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
+     /tmp/ccWzQPUk.s:701    .text.HAL_TIM_PeriodElapsedCallback:00000050 $d
+     /tmp/ccWzQPUk.s:709    .text._Error_Handler:00000000 $t
+     /tmp/ccWzQPUk.s:714    .text._Error_Handler:00000000 _Error_Handler
+     /tmp/ccWzQPUk.s:729    .text.SystemClock_Config:00000000 $t
+     /tmp/ccWzQPUk.s:734    .text.SystemClock_Config:00000000 SystemClock_Config
+     /tmp/ccWzQPUk.s:830    .text.SystemClock_Config:00000080 $d
+     /tmp/ccWzQPUk.s:836    .text.main:00000000 $t
+     /tmp/ccWzQPUk.s:841    .text.main:00000000 main
+     /tmp/ccWzQPUk.s:923    .text.main:00000068 $d
                             *COM*:00000004 MailProducerHandle
                             *COM*:00000004 MailConsumerHandle
-     /tmp/cc4FZvfY.s:948    .bss.InterruptCounter:00000000 InterruptCounter
-     /tmp/cc4FZvfY.s:965    .bss.globalCounter:00000000 globalCounter
-     /tmp/cc4FZvfY.s:927    .rodata:00000000 $d
-     /tmp/cc4FZvfY.s:944    .bss.InterruptCounter:00000000 $d
-     /tmp/cc4FZvfY.s:951    .rodata.str1.4:00000000 $d
-     /tmp/cc4FZvfY.s:961    .bss.globalCounter:00000000 $d
+     /tmp/ccWzQPUk.s:957    .bss.InterruptCounter:00000000 InterruptCounter
+     /tmp/ccWzQPUk.s:974    .bss.globalCounter:00000000 globalCounter
+     /tmp/ccWzQPUk.s:936    .rodata:00000000 $d
+     /tmp/ccWzQPUk.s:953    .bss.InterruptCounter:00000000 $d
+     /tmp/ccWzQPUk.s:960    .rodata.str1.4:00000000 $d
+     /tmp/ccWzQPUk.s:970    .bss.globalCounter:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
@@ -1724,7 +1734,7 @@ HAL_IncTick
 HAL_RCC_OscConfig
 HAL_RCC_ClockConfig
 HAL_RCC_GetHCLKFreq
-ARM GAS  /tmp/cc4FZvfY.s 			page 30
+ARM GAS  /tmp/ccWzQPUk.s 			page 30
 
 
 HAL_SYSTICK_Config
