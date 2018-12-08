@@ -5,7 +5,16 @@ Function: 捕获FreeRtosTick中插入的GPIO翻转,Tick是周期的,GPIO以Tick�
 
 Author:   hujiaodigua
 Date:     20181207
-'''
+
+注意:
+     这个脚本里的内容需要写在时间戳捕获的脚本里面,要能记录下来捕获数据经历了多少个Tikc(内部时间)
+     因为PulseView虽然是可视化工具,可是对于编写分析脚本是没有实质性帮助的,
+     
+     当然还可以考虑使用sigrok-cli导入数据得到高低电平数据
+     然后数它捕获的Tick的数量(这个和Raspberry Pi中断捕获哪个准确度高,有待进一步实验)
+     Rasperry Pi捕获是实时的
+     sigrok-cli也是先抓下来，然后再显示出来，可我们就是用到sigrok-cli抓SWO和Tick中的定期GPIO触发，而且两者的时间通过DWT_Watchpoint捕获定期GPIO进行对齐
+     '''
 
 
 import RPi.GPIO as GPIO
