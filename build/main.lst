@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccWzQPUk.s 			page 1
+ARM GAS  /tmp/ccEDLThA.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
   30:Src/main.c    ****   * 5. Redistribution and use of this software other than as permitted under 
   31:Src/main.c    ****   *    this license is void and will automatically terminate your rights under 
   32:Src/main.c    ****   *    this license. 
-ARM GAS  /tmp/ccWzQPUk.s 			page 2
+ARM GAS  /tmp/ccEDLThA.s 			page 2
 
 
   33:Src/main.c    ****   *
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
   87:Src/main.c    ****     
   88:Src/main.c    ****     if (!(DBGMCU->CR & DBGMCU_CR_TRACE_IOEN))
   89:Src/main.c    ****     {
-ARM GAS  /tmp/ccWzQPUk.s 			page 3
+ARM GAS  /tmp/ccEDLThA.s 			page 3
 
 
   90:Src/main.c    ****         // Some (all?) STM32s don't allow writes to DBGMCU register until
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  144:Src/main.c    ****             | ETM_CR_BRANCH_OUTPUT // Report all branches
  145:Src/main.c    ****             | (1 << 4);//port_size位21,6,5,4是0001表示8bit，这里目前认为复位值都是0
  146:Src/main.c    ****     ETM->TRACEIDR = 2; // Trace bus ID for TPIU
-ARM GAS  /tmp/ccWzQPUk.s 			page 4
+ARM GAS  /tmp/ccEDLThA.s 			page 4
 
 
  147:Src/main.c    ****     ETM->TECR1 = ETM_TECR1_EXCLUDE; // Trace always enabled
@@ -200,7 +200,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  163:Src/main.c    ****     
  164:Src/main.c    ****     /* Monitor all accesses to GPIOC (range length 32 bytes) */
  165:Src/main.c    ****     //DWT->COMP0 = (uint32_t)bubble_sort;                      //改为了比GPIOC
- 166:Src/main.c    ****     DWT->COMP0 = (uint32_t)GPIOA;                      //改为了比较GPIOC
+ 166:Src/main.c    ****     DWT->COMP0 = (uint32_t)LED2_GPIO_Port;                      //改为了比较GPIOC
  167:Src/main.c    ****     DWT->MASK0 = 8;							 //屏蔽掉数据地址的后5位，目前DWT->COMP0的值是GPIOA的地
  168:Src/main.c    **** 											//可能是出于加快比较速度的原因吧，那为什么不把MASK[3:0]
  169:Src/main.c    **** 										        //设置为8,反正0x40010800最后八位都是0
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  201:Src/main.c    ****         ITM->PORT[port].u32 = value;
  202:Src/main.c    ****     }
  203:Src/main.c    **** }
-ARM GAS  /tmp/ccWzQPUk.s 			page 5
+ARM GAS  /tmp/ccEDLThA.s 			page 5
 
 
  204:Src/main.c    **** 
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  258:Src/main.c    **** 
  259:Src/main.c    ****   /* USER CODE END Init */
  260:Src/main.c    **** 
-ARM GAS  /tmp/ccWzQPUk.s 			page 6
+ARM GAS  /tmp/ccEDLThA.s 			page 6
 
 
  261:Src/main.c    ****   /* Configure the system clock */
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  315:Src/main.c    ****   /* We should never get here as control is now taken by the scheduler */
  316:Src/main.c    **** 
  317:Src/main.c    ****   /* Infinite loop */
-ARM GAS  /tmp/ccWzQPUk.s 			page 7
+ARM GAS  /tmp/ccEDLThA.s 			page 7
 
 
  318:Src/main.c    ****   /* USER CODE BEGIN WHILE */
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  372:Src/main.c    **** 
  373:Src/main.c    ****     /**Configure the Systick 
  374:Src/main.c    ****     */
-ARM GAS  /tmp/ccWzQPUk.s 			page 8
+ARM GAS  /tmp/ccEDLThA.s 			page 8
 
 
  375:Src/main.c    ****   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
   60 0024 03F00403 		and	r3, r3, #4
   61 0028 0193     		str	r3, [sp, #4]
   62 002a 019B     		ldr	r3, [sp, #4]
-ARM GAS  /tmp/ccWzQPUk.s 			page 9
+ARM GAS  /tmp/ccEDLThA.s 			page 9
 
 
   63              	.LBE3:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  413:Src/main.c    ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
  100              		.loc 1 413 0
  101 0068 0496     		str	r6, [sp, #16]
-ARM GAS  /tmp/ccWzQPUk.s 			page 10
+ARM GAS  /tmp/ccEDLThA.s 			page 10
 
 
  414:Src/main.c    ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  427:Src/main.c    ****   /* USER CODE BEGIN 5 */
  428:Src/main.c    ****   Amail_TypeDef Mail[3];
  429:Src/main.c    **** 
-ARM GAS  /tmp/ccWzQPUk.s 			page 11
+ARM GAS  /tmp/ccEDLThA.s 			page 11
 
 
  430:Src/main.c    ****   Mail[0].var1 = 0x01;  //设置邮件内容
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  181 0036 0520     		movs	r0, #5
  182 0038 FFF7FEFF 		bl	osDelay
  183              	.LVL7:
-ARM GAS  /tmp/ccWzQPUk.s 			page 12
+ARM GAS  /tmp/ccEDLThA.s 			page 12
 
 
  448:Src/main.c    ****     osMailPut(mailQ01Handle, &Mail[1]); //发送邮件
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  229              		.cfi_offset 6, -8
  230              		.cfi_offset 14, -4
  231 0002 84B0     		sub	sp, sp, #16
-ARM GAS  /tmp/ccWzQPUk.s 			page 13
+ARM GAS  /tmp/ccEDLThA.s 			page 13
 
 
  232              	.LCFI6:
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  268 0030 0022     		movs	r2, #0
  269 0032 4FF48071 		mov	r1, #256
  270 0036 2846     		mov	r0, r5
-ARM GAS  /tmp/ccWzQPUk.s 			page 14
+ARM GAS  /tmp/ccEDLThA.s 			page 14
 
 
  271 0038 FFF7FEFF 		bl	HAL_GPIO_WritePin
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  319              		.cfi_startproc
  320              		@ args = 0, pretend = 0, frame = 0
  321              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccWzQPUk.s 			page 15
+ARM GAS  /tmp/ccEDLThA.s 			page 15
 
 
  322              		@ link register save eliminated.
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  366 005e C3F8B02F 		str	r2, [r3, #4016]
  123:Src/main.c    ****              | (1 << ITM_TCR_DWTENA_Pos)      // Enable events from DWT
  367              		.loc 1 123 0
-ARM GAS  /tmp/ccWzQPUk.s 			page 16
+ARM GAS  /tmp/ccEDLThA.s 			page 16
 
 
  368 0062 1548     		ldr	r0, .L20+20
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  413              		.section	.text.configure_watchpoint,"ax",%progbits
  414              		.align	2
  415              		.global	configure_watchpoint
-ARM GAS  /tmp/ccWzQPUk.s 			page 17
+ARM GAS  /tmp/ccEDLThA.s 			page 17
 
 
  416              		.thumb
@@ -1001,7 +1001,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  447              		.align	2
  448              	.L23:
  449 001c 001000E0 		.word	-536866816
- 450 0020 00080140 		.word	1073809408
+ 450 0020 00140140 		.word	1073812480
  451 0024 00000000 		.word	.LANCHOR0
  452              		.cfi_endproc
  453              	.LFE70:
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  465              		@ args = 0, pretend = 0, frame = 0
  466              		@ frame_needed = 0, uses_anonymous_args = 0
  467              		@ link register save eliminated.
-ARM GAS  /tmp/ccWzQPUk.s 			page 18
+ARM GAS  /tmp/ccEDLThA.s 			page 18
 
 
  468              	.LVL24:
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  197:Src/main.c    ****     if ((ITM->TCR & ITM_TCR_ITMENA_Msk) && (ITM->TER & (1UL << port)))
  518              		.loc 1 197 0
  519              		.cfi_startproc
-ARM GAS  /tmp/ccWzQPUk.s 			page 19
+ARM GAS  /tmp/ccEDLThA.s 			page 19
 
 
  520              		@ args = 0, pretend = 0, frame = 0
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  570              		.loc 1 208 0
  571 0002 0D22     		movs	r2, #13
  572 0004 0D4B     		ldr	r3, .L41
-ARM GAS  /tmp/ccWzQPUk.s 			page 20
+ARM GAS  /tmp/ccEDLThA.s 			page 20
 
 
  573 0006 1A60     		str	r2, [r3]
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  617 0038 70BC     		pop	{r4, r5, r6}
  618              	.LCFI8:
  619              		.cfi_restore 6
-ARM GAS  /tmp/ccWzQPUk.s 			page 21
+ARM GAS  /tmp/ccEDLThA.s 			page 21
 
 
  620              		.cfi_restore 5
@@ -1251,87 +1251,78 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  502:Src/main.c    ****   if (htim->Instance == TIM4) {
  650              		.loc 1 502 0
  651 0002 0268     		ldr	r2, [r0]
- 652 0004 124B     		ldr	r3, .L47
+ 652 0004 0E4B     		ldr	r3, .L47
  653 0006 9A42     		cmp	r2, r3
- 654 0008 20D1     		bne	.L43
+ 654 0008 18D1     		bne	.L43
  503:Src/main.c    ****     HAL_IncTick();
  655              		.loc 1 503 0
  656 000a FFF7FEFF 		bl	HAL_IncTick
  657              	.LVL40:
-ARM GAS  /tmp/ccWzQPUk.s 			page 22
+ARM GAS  /tmp/ccEDLThA.s 			page 22
 
 
  504:Src/main.c    **** 
  505:Src/main.c    ****     ++InterruptCounter;
  658              		.loc 1 505 0
- 659 000e 114A     		ldr	r2, .L47+4
+ 659 000e 0D4A     		ldr	r2, .L47+4
  660 0010 1368     		ldr	r3, [r2]
  661 0012 0133     		adds	r3, r3, #1
  662 0014 1360     		str	r3, [r2]
  506:Src/main.c    ****     if(InterruptCounter == 1)
  663              		.loc 1 506 0
  664 0016 012B     		cmp	r3, #1
- 665 0018 08D1     		bne	.L45
+ 665 0018 04D1     		bne	.L45
  507:Src/main.c    ****     {
- 508:Src/main.c    ****         globalCounter = 0xE20;
- 666              		.loc 1 508 0
- 667 001a 4FF46262 		mov	r2, #3616
- 668 001e 0E4B     		ldr	r3, .L47+8
- 669 0020 1A60     		str	r2, [r3]
+ 508:Src/main.c    ****         // globalCounter = 0xE20;
  509:Src/main.c    ****         HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
- 670              		.loc 1 509 0
- 671 0022 0022     		movs	r2, #0
- 672 0024 0421     		movs	r1, #4
- 673 0026 0D48     		ldr	r0, .L47+12
- 674 0028 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 675              	.LVL41:
- 676              	.L45:
+ 666              		.loc 1 509 0
+ 667 001a 0022     		movs	r2, #0
+ 668 001c 0421     		movs	r1, #4
+ 669 001e 0A48     		ldr	r0, .L47+8
+ 670 0020 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 671              	.LVL41:
+ 672              	.L45:
  510:Src/main.c    ****     }
  511:Src/main.c    ****     if(InterruptCounter == 2)
- 677              		.loc 1 511 0
- 678 002c 094B     		ldr	r3, .L47+4
- 679 002e 1B68     		ldr	r3, [r3]
- 680 0030 022B     		cmp	r3, #2
- 681 0032 0BD1     		bne	.L43
+ 673              		.loc 1 511 0
+ 674 0024 074B     		ldr	r3, .L47+4
+ 675 0026 1B68     		ldr	r3, [r3]
+ 676 0028 022B     		cmp	r3, #2
+ 677 002a 07D1     		bne	.L43
  512:Src/main.c    ****     {       
- 513:Src/main.c    ****         globalCounter = 0xE21;
- 682              		.loc 1 513 0
- 683 0034 40F62162 		movw	r2, #3617
- 684 0038 074B     		ldr	r3, .L47+8
- 685 003a 1A60     		str	r2, [r3]
+ 513:Src/main.c    ****         // globalCounter = 0xE21;
  514:Src/main.c    ****         HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
- 686              		.loc 1 514 0
- 687 003c 0122     		movs	r2, #1
- 688 003e 0421     		movs	r1, #4
- 689 0040 0648     		ldr	r0, .L47+12
- 690 0042 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 691              	.LVL42:
+ 678              		.loc 1 514 0
+ 679 002c 0122     		movs	r2, #1
+ 680 002e 0421     		movs	r1, #4
+ 681 0030 0548     		ldr	r0, .L47+8
+ 682 0032 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 683              	.LVL42:
  515:Src/main.c    ****         InterruptCounter = 0;
- 692              		.loc 1 515 0
- 693 0046 0022     		movs	r2, #0
- 694 0048 024B     		ldr	r3, .L47+4
- 695 004a 1A60     		str	r2, [r3]
- 696              	.L43:
- 697 004c 08BD     		pop	{r3, pc}
- 698              	.L48:
- 699 004e 00BF     		.align	2
- 700              	.L47:
- 701 0050 00080040 		.word	1073743872
- 702 0054 00000000 		.word	.LANCHOR1
-ARM GAS  /tmp/ccWzQPUk.s 			page 23
+ 684              		.loc 1 515 0
+ 685 0036 0022     		movs	r2, #0
+ 686 0038 024B     		ldr	r3, .L47+4
+ 687 003a 1A60     		str	r2, [r3]
+ 688              	.L43:
+ 689 003c 08BD     		pop	{r3, pc}
+ 690              	.L48:
+ 691 003e 00BF     		.align	2
+ 692              	.L47:
+ 693 0040 00080040 		.word	1073743872
+ 694 0044 00000000 		.word	.LANCHOR1
+ 695 0048 00140140 		.word	1073812480
+ 696              		.cfi_endproc
+ 697              	.LFE79:
+ 699              		.section	.text._Error_Handler,"ax",%progbits
+ 700              		.align	2
+ 701              		.global	_Error_Handler
+ 702              		.thumb
+ 703              		.thumb_func
+ARM GAS  /tmp/ccEDLThA.s 			page 23
 
 
- 703 0058 00000000 		.word	.LANCHOR0
- 704 005c 00140140 		.word	1073812480
- 705              		.cfi_endproc
- 706              	.LFE79:
- 708              		.section	.text._Error_Handler,"ax",%progbits
- 709              		.align	2
- 710              		.global	_Error_Handler
- 711              		.thumb
- 712              		.thumb_func
- 714              	_Error_Handler:
- 715              	.LFB80:
+ 705              	_Error_Handler:
+ 706              	.LFB80:
  516:Src/main.c    ****     }
  517:Src/main.c    ****   }
  518:Src/main.c    ****   /* USER CODE BEGIN Callback 1 */
@@ -1347,381 +1338,381 @@ ARM GAS  /tmp/ccWzQPUk.s 			page 1
  528:Src/main.c    ****   */
  529:Src/main.c    **** void _Error_Handler(char *file, int line)
  530:Src/main.c    **** {
- 716              		.loc 1 530 0
- 717              		.cfi_startproc
- 718              		@ Volatile: function does not return.
- 719              		@ args = 0, pretend = 0, frame = 0
- 720              		@ frame_needed = 0, uses_anonymous_args = 0
- 721              		@ link register save eliminated.
- 722              	.LVL43:
- 723              	.L50:
- 724 0000 FEE7     		b	.L50
- 725              		.cfi_endproc
- 726              	.LFE80:
- 728 0002 00BF     		.section	.text.SystemClock_Config,"ax",%progbits
- 729              		.align	2
- 730              		.global	SystemClock_Config
- 731              		.thumb
- 732              		.thumb_func
- 734              	SystemClock_Config:
- 735              	.LFB75:
+ 707              		.loc 1 530 0
+ 708              		.cfi_startproc
+ 709              		@ Volatile: function does not return.
+ 710              		@ args = 0, pretend = 0, frame = 0
+ 711              		@ frame_needed = 0, uses_anonymous_args = 0
+ 712              		@ link register save eliminated.
+ 713              	.LVL43:
+ 714              	.L50:
+ 715 0000 FEE7     		b	.L50
+ 716              		.cfi_endproc
+ 717              	.LFE80:
+ 719 0002 00BF     		.section	.text.SystemClock_Config,"ax",%progbits
+ 720              		.align	2
+ 721              		.global	SystemClock_Config
+ 722              		.thumb
+ 723              		.thumb_func
+ 725              	SystemClock_Config:
+ 726              	.LFB75:
  336:Src/main.c    **** 
- 736              		.loc 1 336 0
- 737              		.cfi_startproc
- 738              		@ args = 0, pretend = 0, frame = 64
- 739              		@ frame_needed = 0, uses_anonymous_args = 0
+ 727              		.loc 1 336 0
+ 728              		.cfi_startproc
+ 729              		@ args = 0, pretend = 0, frame = 64
+ 730              		@ frame_needed = 0, uses_anonymous_args = 0
  336:Src/main.c    **** 
- 740              		.loc 1 336 0
- 741 0000 00B5     		push	{lr}
- 742              	.LCFI10:
- 743              		.cfi_def_cfa_offset 4
- 744              		.cfi_offset 14, -4
- 745 0002 91B0     		sub	sp, sp, #68
- 746              	.LCFI11:
-ARM GAS  /tmp/ccWzQPUk.s 			page 24
-
-
- 747              		.cfi_def_cfa_offset 72
+ 731              		.loc 1 336 0
+ 732 0000 00B5     		push	{lr}
+ 733              	.LCFI10:
+ 734              		.cfi_def_cfa_offset 4
+ 735              		.cfi_offset 14, -4
+ 736 0002 91B0     		sub	sp, sp, #68
+ 737              	.LCFI11:
+ 738              		.cfi_def_cfa_offset 72
  343:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 748              		.loc 1 343 0
- 749 0004 0122     		movs	r2, #1
- 750 0006 0692     		str	r2, [sp, #24]
+ 739              		.loc 1 343 0
+ 740 0004 0122     		movs	r2, #1
+ 741 0006 0692     		str	r2, [sp, #24]
  344:Src/main.c    ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 751              		.loc 1 344 0
- 752 0008 4FF48033 		mov	r3, #65536
- 753 000c 0793     		str	r3, [sp, #28]
+ 742              		.loc 1 344 0
+ 743 0008 4FF48033 		mov	r3, #65536
+ 744 000c 0793     		str	r3, [sp, #28]
+ARM GAS  /tmp/ccEDLThA.s 			page 24
+
+
  345:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 754              		.loc 1 345 0
- 755 000e 0021     		movs	r1, #0
- 756 0010 0891     		str	r1, [sp, #32]
+ 745              		.loc 1 345 0
+ 746 000e 0021     		movs	r1, #0
+ 747 0010 0891     		str	r1, [sp, #32]
  346:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 757              		.loc 1 346 0
- 758 0012 0A92     		str	r2, [sp, #40]
+ 748              		.loc 1 346 0
+ 749 0012 0A92     		str	r2, [sp, #40]
  347:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 759              		.loc 1 347 0
- 760 0014 0222     		movs	r2, #2
- 761 0016 0D92     		str	r2, [sp, #52]
+ 750              		.loc 1 347 0
+ 751 0014 0222     		movs	r2, #2
+ 752 0016 0D92     		str	r2, [sp, #52]
  348:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 762              		.loc 1 348 0
- 763 0018 0E93     		str	r3, [sp, #56]
+ 753              		.loc 1 348 0
+ 754 0018 0E93     		str	r3, [sp, #56]
  349:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 764              		.loc 1 349 0
- 765 001a 4FF4E013 		mov	r3, #1835008
- 766 001e 0F93     		str	r3, [sp, #60]
+ 755              		.loc 1 349 0
+ 756 001a 4FF4E013 		mov	r3, #1835008
+ 757 001e 0F93     		str	r3, [sp, #60]
  350:Src/main.c    ****   {
- 767              		.loc 1 350 0
- 768 0020 06A8     		add	r0, sp, #24
- 769 0022 FFF7FEFF 		bl	HAL_RCC_OscConfig
- 770              	.LVL44:
- 771 0026 20B1     		cbz	r0, .L52
+ 758              		.loc 1 350 0
+ 759 0020 06A8     		add	r0, sp, #24
+ 760 0022 FFF7FEFF 		bl	HAL_RCC_OscConfig
+ 761              	.LVL44:
+ 762 0026 20B1     		cbz	r0, .L52
  352:Src/main.c    ****   }
- 772              		.loc 1 352 0
- 773 0028 4FF4B071 		mov	r1, #352
- 774 002c 1448     		ldr	r0, .L55
- 775 002e FFF7FEFF 		bl	_Error_Handler
- 776              	.LVL45:
- 777              	.L52:
+ 763              		.loc 1 352 0
+ 764 0028 4FF4B071 		mov	r1, #352
+ 765 002c 1448     		ldr	r0, .L55
+ 766 002e FFF7FEFF 		bl	_Error_Handler
+ 767              	.LVL45:
+ 768              	.L52:
  357:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 778              		.loc 1 357 0
- 779 0032 0F23     		movs	r3, #15
- 780 0034 0193     		str	r3, [sp, #4]
+ 769              		.loc 1 357 0
+ 770 0032 0F23     		movs	r3, #15
+ 771 0034 0193     		str	r3, [sp, #4]
  359:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 781              		.loc 1 359 0
- 782 0036 0221     		movs	r1, #2
- 783 0038 0291     		str	r1, [sp, #8]
+ 772              		.loc 1 359 0
+ 773 0036 0221     		movs	r1, #2
+ 774 0038 0291     		str	r1, [sp, #8]
  360:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 784              		.loc 1 360 0
- 785 003a 0023     		movs	r3, #0
- 786 003c 0393     		str	r3, [sp, #12]
+ 775              		.loc 1 360 0
+ 776 003a 0023     		movs	r3, #0
+ 777 003c 0393     		str	r3, [sp, #12]
  361:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 787              		.loc 1 361 0
- 788 003e 4FF48062 		mov	r2, #1024
- 789 0042 0492     		str	r2, [sp, #16]
+ 778              		.loc 1 361 0
+ 779 003e 4FF48062 		mov	r2, #1024
+ 780 0042 0492     		str	r2, [sp, #16]
  362:Src/main.c    **** 
-ARM GAS  /tmp/ccWzQPUk.s 			page 25
-
-
- 790              		.loc 1 362 0
- 791 0044 0593     		str	r3, [sp, #20]
+ 781              		.loc 1 362 0
+ 782 0044 0593     		str	r3, [sp, #20]
  364:Src/main.c    ****   {
- 792              		.loc 1 364 0
- 793 0046 01A8     		add	r0, sp, #4
- 794 0048 FFF7FEFF 		bl	HAL_RCC_ClockConfig
- 795              	.LVL46:
- 796 004c 20B1     		cbz	r0, .L53
+ 783              		.loc 1 364 0
+ 784 0046 01A8     		add	r0, sp, #4
+ 785 0048 FFF7FEFF 		bl	HAL_RCC_ClockConfig
+ 786              	.LVL46:
+ 787 004c 20B1     		cbz	r0, .L53
  366:Src/main.c    ****   }
- 797              		.loc 1 366 0
- 798 004e 4FF4B771 		mov	r1, #366
- 799 0052 0B48     		ldr	r0, .L55
- 800 0054 FFF7FEFF 		bl	_Error_Handler
- 801              	.LVL47:
- 802              	.L53:
+ARM GAS  /tmp/ccEDLThA.s 			page 25
+
+
+ 788              		.loc 1 366 0
+ 789 004e 4FF4B771 		mov	r1, #366
+ 790 0052 0B48     		ldr	r0, .L55
+ 791 0054 FFF7FEFF 		bl	_Error_Handler
+ 792              	.LVL47:
+ 793              	.L53:
  371:Src/main.c    **** 
- 803              		.loc 1 371 0
- 804 0058 FFF7FEFF 		bl	HAL_RCC_GetHCLKFreq
- 805              	.LVL48:
- 806 005c 094B     		ldr	r3, .L55+4
- 807 005e A3FB0030 		umull	r3, r0, r3, r0
- 808 0062 8009     		lsrs	r0, r0, #6
- 809 0064 FFF7FEFF 		bl	HAL_SYSTICK_Config
- 810              	.LVL49:
+ 794              		.loc 1 371 0
+ 795 0058 FFF7FEFF 		bl	HAL_RCC_GetHCLKFreq
+ 796              	.LVL48:
+ 797 005c 094B     		ldr	r3, .L55+4
+ 798 005e A3FB0030 		umull	r3, r0, r3, r0
+ 799 0062 8009     		lsrs	r0, r0, #6
+ 800 0064 FFF7FEFF 		bl	HAL_SYSTICK_Config
+ 801              	.LVL49:
  375:Src/main.c    **** 
- 811              		.loc 1 375 0
- 812 0068 0420     		movs	r0, #4
- 813 006a FFF7FEFF 		bl	HAL_SYSTICK_CLKSourceConfig
- 814              	.LVL50:
+ 802              		.loc 1 375 0
+ 803 0068 0420     		movs	r0, #4
+ 804 006a FFF7FEFF 		bl	HAL_SYSTICK_CLKSourceConfig
+ 805              	.LVL50:
  378:Src/main.c    **** }
- 815              		.loc 1 378 0
- 816 006e 0022     		movs	r2, #0
- 817 0070 0F21     		movs	r1, #15
- 818 0072 4FF0FF30 		mov	r0, #-1
- 819 0076 FFF7FEFF 		bl	HAL_NVIC_SetPriority
- 820              	.LVL51:
+ 806              		.loc 1 378 0
+ 807 006e 0022     		movs	r2, #0
+ 808 0070 0F21     		movs	r1, #15
+ 809 0072 4FF0FF30 		mov	r0, #-1
+ 810 0076 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 811              	.LVL51:
  379:Src/main.c    **** 
- 821              		.loc 1 379 0
- 822 007a 11B0     		add	sp, sp, #68
- 823              	.LCFI12:
- 824              		.cfi_def_cfa_offset 4
- 825              		@ sp needed
- 826 007c 5DF804FB 		ldr	pc, [sp], #4
- 827              	.L56:
- 828              		.align	2
- 829              	.L55:
- 830 0080 00000000 		.word	.LC4
- 831 0084 D34D6210 		.word	274877907
- 832              		.cfi_endproc
- 833              	.LFE75:
- 835              		.section	.text.main,"ax",%progbits
- 836              		.align	2
- 837              		.global	main
- 838              		.thumb
- 839              		.thumb_func
- 841              	main:
- 842              	.LFB74:
-ARM GAS  /tmp/ccWzQPUk.s 			page 26
-
-
+ 812              		.loc 1 379 0
+ 813 007a 11B0     		add	sp, sp, #68
+ 814              	.LCFI12:
+ 815              		.cfi_def_cfa_offset 4
+ 816              		@ sp needed
+ 817 007c 5DF804FB 		ldr	pc, [sp], #4
+ 818              	.L56:
+ 819              		.align	2
+ 820              	.L55:
+ 821 0080 00000000 		.word	.LC4
+ 822 0084 D34D6210 		.word	274877907
+ 823              		.cfi_endproc
+ 824              	.LFE75:
+ 826              		.section	.text.main,"ax",%progbits
+ 827              		.align	2
+ 828              		.global	main
+ 829              		.thumb
+ 830              		.thumb_func
+ 832              	main:
+ 833              	.LFB74:
  247:Src/main.c    ****   /* USER CODE BEGIN 1 */
- 843              		.loc 1 247 0
- 844              		.cfi_startproc
- 845              		@ args = 0, pretend = 0, frame = 56
- 846              		@ frame_needed = 0, uses_anonymous_args = 0
- 847 0000 70B5     		push	{r4, r5, r6, lr}
- 848              	.LCFI13:
- 849              		.cfi_def_cfa_offset 16
- 850              		.cfi_offset 4, -16
- 851              		.cfi_offset 5, -12
- 852              		.cfi_offset 6, -8
- 853              		.cfi_offset 14, -4
- 854 0002 8EB0     		sub	sp, sp, #56
- 855              	.LCFI14:
- 856              		.cfi_def_cfa_offset 72
+ 834              		.loc 1 247 0
+ 835              		.cfi_startproc
+ 836              		@ args = 0, pretend = 0, frame = 56
+ 837              		@ frame_needed = 0, uses_anonymous_args = 0
+ 838 0000 70B5     		push	{r4, r5, r6, lr}
+ 839              	.LCFI13:
+ 840              		.cfi_def_cfa_offset 16
+ 841              		.cfi_offset 4, -16
+ARM GAS  /tmp/ccEDLThA.s 			page 26
+
+
+ 842              		.cfi_offset 5, -12
+ 843              		.cfi_offset 6, -8
+ 844              		.cfi_offset 14, -4
+ 845 0002 8EB0     		sub	sp, sp, #56
+ 846              	.LCFI14:
+ 847              		.cfi_def_cfa_offset 72
  255:Src/main.c    **** 
- 857              		.loc 1 255 0
- 858 0004 FFF7FEFF 		bl	HAL_Init
- 859              	.LVL52:
+ 848              		.loc 1 255 0
+ 849 0004 FFF7FEFF 		bl	HAL_Init
+ 850              	.LVL52:
  262:Src/main.c    **** 
- 860              		.loc 1 262 0
- 861 0008 FFF7FEFF 		bl	SystemClock_Config
- 862              	.LVL53:
+ 851              		.loc 1 262 0
+ 852 0008 FFF7FEFF 		bl	SystemClock_Config
+ 853              	.LVL53:
  269:Src/main.c    **** 
- 863              		.loc 1 269 0
- 864 000c FFF7FEFF 		bl	MX_GPIO_Init
- 865              	.LVL54:
+ 854              		.loc 1 269 0
+ 855 000c FFF7FEFF 		bl	MX_GPIO_Init
+ 856              	.LVL54:
  272:Src/main.c    ****   configure_watchpoint();
- 866              		.loc 1 272 0
- 867 0010 FFF7FEFF 		bl	configure_tracing
- 868              	.LVL55:
+ 857              		.loc 1 272 0
+ 858 0010 FFF7FEFF 		bl	configure_tracing
+ 859              	.LVL55:
  273:Src/main.c    **** 
- 869              		.loc 1 273 0
- 870 0014 FFF7FEFF 		bl	configure_watchpoint
- 871              	.LVL56:
+ 860              		.loc 1 273 0
+ 861 0014 FFF7FEFF 		bl	configure_watchpoint
+ 862              	.LVL56:
  277:Src/main.c    ****   mailQ01Handle = osMailCreate(osMailQ(mailQ01), NULL);
- 872              		.loc 1 277 0
- 873 0018 0F23     		movs	r3, #15
- 874 001a 0A93     		str	r3, [sp, #40]
- 875 001c 0C23     		movs	r3, #12
- 876 001e 0B93     		str	r3, [sp, #44]
- 877 0020 0DAB     		add	r3, sp, #52
- 878 0022 0C93     		str	r3, [sp, #48]
+ 863              		.loc 1 277 0
+ 864 0018 0F23     		movs	r3, #15
+ 865 001a 0A93     		str	r3, [sp, #40]
+ 866 001c 0C23     		movs	r3, #12
+ 867 001e 0B93     		str	r3, [sp, #44]
+ 868 0020 0DAB     		add	r3, sp, #52
+ 869 0022 0C93     		str	r3, [sp, #48]
  278:Src/main.c    **** 
- 879              		.loc 1 278 0
- 880 0024 0021     		movs	r1, #0
- 881 0026 0AA8     		add	r0, sp, #40
- 882 0028 FFF7FEFF 		bl	osMailCreate
- 883              	.LVL57:
- 884 002c 0E4B     		ldr	r3, .L60
- 885 002e 1860     		str	r0, [r3]
+ 870              		.loc 1 278 0
+ 871 0024 0021     		movs	r1, #0
+ 872 0026 0AA8     		add	r0, sp, #40
+ 873 0028 FFF7FEFF 		bl	osMailCreate
+ 874              	.LVL57:
+ 875 002c 0E4B     		ldr	r3, .L60
+ 876 002e 1860     		str	r0, [r3]
  296:Src/main.c    ****   MailProducerHandle = osThreadCreate(osThread(MailProducer), NULL);
- 886              		.loc 1 296 0
- 887 0030 0E4C     		ldr	r4, .L60+4
- 888 0032 05AD     		add	r5, sp, #20
- 889 0034 2646     		mov	r6, r4
- 890 0036 0FCE     		ldmia	r6!, {r0, r1, r2, r3}
-ARM GAS  /tmp/ccWzQPUk.s 			page 27
-
-
- 891 0038 0FC5     		stmia	r5!, {r0, r1, r2, r3}
- 892 003a 3368     		ldr	r3, [r6]
- 893 003c 2B60     		str	r3, [r5]
+ 877              		.loc 1 296 0
+ 878 0030 0E4C     		ldr	r4, .L60+4
+ 879 0032 05AD     		add	r5, sp, #20
+ 880 0034 2646     		mov	r6, r4
+ 881 0036 0FCE     		ldmia	r6!, {r0, r1, r2, r3}
+ 882 0038 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 883 003a 3368     		ldr	r3, [r6]
+ 884 003c 2B60     		str	r3, [r5]
  297:Src/main.c    **** 
- 894              		.loc 1 297 0
- 895 003e 0021     		movs	r1, #0
- 896 0040 05A8     		add	r0, sp, #20
- 897 0042 FFF7FEFF 		bl	osThreadCreate
- 898              	.LVL58:
- 899 0046 0A4B     		ldr	r3, .L60+8
- 900 0048 1860     		str	r0, [r3]
+ 885              		.loc 1 297 0
+ 886 003e 0021     		movs	r1, #0
+ 887 0040 05A8     		add	r0, sp, #20
+ 888 0042 FFF7FEFF 		bl	osThreadCreate
+ 889              	.LVL58:
+ARM GAS  /tmp/ccEDLThA.s 			page 27
+
+
+ 890 0046 0A4B     		ldr	r3, .L60+8
+ 891 0048 1860     		str	r0, [r3]
  300:Src/main.c    ****   MailConsumerHandle = osThreadCreate(osThread(MailConsumer), NULL);
- 901              		.loc 1 300 0
- 902 004a 6D46     		mov	r5, sp
- 903 004c 1434     		adds	r4, r4, #20
- 904 004e 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
- 905 0050 0FC5     		stmia	r5!, {r0, r1, r2, r3}
- 906 0052 2368     		ldr	r3, [r4]
- 907 0054 2B60     		str	r3, [r5]
+ 892              		.loc 1 300 0
+ 893 004a 6D46     		mov	r5, sp
+ 894 004c 1434     		adds	r4, r4, #20
+ 895 004e 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 896 0050 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 897 0052 2368     		ldr	r3, [r4]
+ 898 0054 2B60     		str	r3, [r5]
  301:Src/main.c    **** 
- 908              		.loc 1 301 0
- 909 0056 0021     		movs	r1, #0
- 910 0058 6846     		mov	r0, sp
- 911 005a FFF7FEFF 		bl	osThreadCreate
- 912              	.LVL59:
- 913 005e 054B     		ldr	r3, .L60+12
- 914 0060 1860     		str	r0, [r3]
+ 899              		.loc 1 301 0
+ 900 0056 0021     		movs	r1, #0
+ 901 0058 6846     		mov	r0, sp
+ 902 005a FFF7FEFF 		bl	osThreadCreate
+ 903              	.LVL59:
+ 904 005e 054B     		ldr	r3, .L60+12
+ 905 0060 1860     		str	r0, [r3]
  313:Src/main.c    ****   
- 915              		.loc 1 313 0
- 916 0062 FFF7FEFF 		bl	osKernelStart
- 917              	.LVL60:
- 918              	.L58:
- 919 0066 FEE7     		b	.L58
- 920              	.L61:
- 921              		.align	2
- 922              	.L60:
- 923 0068 00000000 		.word	mailQ01Handle
- 924 006c 00000000 		.word	.LANCHOR2
- 925 0070 00000000 		.word	MailProducerHandle
- 926 0074 00000000 		.word	MailConsumerHandle
- 927              		.cfi_endproc
- 928              	.LFE74:
- 930              		.comm	mailQ01Handle,4,4
- 931              		.global	InterruptCounter
- 932              		.global	globalCounter
- 933              		.comm	MailConsumerHandle,4,4
- 934              		.comm	MailProducerHandle,4,4
- 935              		.section	.rodata
- 936              		.align	2
- 937              		.set	.LANCHOR2,. + 0
- 938              	.LC5:
- 939 0000 1C000000 		.word	.LC0
- 940 0004 00000000 		.word	MailProducerTask
- 941 0008 0000     		.short	0
- 942 000a 0000     		.space	2
- 943 000c 00000000 		.word	0
- 944 0010 80000000 		.word	128
-ARM GAS  /tmp/ccWzQPUk.s 			page 28
+ 906              		.loc 1 313 0
+ 907 0062 FFF7FEFF 		bl	osKernelStart
+ 908              	.LVL60:
+ 909              	.L58:
+ 910 0066 FEE7     		b	.L58
+ 911              	.L61:
+ 912              		.align	2
+ 913              	.L60:
+ 914 0068 00000000 		.word	mailQ01Handle
+ 915 006c 00000000 		.word	.LANCHOR2
+ 916 0070 00000000 		.word	MailProducerHandle
+ 917 0074 00000000 		.word	MailConsumerHandle
+ 918              		.cfi_endproc
+ 919              	.LFE74:
+ 921              		.comm	mailQ01Handle,4,4
+ 922              		.global	InterruptCounter
+ 923              		.global	globalCounter
+ 924              		.comm	MailConsumerHandle,4,4
+ 925              		.comm	MailProducerHandle,4,4
+ 926              		.section	.rodata
+ 927              		.align	2
+ 928              		.set	.LANCHOR2,. + 0
+ 929              	.LC5:
+ 930 0000 1C000000 		.word	.LC0
+ 931 0004 00000000 		.word	MailProducerTask
+ 932 0008 0000     		.short	0
+ 933 000a 0000     		.space	2
+ 934 000c 00000000 		.word	0
+ 935 0010 80000000 		.word	128
+ 936              	.LC6:
+ 937 0014 0C000000 		.word	.LC2
+ 938 0018 00000000 		.word	MailConsumerTask
+ 939 001c 0000     		.short	0
+ 940 001e 0000     		.space	2
+ 941 0020 00000000 		.word	0
+ 942 0024 80000000 		.word	128
+ 943              		.section	.bss.InterruptCounter,"aw",%nobits
+ 944              		.align	2
+ARM GAS  /tmp/ccEDLThA.s 			page 28
 
 
- 945              	.LC6:
- 946 0014 0C000000 		.word	.LC2
- 947 0018 00000000 		.word	MailConsumerTask
- 948 001c 0000     		.short	0
- 949 001e 0000     		.space	2
- 950 0020 00000000 		.word	0
- 951 0024 80000000 		.word	128
- 952              		.section	.bss.InterruptCounter,"aw",%nobits
- 953              		.align	2
- 954              		.set	.LANCHOR1,. + 0
- 957              	InterruptCounter:
- 958 0000 00000000 		.space	4
- 959              		.section	.rodata.str1.4,"aMS",%progbits,1
- 960              		.align	2
- 961              	.LC4:
- 962 0000 5372632F 		.ascii	"Src/main.c\000"
- 962      6D61696E 
- 962      2E6300
- 963 000b 00       		.space	1
- 964              	.LC2:
- 965 000c 4D61696C 		.ascii	"MailConsumer\000"
- 965      436F6E73 
- 965      756D6572 
- 965      00
- 966 0019 000000   		.space	3
- 967              	.LC0:
- 968 001c 4D61696C 		.ascii	"MailProducer\000"
- 968      50726F64 
- 968      75636572 
- 968      00
- 969              		.section	.bss.globalCounter,"aw",%nobits
- 970              		.align	2
- 971              		.set	.LANCHOR0,. + 0
- 974              	globalCounter:
- 975 0000 00000000 		.space	4
- 976              		.text
- 977              	.Letext0:
- 978              		.file 2 "/usr/include/newlib/machine/_default_types.h"
- 979              		.file 3 "/usr/include/newlib/sys/_stdint.h"
- 980              		.file 4 "Drivers/CMSIS/Include/core_cm3.h"
- 981              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h"
- 982              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
- 983              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h"
- 984              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h"
- 985              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
- 986              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
- 987              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h"
- 988              		.file 12 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
- 989              		.file 13 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
- 990              		.file 14 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
- 991              		.file 15 "Inc/arm_etm.h"
- 992              		.file 16 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
- 993              		.file 17 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h"
-ARM GAS  /tmp/ccWzQPUk.s 			page 29
+ 945              		.set	.LANCHOR1,. + 0
+ 948              	InterruptCounter:
+ 949 0000 00000000 		.space	4
+ 950              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 951              		.align	2
+ 952              	.LC4:
+ 953 0000 5372632F 		.ascii	"Src/main.c\000"
+ 953      6D61696E 
+ 953      2E6300
+ 954 000b 00       		.space	1
+ 955              	.LC2:
+ 956 000c 4D61696C 		.ascii	"MailConsumer\000"
+ 956      436F6E73 
+ 956      756D6572 
+ 956      00
+ 957 0019 000000   		.space	3
+ 958              	.LC0:
+ 959 001c 4D61696C 		.ascii	"MailProducer\000"
+ 959      50726F64 
+ 959      75636572 
+ 959      00
+ 960              		.section	.bss.globalCounter,"aw",%nobits
+ 961              		.align	2
+ 962              		.set	.LANCHOR0,. + 0
+ 965              	globalCounter:
+ 966 0000 00000000 		.space	4
+ 967              		.text
+ 968              	.Letext0:
+ 969              		.file 2 "/usr/include/newlib/machine/_default_types.h"
+ 970              		.file 3 "/usr/include/newlib/sys/_stdint.h"
+ 971              		.file 4 "Drivers/CMSIS/Include/core_cm3.h"
+ 972              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xe.h"
+ 973              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 974              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h"
+ 975              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h"
+ 976              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
+ 977              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 978              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h"
+ 979              		.file 12 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 980              		.file 13 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 981              		.file 14 "Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h"
+ 982              		.file 15 "Inc/arm_etm.h"
+ 983              		.file 16 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 984              		.file 17 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h"
+ARM GAS  /tmp/ccEDLThA.s 			page 29
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-     /tmp/ccWzQPUk.s:20     .text.MX_GPIO_Init:00000000 $t
-     /tmp/ccWzQPUk.s:24     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
-     /tmp/ccWzQPUk.s:118    .text.MX_GPIO_Init:0000007c $d
-     /tmp/ccWzQPUk.s:125    .text.MailProducerTask:00000000 $t
-     /tmp/ccWzQPUk.s:130    .text.MailProducerTask:00000000 MailProducerTask
-     /tmp/ccWzQPUk.s:206    .text.MailProducerTask:0000005c $d
+     /tmp/ccEDLThA.s:20     .text.MX_GPIO_Init:00000000 $t
+     /tmp/ccEDLThA.s:24     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
+     /tmp/ccEDLThA.s:118    .text.MX_GPIO_Init:0000007c $d
+     /tmp/ccEDLThA.s:125    .text.MailProducerTask:00000000 $t
+     /tmp/ccEDLThA.s:130    .text.MailProducerTask:00000000 MailProducerTask
+     /tmp/ccEDLThA.s:206    .text.MailProducerTask:0000005c $d
                             *COM*:00000004 mailQ01Handle
-     /tmp/ccWzQPUk.s:212    .text.MailConsumerTask:00000000 $t
-     /tmp/ccWzQPUk.s:217    .text.MailConsumerTask:00000000 MailConsumerTask
-     /tmp/ccWzQPUk.s:303    .text.MailConsumerTask:00000068 $d
-     /tmp/ccWzQPUk.s:311    .text.configure_tracing:00000000 $t
-     /tmp/ccWzQPUk.s:316    .text.configure_tracing:00000000 configure_tracing
-     /tmp/ccWzQPUk.s:404    .text.configure_tracing:000000a4 $d
-     /tmp/ccWzQPUk.s:414    .text.configure_watchpoint:00000000 $t
-     /tmp/ccWzQPUk.s:419    .text.configure_watchpoint:00000000 configure_watchpoint
-     /tmp/ccWzQPUk.s:449    .text.configure_watchpoint:0000001c $d
-     /tmp/ccWzQPUk.s:456    .text.ITM_Print:00000000 $t
-     /tmp/ccWzQPUk.s:461    .text.ITM_Print:00000000 ITM_Print
-     /tmp/ccWzQPUk.s:506    .text.ITM_Print:00000044 $d
-     /tmp/ccWzQPUk.s:511    .text.ITM_SendValue:00000000 $t
-     /tmp/ccWzQPUk.s:516    .text.ITM_SendValue:00000000 ITM_SendValue
-     /tmp/ccWzQPUk.s:550    .text.bubble_sort:00000000 $t
-     /tmp/ccWzQPUk.s:555    .text.bubble_sort:00000000 bubble_sort
-     /tmp/ccWzQPUk.s:628    .text.bubble_sort:0000003c $d
-     /tmp/ccWzQPUk.s:633    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
-     /tmp/ccWzQPUk.s:638    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
-     /tmp/ccWzQPUk.s:701    .text.HAL_TIM_PeriodElapsedCallback:00000050 $d
-     /tmp/ccWzQPUk.s:709    .text._Error_Handler:00000000 $t
-     /tmp/ccWzQPUk.s:714    .text._Error_Handler:00000000 _Error_Handler
-     /tmp/ccWzQPUk.s:729    .text.SystemClock_Config:00000000 $t
-     /tmp/ccWzQPUk.s:734    .text.SystemClock_Config:00000000 SystemClock_Config
-     /tmp/ccWzQPUk.s:830    .text.SystemClock_Config:00000080 $d
-     /tmp/ccWzQPUk.s:836    .text.main:00000000 $t
-     /tmp/ccWzQPUk.s:841    .text.main:00000000 main
-     /tmp/ccWzQPUk.s:923    .text.main:00000068 $d
+     /tmp/ccEDLThA.s:212    .text.MailConsumerTask:00000000 $t
+     /tmp/ccEDLThA.s:217    .text.MailConsumerTask:00000000 MailConsumerTask
+     /tmp/ccEDLThA.s:303    .text.MailConsumerTask:00000068 $d
+     /tmp/ccEDLThA.s:311    .text.configure_tracing:00000000 $t
+     /tmp/ccEDLThA.s:316    .text.configure_tracing:00000000 configure_tracing
+     /tmp/ccEDLThA.s:404    .text.configure_tracing:000000a4 $d
+     /tmp/ccEDLThA.s:414    .text.configure_watchpoint:00000000 $t
+     /tmp/ccEDLThA.s:419    .text.configure_watchpoint:00000000 configure_watchpoint
+     /tmp/ccEDLThA.s:449    .text.configure_watchpoint:0000001c $d
+     /tmp/ccEDLThA.s:456    .text.ITM_Print:00000000 $t
+     /tmp/ccEDLThA.s:461    .text.ITM_Print:00000000 ITM_Print
+     /tmp/ccEDLThA.s:506    .text.ITM_Print:00000044 $d
+     /tmp/ccEDLThA.s:511    .text.ITM_SendValue:00000000 $t
+     /tmp/ccEDLThA.s:516    .text.ITM_SendValue:00000000 ITM_SendValue
+     /tmp/ccEDLThA.s:550    .text.bubble_sort:00000000 $t
+     /tmp/ccEDLThA.s:555    .text.bubble_sort:00000000 bubble_sort
+     /tmp/ccEDLThA.s:628    .text.bubble_sort:0000003c $d
+     /tmp/ccEDLThA.s:633    .text.HAL_TIM_PeriodElapsedCallback:00000000 $t
+     /tmp/ccEDLThA.s:638    .text.HAL_TIM_PeriodElapsedCallback:00000000 HAL_TIM_PeriodElapsedCallback
+     /tmp/ccEDLThA.s:693    .text.HAL_TIM_PeriodElapsedCallback:00000040 $d
+     /tmp/ccEDLThA.s:700    .text._Error_Handler:00000000 $t
+     /tmp/ccEDLThA.s:705    .text._Error_Handler:00000000 _Error_Handler
+     /tmp/ccEDLThA.s:720    .text.SystemClock_Config:00000000 $t
+     /tmp/ccEDLThA.s:725    .text.SystemClock_Config:00000000 SystemClock_Config
+     /tmp/ccEDLThA.s:821    .text.SystemClock_Config:00000080 $d
+     /tmp/ccEDLThA.s:827    .text.main:00000000 $t
+     /tmp/ccEDLThA.s:832    .text.main:00000000 main
+     /tmp/ccEDLThA.s:914    .text.main:00000068 $d
                             *COM*:00000004 MailProducerHandle
                             *COM*:00000004 MailConsumerHandle
-     /tmp/ccWzQPUk.s:957    .bss.InterruptCounter:00000000 InterruptCounter
-     /tmp/ccWzQPUk.s:974    .bss.globalCounter:00000000 globalCounter
-     /tmp/ccWzQPUk.s:936    .rodata:00000000 $d
-     /tmp/ccWzQPUk.s:953    .bss.InterruptCounter:00000000 $d
-     /tmp/ccWzQPUk.s:960    .rodata.str1.4:00000000 $d
-     /tmp/ccWzQPUk.s:970    .bss.globalCounter:00000000 $d
+     /tmp/ccEDLThA.s:948    .bss.InterruptCounter:00000000 InterruptCounter
+     /tmp/ccEDLThA.s:965    .bss.globalCounter:00000000 globalCounter
+     /tmp/ccEDLThA.s:927    .rodata:00000000 $d
+     /tmp/ccEDLThA.s:944    .bss.InterruptCounter:00000000 $d
+     /tmp/ccEDLThA.s:951    .rodata.str1.4:00000000 $d
+     /tmp/ccEDLThA.s:961    .bss.globalCounter:00000000 $d
                      .debug_frame:00000010 $d
 
 UNDEFINED SYMBOLS
@@ -1734,7 +1725,7 @@ HAL_IncTick
 HAL_RCC_OscConfig
 HAL_RCC_ClockConfig
 HAL_RCC_GetHCLKFreq
-ARM GAS  /tmp/ccWzQPUk.s 			page 30
+ARM GAS  /tmp/ccEDLThA.s 			page 30
 
 
 HAL_SYSTICK_Config

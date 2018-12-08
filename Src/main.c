@@ -163,7 +163,7 @@ void configure_watchpoint()
     
     /* Monitor all accesses to GPIOC (range length 32 bytes) */
     //DWT->COMP0 = (uint32_t)bubble_sort;                      //改为了比GPIOC
-    DWT->COMP0 = (uint32_t)GPIOA;                      //改为了比较GPIOC
+    DWT->COMP0 = (uint32_t)LED2_GPIO_Port;                      //改为了比较GPIOC
     DWT->MASK0 = 8;							 //屏蔽掉数据地址的后5位，目前DWT->COMP0的值是GPIOA的地址:0x40010800
 											//可能是出于加快比较速度的原因吧，那为什么不把MASK[3:0]
 										        //设置为8,反正0x40010800最后八位都是0
@@ -503,15 +503,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
 
     ++InterruptCounter;
-    if(InterruptCounter == 1)
+    if(InterruptCounter == 1)    // 进入一次回调函数
     {
-        globalCounter = 0xE20;
-        HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+        // globalCounter = 0xE20;
+        HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);// 置0 Watchpoint0:Address 0x????1410,Watchpoint0:Write data 0x00040000
     }
-    if(InterruptCounter == 2)
+    if(InterruptCounter == 2)    // 又进入一次回调函数
     {       
-        globalCounter = 0xE21;
-        HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+        // globalCounter = 0xE21;
+        HAL_GPIO_WritePin( LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);  // 置1 Watchpoint0:Address 0x????1410,Watchpoint0:Write data 0x00000004 
         InterruptCounter = 0;
     }
   }
