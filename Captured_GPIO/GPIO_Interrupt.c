@@ -8,6 +8,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<wiringPi.h>
+#include<time.h>
+#include<unistd.h>
+#include<sys/time.h>
 
 
 #define PinRising_input 1       // wiringPi只能控制0到16号的GPIO
@@ -15,8 +18,42 @@
 
 #define Pin_output 6
 
+// 写一个链队列结构把时间戳保存下来，采集结束后统一写入文件
+
+
+// 写一个时间戳结构
+typedef struct Time_Stamp
+{
+    struct tm * lt;
+    struct timeval tv;
+
+}timestamp;
+
+// 定义一个中断计数变量
 static volatile int switch_count = 0;
 
+/**************************
+    > 时间戳获取函数
+**************************/
+timestamp Get_Timestamp()
+{
+   /*Unix年月日十分秒*/
+    time_t t;
+    timestamp Ts;
+    time(&t);
+    Ts.lt = localtime(&t);
+    gettimeofday(&(Ts.tv), NULL);
+
+    // 注意在C语言函数库中，月份是0到11,0是实际的1月，11是12月
+    //printf("c timestamp: %d/%d/%d %d:%d:%d.%ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min, Ts.lt->tm_sec, Ts.tv.tv_usec);
+
+    return Ts;
+}
+
+
+/**************************
+    > 中断处理函数
+**************************/
 void LED(void)
 {
     // printf("enter interrupt");
@@ -25,6 +62,7 @@ void LED(void)
     if(switch_count == 1)
     {
         digitalWrite(Pin_output, HIGH);
+        Get_Timestamp();
     }
 
     if(switch_count == 2)
