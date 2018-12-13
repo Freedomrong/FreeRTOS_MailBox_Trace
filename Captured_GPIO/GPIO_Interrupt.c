@@ -5,33 +5,141 @@
 	> Created Time: 2018年12月10日 星期一 16时55分04秒
  ************************************************************************/
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<wiringPi.h>
-#include<time.h>
-#include<unistd.h>
-#include<sys/time.h>
+#include<GPIO_Interrupt.h>
 
-
-#define PinRising_input 1       // wiringPi只能控制0到16号的GPIO
-#define PinFalling_input 4 
-
-#define Pin_output 6
-
-// 写一个链队列结构把时间戳保存下来，采集结束后统一写入文件
-
-
-// 写一个时间戳结构
-typedef struct Time_Stamp
-{
-    struct tm * lt;
-    struct timeval tv;
-
-}timestamp;
 
 // 定义一个中断计数变量
 static volatile int switch_count = 0;
+static volatile int En_count = 0;
 
+// 写一个链队列把时间戳保存下来，采集结束后统一写入文件
+QElemType d;
+LinkQueue q;
+/**************************
+    > 链式队列相关函数
+**************************/
+int visit(QElemType Ts)
+{
+    // printf("%d ",c);
+    printf("c timestamp: %d/%d/%d %d:%d:%d.%ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min, Ts.lt->tm_sec, Ts.tv.tv_usec);
+    return OK;
+
+}
+
+int InitQueue(LinkQueue *Q)    // 构造一个空队列
+{ 
+    Q->front=Q->rear=(QueuePtr)malloc(sizeof(QNode));
+
+    if(!Q->front)
+        exit(OVERFLOW);
+
+    Q->front->next=NULL;
+    return OK;
+}
+
+int DestroyQueue(LinkQueue *Q) // 销毁队列
+{
+    while(Q->front)
+    {
+        Q->rear=Q->front->next;
+        free(Q->front);
+        Q->front=Q->rear;    
+    }
+    return OK;
+}
+
+int ClearQueue(LinkQueue *Q) // 清空队列
+{
+    QueuePtr p,q;
+    Q->rear=Q->front;
+    p=Q->front->next;
+    Q->front->next=NULL;
+    while(p)
+    {
+        q=p;
+        p=p->next;
+        free(q);    
+    }
+    return OK;
+}
+
+int QueueEmpty(LinkQueue Q)
+{ 
+    if(Q.front==Q.rear)
+        return TRUE;         // 队列为空返回TRUE
+    else
+        return FALSE;        // 队列不为空返回FALES
+}
+
+int QueueLength(LinkQueue Q) // 求队列的长度
+{ 
+    int i=0;
+    QueuePtr p;
+    p=Q.front;
+    while(Q.rear!=p)
+    {
+        i++;
+        p=p->next;                    
+    }
+    return i;
+}
+
+int GetHead(LinkQueue Q,QElemType *e)  // 获得队头元素，若队列不空,则用e返回Q的队头元素,并返回OK,否则返回ERROR 
+{ 
+    QueuePtr p;
+
+    if(Q.front==Q.rear)
+        return ERROR;
+
+    p=Q.front->next;
+    *e=p->data;
+    return OK;
+}
+
+int EnQueue(LinkQueue *Q,QElemType e)  // 插入元素e为Q的新的队尾元素
+{ 
+    QueuePtr s=(QueuePtr)malloc(sizeof(QNode));
+
+    if(!s)                 // 存储分配失败
+        exit(OVERFLOW);
+
+    s->data=e;
+    s->next=NULL;
+    Q->rear->next=s;       // 把拥有元素e的新结点s赋值给原队尾结点的后继，见图中① */
+    Q->rear=s;             // 把当前的s设置为队尾结点，rear指向s，见图中② */
+    return OK;
+}
+
+int DeQueue(LinkQueue *Q,QElemType *e) // 若队列不空,删除Q的队头元素,用e返回其值,并返回OK,否则返回ERROR
+{
+        QueuePtr p;
+
+        if(Q->front==Q->rear)
+            return ERROR;
+
+        p=Q->front->next;        // 将欲删除的队头结点暂存给p
+        *e=p->data;              // 将欲删除的队头结点的值赋值给e
+        Q->front->next=p->next;  // 将原队头结点的后继p->next赋值给头结点后继
+
+        if(Q->rear==p)           // 若队头就是队尾，则删除后将rear指向头结点
+            Q->rear=Q->front;
+
+        free(p);
+        return OK;
+}
+
+int QueueTraverse(LinkQueue Q)   // 从队头到队尾依次对队列Q中每个元素输出
+{
+    QueuePtr p;
+    p=Q.front->next;
+    while(p)
+    {
+        visit(p->data);
+        p=p->next;    
+    }
+    printf("\n");
+    return OK;
+}
 /**************************
     > 时间戳获取函数
 **************************/
@@ -45,7 +153,7 @@ timestamp Get_Timestamp()
     gettimeofday(&(Ts.tv), NULL);
 
     // 注意在C语言函数库中，月份是0到11,0是实际的1月，11是12月
-    //printf("c timestamp: %d/%d/%d %d:%d:%d.%ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min, Ts.lt->tm_sec, Ts.tv.tv_usec);
+    // printf("c timestamp: %d/%d/%d %d:%d:%d.%ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min, Ts.lt->tm_sec, Ts.tv.tv_usec);
 
     return Ts;
 }
@@ -58,17 +166,34 @@ void LED(void)
 {
     // printf("enter interrupt");
     switch_count = switch_count + 1;
+    En_count = En_count + 1;
+    int i;
     
+    EnQueue(&q, Get_Timestamp());
+
     if(switch_count == 1)
     {
         digitalWrite(Pin_output, HIGH);
-        Get_Timestamp();
     }
 
     if(switch_count == 2)
     {
         digitalWrite(Pin_output, LOW);
         switch_count = 0;
+    }
+
+    if(En_count == 1000)
+    {
+        // QueueTraverse(q);    // 不要在中断中使用队列的遍历,太费时间,在这里会导致之后的输出操作不能执行,把遍历放在主函数中
+        ClearQueue(&q);
+        // DestroyQueue(&q);
+	
+        // i=InitQueue(&q);	
+        // if(i)
+        // {
+	    //     printf("成功地构造了一个空队列!\n");
+        // }
+        En_count = 0;
     }
 
 }
@@ -94,6 +219,12 @@ void Setup(void)
 
 int main (void)
 {
+    int i;
+	i=InitQueue(&q);	
+    if(i)
+    {
+	    printf("成功地构造了一个空队列!\n");
+    }
 
     Setup();
 
