@@ -1,0 +1,2 @@
+由于DWT_Watchpoint（仍然通过ITM输出）可以捕获我们插桩在Tick中的GPIO翻转的，而且Tick实际是一个定时器中断函数，以1ms为周期，ITM能够记录下来CPU进入中断状态，所以我们在时间刻度上，让GPIO翻转与DWT_Watchpoint捕获的Tick中的GPIO的信息对齐;
+再加上我们使用RaspberryPi也捕获这个GPIO翻转就能将程序内部时间与外界成功关联起来，所以我们将时间戳打在RaspberryPi的捕获GPIO上（上升沿与下降沿）
