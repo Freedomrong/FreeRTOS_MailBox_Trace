@@ -162,7 +162,7 @@ timestamp Get_Timestamp()
 /**************************
     > 中断处理函数
 **************************/
-void LED(void)
+void GPIO_Interrupt(void)
 {
     // printf("enter interrupt");
     switch_count = switch_count + 1;
@@ -228,13 +228,13 @@ int main (void)
 
     Setup();
 
-    if(wiringPiISR(PinRising_input, INT_EDGE_RISING, LED) < 0)
+    if(wiringPiISR(PinRising_input, INT_EDGE_RISING, GPIO_Interrupt) < 0)
     {
         printf("Regist PinRising_input interrupts failed!");
         return -2;
     }
 
-    if(wiringPiISR(PinFalling_input, INT_EDGE_FALLING, LED) < 0)
+    if(wiringPiISR(PinFalling_input, INT_EDGE_FALLING, GPIO_Interrupt) < 0)
     {
         printf("Regist PinFalling_input interrupts failed!");
         return -2;
