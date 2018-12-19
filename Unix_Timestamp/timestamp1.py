@@ -18,7 +18,9 @@ def Captured_Function():
     Capturedfile_Name = '-' + str(sys.argv[1])
     Capturedfile_Format = '.vcd'
     # Capturedfile_Format = '.sr'
-    
+   
+    CapturedGPIO_Name = '-GPIO_Timestamp'
+    CapturedGPIO_Format = 'txt'
     
     CapturedTimes = sys.argv[3]
     
@@ -34,6 +36,8 @@ def Captured_Function():
     
         CapturedCommand = ("sigrok-cli --time 10 -d fx2lafw -c samplerate=24MHz -C 0=SWO,1=LED0,2=LED2_Tick,3=CLK_Pulse -O vcd -o "\
                            + str(i) + Capturedfile_Name + Capturedfile_Format)
+
+        CapturedGPIO_Command = ("./GPIO_Interrupt " + str(i) + CapturedGPIO_Name + Capturedfile_Format)   # 放在CapturedCommand之后运行
     
         response = subprocess.getstatusoutput(CapturedCommand)    # 返回的数据中有时间戳信息,是捕获数据的0时刻对应的unix时间,
                                                                   # 是我们修改sigrok-cli的源代码得到的

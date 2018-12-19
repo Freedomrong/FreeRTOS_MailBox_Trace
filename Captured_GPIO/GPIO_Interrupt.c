@@ -238,13 +238,24 @@ void Setup(void)
 }
 
 
-int main (void)
+int main (int argc, char *argv[])
 {
     int i;
     int length = 0;
     int empty = 0;
+    char *filename;
 
-	i=InitQueue(&q);	
+    if(argc == 2)
+    {
+        filename = argv[1];
+    }
+    else
+    {
+        printf("One argument expected.\n");
+        exit(-1);
+    }
+
+	i=InitQueue(&q);
     if(i)
     {
 	    printf("成功地构造了一个空队列!\n");
@@ -278,7 +289,7 @@ int main (void)
             interrupt_flag = FALSE;
             length = QueueLength(q);
 
-            out = fopen("GPIO_Timestamp.txt","w");
+            out = fopen(filename,"w");
             QueueTraverse(q);
             fclose(out);
 
