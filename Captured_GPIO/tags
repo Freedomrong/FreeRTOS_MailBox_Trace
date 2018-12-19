@@ -10,13 +10,14 @@ DeQueue	GPIO_Interrupt.c	/^int DeQueue(LinkQueue *Q,QElemType *e) \/\/ 若队列
 DestroyQueue	GPIO_Interrupt.c	/^int DestroyQueue(LinkQueue *Q) \/\/ 销毁队列$/;"	f
 ERROR	GPIO_Interrupt.h	26;"	d
 EnQueue	GPIO_Interrupt.c	/^int EnQueue(LinkQueue *Q,QElemType e)  \/\/ 插入元素e为Q的新的队尾元素$/;"	f
+En_count	GPIO_Interrupt.c	/^static volatile int En_count = 0;$/;"	v	file:
 End_Timestamp	GPIO_Interrupt.py	/^End_Timestamp = 0$/;"	v
+GPIO_Interrupt	GPIO_Interrupt.c	/^void GPIO_Interrupt(void)$/;"	f
 GetHead	GPIO_Interrupt.c	/^int GetHead(LinkQueue Q,QElemType *e)  \/\/ 获得队头元素，若队列不空,则用e返回Q的队头元素,并返回OK,否则返回ERROR $/;"	f
 Get_Timestamp	GPIO_Interrupt.c	/^timestamp Get_Timestamp()$/;"	f
 HighLevelCounter	GPIO_Interrupt.py	/^HighLevelCounter = 0$/;"	v
 InitQueue	GPIO_Interrupt.c	/^int InitQueue(LinkQueue *Q)    \/\/ 构造一个空队列$/;"	f
 InterruptCounter	GPIO_Interrupt.py	/^InterruptCounter = 0$/;"	v
-LED	GPIO_Interrupt.c	/^void LED(void)$/;"	f
 LED	GPIO_Interrupt.py	/^def LED(self):$/;"	f
 LinkQueue	GPIO_Interrupt.h	/^}LinkQueue;$/;"	t	typeref:struct:__anon1
 LowLevelCounter	GPIO_Interrupt.py	/^LowLevelCounter = 0$/;"	v
@@ -39,13 +40,15 @@ Setup	GPIO_Interrupt.c	/^void Setup(void)$/;"	f
 SwitchCounter	GPIO_Interrupt.py	/^SwitchCounter = 0$/;"	v
 Time_Stamp	GPIO_Interrupt.h	/^typedef struct Time_Stamp$/;"	s
 _TIMESTAMP_H	GPIO_Interrupt.h	9;"	d
+d	GPIO_Interrupt.c	/^QElemType d;$/;"	v
 data	GPIO_Interrupt.h	/^    QElemType data;$/;"	m	struct:QNode
 front	GPIO_Interrupt.h	/^    QueuePtr front, rear;$/;"	m	struct:__anon1
 lt	GPIO_Interrupt.h	/^    struct tm * lt;$/;"	m	struct:Time_Stamp	typeref:struct:Time_Stamp::tm
 main	GPIO_Interrupt.c	/^int main (void)$/;"	f
 next	GPIO_Interrupt.h	/^    struct QNode *next;$/;"	m	struct:QNode	typeref:struct:QNode::QNode
+q	GPIO_Interrupt.c	/^LinkQueue q;$/;"	v
 rear	GPIO_Interrupt.h	/^    QueuePtr front, rear;$/;"	m	struct:__anon1
 switch_count	GPIO_Interrupt.c	/^static volatile int switch_count = 0;$/;"	v	file:
 timestamp	GPIO_Interrupt.h	/^}timestamp;$/;"	t	typeref:struct:Time_Stamp
 tv	GPIO_Interrupt.h	/^    struct timeval tv;$/;"	m	struct:Time_Stamp	typeref:struct:Time_Stamp::timeval
-visit	GPIO_Interrupt.c	/^int visit(QElemType c)$/;"	f
+visit	GPIO_Interrupt.c	/^int visit(QElemType Ts)$/;"	f

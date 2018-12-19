@@ -12,6 +12,11 @@
 static volatile int switch_count = 0;
 static volatile int En_count = 0;
 
+// 定义一个标志变量
+static volatile int interrupt_flag = FALSE;
+
+// 定义文件变量
+static FILE *out;
 // 写一个链队列把时间戳保存下来，采集结束后统一写入文件
 QElemType d;
 LinkQueue q;
@@ -22,6 +27,12 @@ int visit(QElemType Ts)
 {
     // printf("%d ",c);
     printf("c timestamp: %d/%d/%d %d:%d:%d.%ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min, Ts.lt->tm_sec, Ts.tv.tv_usec);
+
+    if(out != NULL)
+    {
+        fprintf(out,"c timestamp: %d/%d/%d %d:%d:%d.%ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min, Ts.lt->tm_sec, Ts.tv.tv_usec);
+    }
+
     return OK;
 
 }
@@ -159,17 +170,19 @@ timestamp Get_Timestamp()
 }
 
 
-/**************************
-    > 中断处理函数
-**************************/
+/***********************************************
+    > 中断处理函数 -- 其实准确的说应该是回调函数
+***********************************************/
 void GPIO_Interrupt(void)
 {
     // printf("enter interrupt");
     switch_count = switch_count + 1;
     En_count = En_count + 1;
     int i;
-    
-    EnQueue(&q, Get_Timestamp());
+    if(En_count < (Captured_Samples + 1))
+    {
+        EnQueue(&q, Get_Timestamp());
+    }
 
     if(switch_count == 1)
     {
@@ -182,18 +195,26 @@ void GPIO_Interrupt(void)
         switch_count = 0;
     }
 
-    if(En_count == 1000)
+    if(En_count == Captured_Samples)
     {
         // QueueTraverse(q);    // 不要在中断中使用队列的遍历,太费时间,在这里会导致之后的输出操作不能执行,把遍历放在主函数中
-        ClearQueue(&q);
+        // ClearQueue(&q);
         // DestroyQueue(&q);
-	
+    
         // i=InitQueue(&q);	
         // if(i)
         // {
-	    //     printf("成功地构造了一个空队列!\n");
+        //     printf("成功地构造了一个空队列!\n");
         // }
-        En_count = 0;
+        // En_count = 0;
+
+        if(wiringPiISR(PinRising_input, INT_EDGE_SETUP, GPIO_Interrupt) < 0)    //
+        {
+            printf("Regist PinRising_input interrupts failed!");
+        }
+
+
+        interrupt_flag = TRUE;
     }
 
 }
@@ -220,15 +241,19 @@ void Setup(void)
 int main (void)
 {
     int i;
+    int length = 0;
+    int empty = 0;
+
 	i=InitQueue(&q);	
     if(i)
     {
 	    printf("成功地构造了一个空队列!\n");
     }
+    ClearQueue(&q);
 
     Setup();
 
-    if(wiringPiISR(PinRising_input, INT_EDGE_RISING, GPIO_Interrupt) < 0)
+    /*if(wiringPiISR(PinRising_input, INT_EDGE_RISING, GPIO_Interrupt) < 0)
     {
         printf("Regist PinRising_input interrupts failed!");
         return -2;
@@ -238,12 +263,34 @@ int main (void)
     {
         printf("Regist PinFalling_input interrupts failed!");
         return -2;
+    }*/
+    if(wiringPiISR(PinRising_input, INT_EDGE_BOTH, GPIO_Interrupt) < 0)    // 只用一个引脚，上升沿下降沿都检测更好一些
+    {
+        printf("Regist PinRising_input interrupts failed!");
+        return -2;
     }
+    
 
     while(1)
     {
-        ;
-    } 
+        if(interrupt_flag == TRUE)    // 现在这个写法，在这里准备输出数据的时候，由于中断函数仍然还在运行
+        {
+            interrupt_flag = FALSE;
+            length = QueueLength(q);
+
+            out = fopen("GPIO_Timestamp.txt","w");
+            QueueTraverse(q);
+            fclose(out);
+
+            ClearQueue(&q);
+            empty = QueueEmpty(q);
+
+            printf("保存1000个时间戳的队列长度为:%d\n",length);
+            printf("清空后队列是否空队列:%d\n",empty);    //1空，0否
+            En_count = 0;
+            exit(-1);
+        }
+    }
 
     return 0 ;
 }
