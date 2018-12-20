@@ -44,9 +44,8 @@
       struct timeval tv;
 
       gettimeofday(&tv, NULL);
-      // 注意在C语言函数库中，月份是0到11,0是实际的1月，11是12月
-      printf("c timestamp: %d/%d/%d %d:%d:%d.%ld\n",lt->tm_year+1900, lt->tm_mon+1, lt->tm_mday, lt->tm_hour, lt->tm_min, lt->tm_sec, tv.tv_usec);
-      return 0;
+      // 注意在C语言函数库中，月份是0到11,0是实际的1月，11是12月份是
+      printf("c timestamp: %d/%d/%d %d:%d:%d --%ld.%06ld\n",lt->tm_year+1900, lt->tm_mon+1, lt->tm_mday, lt->tm_hour, lt->tm_min, lt->tm_sec, tv.tv_sec,tv.tv_usec)
    }
    ```
 

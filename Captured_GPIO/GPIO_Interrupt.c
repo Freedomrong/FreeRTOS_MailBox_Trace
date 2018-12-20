@@ -26,11 +26,11 @@ LinkQueue q;
 int visit(QElemType Ts)
 {
     // printf("%d ",c);
-    printf("c timestamp: %d/%d/%d %d:%d:%d.%ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min, Ts.lt->tm_sec, Ts.tv.tv_usec);
+    // printf("c timestamp: %d/%d/%d %d:%d:%d.%ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min, Ts.lt->tm_sec, Ts.tv.tv_usec);
 
     if(out != NULL)
     {
-        fprintf(out,"c timestamp: %d/%d/%d %d:%d:%d.%ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min, Ts.lt->tm_sec, Ts.tv.tv_usec);
+        fprintf(out,"c timestamp: %d/%d/%d %d:%d:%d --%ld.%06ld\n",Ts.lt->tm_year+1900, Ts.lt->tm_mon+1, Ts.lt->tm_mday, Ts.lt->tm_hour, Ts.lt->tm_min,  Ts.lt->tm_sec, Ts.tv.tv_sec, Ts.tv.tv_usec);
     }
 
     return OK;

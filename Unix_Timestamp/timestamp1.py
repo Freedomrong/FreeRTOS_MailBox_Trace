@@ -9,8 +9,11 @@ import os
 import shutil
 import subprocess
 import sys
+import multiprocessing
+
 
 def Captured_Function():
+    global CapturedGPIO_Command
 
     file_object = open(str(sys.argv[2]) + '.txt', 'w')
     
@@ -20,7 +23,7 @@ def Captured_Function():
     # Capturedfile_Format = '.sr'
    
     CapturedGPIO_Name = '-GPIO_Timestamp'
-    CapturedGPIO_Format = 'txt'
+    CapturedGPIO_Format = '.txt'
     
     CapturedTimes = sys.argv[3]
     
@@ -34,15 +37,19 @@ def Captured_Function():
         # CapturedCommand = ("sigrok-cli --samples 1M -d fx2lafw -c samplerate=24MHz -C 0=SWO,1=LED0,2=LED2_Tick,3=CLK_Pulse -O vcd -o "\
         #                    + str(i) + Capturedfile_Name + Capturedfile_Format)
     
-        CapturedCommand = ("sigrok-cli --time 10 -d fx2lafw -c samplerate=24MHz -C 0=SWO,1=LED0,2=LED2_Tick,3=CLK_Pulse -O vcd -o "\
-                           + str(i) + Capturedfile_Name + Capturedfile_Format)
+        CapturedGPIO_Command = ("./GPIO_Interrupt " + str(i) + CapturedGPIO_Name + CapturedGPIO_Format)   
 
-        CapturedGPIO_Command = ("./GPIO_Interrupt " + str(i) + CapturedGPIO_Name + Capturedfile_Format)   # 放在CapturedCommand之后运行
-    
+        CapturedCommand = ("sigrok-cli --time 100 -d fx2lafw -c samplerate=24MHz -C 0=SWO,1=LED0,2=LED2_Tick,3=CLK_Pulse -O vcd -o "\
+                           + str(i) + Capturedfile_Name + Capturedfile_Format)
+ 
         response = subprocess.getstatusoutput(CapturedCommand)    # 返回的数据中有时间戳信息,是捕获数据的0时刻对应的unix时间,
                                                                   # 是我们修改sigrok-cli的源代码得到的
                                                                   # subprocess.call不能获得返回值
-    
+                                                                  # 这不是一个阻塞的方法
+ 
+        response_GPIO = subprocess.getstatusoutput(CapturedGPIO_Command)    # responsei_GPIO这条命令应该和response同时运行，并且应该等response运行约1毫秒后再运行
+                                                                            # 目前这个不阻塞，仍然不具备同时运行的能力
+
         print(str(i) + str(response))
     
         # end = datetime.datetime.now();
