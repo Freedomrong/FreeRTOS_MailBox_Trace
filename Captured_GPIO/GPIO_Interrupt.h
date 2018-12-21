@@ -26,7 +26,7 @@
 #define ERROR 0
 #define MAXSIZE 64 /* 存储空间初始分配量 */
 
-#define Captured_Samples  600
+#define Captured_Samples  1100
 
 // 写一个时间戳结构
 typedef struct Time_Stamp

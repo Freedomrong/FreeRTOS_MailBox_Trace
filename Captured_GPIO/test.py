@@ -1,36 +1,48 @@
-'''
-写出两个进程，一个进程运行到另一个进程结束后它才结束
-'''
-
 import multiprocessing
 import time
-def wait_for_event(e):
-    """Wait for the event to be set before doing anything"""
-    print ('wait_for_event: starting')
-    e.wait()
-    print("恢复wait_for_event")
-    print ('wait_for_event: e.is_set()->' + str(e.is_set()))
 
-def wait_for_event_timeout(e, t):
-    """Wait t seconds and then timeout"""
-    print ('wait_for_event_timeout: starting')
+
+def CapturedGPIO(e):
+    """e.wait() will wait until a e.set() in a another place has runned"""
+    print ('G1')
+    e.wait()
+    time.sleep(1)
+    print("G2")
+    time.sleep(1)
+    print("G3")
+    time.sleep(1)
+    #print ('wait_for_event: e.is_set()->' + str(e.is_set()))
+
+def CapturedCommand(e, t):
+    """e.wait(t) will wait t second and then run the after"""
     e.wait(t)
-    print("恢复wait_for_event_timeout")
-    print ('wait_for_event_timeout: e.is_set()->' + str(e.is_set()))
+
+    print ('C1')
+    time.sleep(1)
+    print("C2")
+    time.sleep(1)
+    print("C3")
+    time.sleep(1)
+    
+    """e.set() will resume all the e.wait()"""
+    e.set()
+
+    # print ('wait_for_event_timeout: e.is_set()->' + str(e.is_set()))
 
 
 if __name__ == '__main__':
     e = multiprocessing.Event()
     w1 = multiprocessing.Process(name='block', 
-                                 target=wait_for_event,
+                                 target=CapturedGPIO,
                                  args=(e,))
-    w1.start()
 
     w2 = multiprocessing.Process(name='non-block', 
-                                 target=wait_for_event_timeout, 
-                                 args=(e, 2))
+                                 target=CapturedCommand, 
+                                 args=(e, 1))
+    
+    w1.start()
     w2.start()
 
-    time.sleep(3)
-    e.set()
-    print ('main: event is set')
+    # time.sleep(3)
+    # e.set()
+    # print ('main: event is set')
