@@ -184,18 +184,18 @@ void GPIO_Interrupt(void)
         EnQueue(&q, Get_Timestamp());
     }
 
-    if(switch_count == 1)
-    {
-        digitalWrite(Pin_output, HIGH);
-    }
+    // if(switch_count == 1)
+    // {
+    //     digitalWrite(Pin_output, HIGH);
+    // }
 
-    if(switch_count == 2)
-    {
-        digitalWrite(Pin_output, LOW);
-        switch_count = 0;
-    }
+    // if(switch_count == 2)
+    // {
+    //     digitalWrite(Pin_output, LOW);
+    //     switch_count = 0;
+    // }
 
-    if(En_count == Captured_Samples)
+    if(En_count == Captured_Samples)    // 达到指定采集点数
     {
         // QueueTraverse(q);    // 不要在中断中使用队列的遍历,太费时间,在这里会导致之后的输出操作不能执行,把遍历放在主函数中
         // ClearQueue(&q);
@@ -208,13 +208,13 @@ void GPIO_Interrupt(void)
         // }
         // En_count = 0;
 
-        if(wiringPiISR(PinRising_input, INT_EDGE_SETUP, GPIO_Interrupt) < 0)    //
+        if(wiringPiISR(PinRising_input, INT_EDGE_SETUP, GPIO_Interrupt) < 0)    // 停止上升下降沿触发
         {
             printf("Regist PinRising_input interrupts failed!");
         }
 
 
-        interrupt_flag = TRUE;
+        interrupt_flag = TRUE;    // 允许主程序中向文件写入数据
     }
 
 }
@@ -296,7 +296,7 @@ int main (int argc, char *argv[])
             ClearQueue(&q);
             empty = QueueEmpty(q);
 
-            printf("保存1000个时间戳的队列长度为:%d\n",length);
+            printf("保存%d个时间戳的队列长度为:%d\n",Captured_Samples,length);
             printf("清空后队列是否空队列:%d\n",empty);    //1空，0否
             En_count = 0;
             exit(-1);
