@@ -143,12 +143,37 @@ for i in range(0,len(GPIO_spilt1_lines)):
     temp2 = GPIO_spilt1_lines[i].strip('\n')    # 20181231 删除\n
     GPIO_timestamp.append(float(temp2))
 
-WP0GPIOtimestamp_first = GPIO_timestamp[find_closest(GPIO_timestamp, Mark_timestamp[0] + (zero2one_gap * 1)/1000000000)]
+index_WP0GPIOtimestamp_first = find_closest(GPIO_timestamp, Mark_timestamp[0] + (zero2one_gap * 1)/1000000000)
+WP0GPIOtimestamp_first = GPIO_timestamp[index_WP0GPIOtimestamp_first]
 print("在GPIO捕获的Tick时间中与预估时间最为接近的时间：%fs" %WP0GPIOtimestamp_first)
 
 
 '''数出0-itm-decode-data-Mail_Box_Tracing.txt文件中抓GPIO的Watchpoint0的个数'''
 '''然后从WP0GPIOtimestamp_first开始作为第一个Watchpoint0的时间，依次给这些Watchpoint0赋GPIO_timestamp'''   # add by 20181231
+file_object = open(output_txt_itm_file, 'r')
+
+itm_data_lines = []
+
+try:
+    itm_data_lines = file_object.readlines()
+finally:
+    file_object.close()
+
+target_str = "Watchpoint 0: address"
+index_WP0 = []
+
+for i in range(0,len(itm_data_lines)):
+    if itm_data_lines[i].find(target_str) != -1:
+        index_WP0.append(i)
+
+for i in range(0,len(index_WP0)):
+    temp4 = itm_data_lines[index_WP0[i]]
+    itm_data_lines[index_WP0[i]] = temp4.strip('\n') + " --" + str(GPIO_timestamp[index_WP0GPIOtimestamp_first + i]) + "\n"
+
+output_txt_file = '0-addGPIOtimestamp-itm-decode-data-Mail_Box_Tracing.txt'    # 完成一个文件的时间对齐操作
+file_object = open(output_txt_file, 'w')
+file_object.writelines(itm_data_lines)
+file_object.close()
 
 print('###')
 
