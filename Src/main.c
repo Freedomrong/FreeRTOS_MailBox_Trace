@@ -83,8 +83,11 @@ void configure_tracing()
     /* STM32 specific configuration to enable the TRACESWO IO pin */
     RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;
     AFIO->MAPR |= (2 << 24); // Disable JTAG to release TRACESWO
-    DBGMCU->CR |= DBGMCU_CR_TRACE_IOEN; // Enable IO trace pins
+    DBGMCU->CR |= DBGMCU_CR_TRACE_IOEN; // Enable IO trace pins 
     
+    uint32_t DBGMCU_val = DBGMCU->CR; 
+    // DBGMCU->CR |= 0x00000020; 
+   
     if (!(DBGMCU->CR & DBGMCU_CR_TRACE_IOEN))
     {
         // Some (all?) STM32s don't allow writes to DBGMCU register until
