@@ -2,11 +2,23 @@ import usb.core
 import usb.util
 import time
 import sys
+import time
+import datetime
+import os
 from vcd import VCDWriter
 from array import array
 
 
 # 先开pulseview保证fx2有固件
+print('是否已经上传固件(Y/N)')
+judge_flag = input("Please input(Y/N):")
+if judge_flag == 'Y' or judge_flag == 'yes':
+    pass
+if judge_flag == 'N' or judge_flag == 'no':
+    print('请用pulseview或sigrok-cli上传固件')
+    os._exit(0)
+
+begin_timestamp = time.time()
 
 # find our device
 dev = usb.core.find(idVendor=0x0925, idProduct=0x3881)
@@ -73,11 +85,21 @@ Setdata = [flags,delay_h,delay_l]
 # samples = 4096*2048 # 捕获的字节数，只能是2的幂次方(最少是512)，1个字节是8bit就是8个通道，例如1024个字节代表一个通道1024个点，总共1024*8个点,目前的interface最大字节数是4096*2048
 samples =  4096*128*2*8 # ,在24MHz下这个数字最小是512，比这个还小就会卡死
                         # 4096*128*2是45ms时间
-                        # 在raspberry上，fx2lafw-0.1.6的固件版本这里能设定的最大采样点数是4096*128*2*8为360ms
+                        # 在raspberry上，fx2lafw-0.1.6的固件版本这里能设定的最大采样点数是4096*128*2*8为360ms,得到的文件大小为72MB
 
-# 先读一次，使buf不为空
+# 本来是先读一次，使buf不为空，但是多次读取就目前的程序写法而言会造成数据的丢失，所以还是改为一次读取了
+# begin_ctltimestamp = time.time()
 ret = dev.ctrl_transfer(0x40,0xb1,0,0,Setdata,0x0300)
+
+begin_transtimestamp = time.time()
+# 这里需要记录一下unix时间戳,捕获360ms的数据在读取USB阶段大约总共需要花费380ms
 buf = intf[0].read(samples)
+# end_sample_unixtimestamp = time.time()
+print(begin_timestamp)
+# print(begin_ctltimestamp)
+print(begin_transtimestamp)
+# print(end_sample_unixtimestamp)
+
 # buf_output = buf.tolist()
 # print(buf)
 filename = 'mailbox_samples.txt'
