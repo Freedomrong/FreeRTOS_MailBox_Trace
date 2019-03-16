@@ -3,7 +3,7 @@
 '''
 使用arm-none-eabi-gdb -q -x script.py xx.elf 
 '''
-# import gdb
+import gdb
 import time
 import datetime
 import os
@@ -25,16 +25,27 @@ def Captured_GPIO(e):
     # global CapturedGPIO_Format 
     global CapturedTimes 
     
+    # gdb.execute('target remote localhost:3333')
+    # gdb.execute('monitor reset')
+    # gdb.execute('monitor halt')
+    # gdb.execute('load')
+
     for i in range(0,int(CapturedTimes)):
-        # e.wait()
+        e.wait()
+       #  e.set()
+
+        time.sleep(0.25)    # 把USB传输数据前的那段时间等过去,不能让GPIO的中断捕获跑到USB传输前面去
+        # gdb.execute('monitor resume')
+
+
         # e.clear()
         # print('wait e.is_set()--' + str(e.is_set()))
         # time.sleep(0.01)
         # CapturedGPIO_Command = ("./GPIO_Interrupt " + str(i) + CapturedGPIO_Name + CapturedGPIO_Format) 
-        CapturedGPIO_Command = ("./GPIO_Interrupt " + "mailbox_timestamp.txt")
+        # CapturedGPIO_Command = ("./GPIO_Interrupt " + "mailbox_timestamp.txt")
 
-        response_GPIO = subprocess.getstatusoutput(CapturedGPIO_Command)  
-        # os.system('./GPIO_Interrupt mailbox_timestamp.txt ')
+        # response_GPIO = subprocess.getstatusoutput(CapturedGPIO_Command)  
+        os.system('./GPIO_Interrupt mailbox_timestamp.txt ')     # 把这一句放到USB采集脚本里面:执行,毕竟GPIO捕获是可以等待信号到来进行捕获
 
 
 
@@ -114,7 +125,7 @@ def USB_Sample(e):
     
     begin_transtimestamp = time.time()
     # 这里需要记录一下unix时间戳,捕获360ms的数据在读取USB阶段大约总共需要花费380ms
-    # e.set()
+    e.set()
     buf = intf[0].read(samples)
     # e.set()
     # end_sample_unixtimestamp = time.time()
@@ -139,14 +150,24 @@ def USB_Sample(e):
 
 
 def GDB_Command(e):
-    '''
+    
     gdb.execute('target remote localhost:3333')
     gdb.execute('monitor reset')
     gdb.execute('monitor halt')
     gdb.execute('load')
+    
+    e.set()    # 这个进程走到这里再去控制另外两个进程开始采集
     gdb.execute('monitor resume')
-    '''
 
+    # e.wait()
+    # print('GDB_Command运行了')
+    # response = subprocess.getstatusoutput('arm-none-eabi-gdb -q -x gdb_script.py MailBox.elf') # 只要GDB运行了，USB读取进程必然变成阻塞状态，那就和GPIO_Captured捕获一样，写成外部调用
+    # print(response)
+    # os.system('arm-none-eabi-gdb -q -x gdb_script.py MailBox.elf')
+
+def USB_Sample_OS(e):
+    e.wait()
+    os.system('python3 pyusb_fx2_samples.py')    # 到USB传输数据前需要200毫秒
 
 
 if __name__ == "__main__":
@@ -158,10 +179,17 @@ if __name__ == "__main__":
     # CapturedGPIO_Format = '.txt'
     CapturedTimes = 1#sys.argv[3] #GPIO_Interrupt目前在有边沿到来后一次捕获1100个时间戳
     
+    gdb.execute('target remote localhost:3333')
+    gdb.execute('monitor reset')
+    gdb.execute('monitor halt')
+    gdb.execute('load')
+    # gdb.execute('monitor resume')   
+    
     e = multiprocessing.Event()
-    task_Captured_GPIO = multiprocessing.Process(name = 'block', target = Captured_GPIO, args = (e,))
-    task_USB_Sample = multiprocessing.Process(name = 'block', target = USB_Sample, args = (e,))
+    # task_Captured_GPIO = multiprocessing.Process(name = 'block', target = Captured_GPIO, args = (e,))
+    # task_USB_Sample = multiprocessing.Process(name = 'block', target = USB_Sample, args = (e,))
     # task_GDB_Command = multiprocessing.Process(name = 'block', target = GDB_Command, args = (e,))
+    task_USB_Sample_OS = multiprocessing.Process(name = 'block', target = USB_Sample_OS, args = (e,))    # 在这个进程里用subprocess.Popen方法非阻塞外部调用GPIO_Interrupt程序捕捉定期触发的GPIO
     
     # gdb.execute('target remote localhost:3333')
     # gdb.execute('monitor reset')
@@ -171,11 +199,20 @@ if __name__ == "__main__":
 
     # time.sleep(5)
 
-    task_Captured_GPIO.start()
-    task_USB_Sample.start()
-    # time.sleep(0.1)
+    # task_USB_Sample.start()
+    
+    task_USB_Sample_OS.start()
+    # task_Captured_GPIO.start()
+    
+    # time.sleep(5)
+    
+    e.set()
+    time.sleep(0.4355)    # 等到pyusb_fx2_samples.py跑到采集前的位置
+    print('恢复target的运行')
+    gdb.execute('monitor resume')  
+    
     
     # task_GDB_Command.start()
     # gdb.execute('monitor resume')
 
-    subprocess.getstatusoutput('arm-none-eabi-gdb -q -x gdb_script.py MailBox.elf')
+    # subprocess.getstatusoutput('arm-none-eabi-gdb -q -x gdb_script.py MailBox.elf')
