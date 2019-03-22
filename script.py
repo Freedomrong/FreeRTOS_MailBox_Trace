@@ -207,7 +207,7 @@ if __name__ == "__main__":
     # time.sleep(5)
     
     e.set()
-    time.sleep(0.4355)    # 等到pyusb_fx2_samples.py跑到采集前的位置
+    time.sleep(0.415)    # 等到pyusb_fx2_samples.py跑到采集前的位置
     print('恢复target的运行')
     gdb.execute('monitor resume')  
     
