@@ -52,4 +52,5 @@
 ### 5. 目前上传的pyusb还是早期版本
     pyusb_fx2_samples.py is a sample script which using in raspberry pi.
     pyusb_sample_fx2_vcd.py is a txt format to vcd for sigrok script which using in PC.
+    script.py is a automatic script for USB sample Tracing data and GPIO captured.
 
