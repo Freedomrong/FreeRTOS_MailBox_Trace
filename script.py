@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # coding=utf-8
 '''
+运行脚本前记得运行一下pluseview或sigrok-cli保证固件上传
 使用arm-none-eabi-gdb -q -x script.py xx.elf 
 '''
 import gdb
