@@ -27,9 +27,9 @@ def DatetimeRecv(Server_IP_address, Port):
 
 
 def DatetimeRun(str_Sec):
-    Command = './DatetimeRun ' + str_Sec
+    Command = './Datetime_GPIO_Interrupt ' + 'timestamp.txt ' + str_Sec
     os.system(Command)
 
 if __name__ == "__main__":
-    str_Sec = DatetimeRecv('192.168.0.101', 10000)
+    str_Sec = DatetimeRecv('192.168.0.188', 10000)
     DatetimeRun(str_Sec)

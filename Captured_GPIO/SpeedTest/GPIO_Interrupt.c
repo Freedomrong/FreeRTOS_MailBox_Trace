@@ -175,6 +175,8 @@ timestamp Get_Timestamp()
 ***********************************************/
 void GPIO_Interrupt(void)
 {
+    printf("exit");
+    exit(-1);
     // printf("enter interrupt");
     switch_count = switch_count + 1;
     En_count = En_count + 1;

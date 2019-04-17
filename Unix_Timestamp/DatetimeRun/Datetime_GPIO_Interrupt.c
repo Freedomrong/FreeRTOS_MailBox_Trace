@@ -5,15 +5,16 @@
 	> Created Time: 2018年12月10日 星期一 16时55分04秒
  ************************************************************************/
 
-#include"GPIO_Interrupt.h"
+#include"Datetime_GPIO_Interrupt.h"
 
 
 // 定义一个中断计数变量
 static volatile int switch_count = 0;
 static volatile int En_count = 0;
 
-// 定义一个标志变量
+// 定义两个标志变量
 static volatile int interrupt_flag = FALSE;
+static volatile int EnQueue_flag = FALSE;
 
 // 定义文件变量
 static FILE *out;
@@ -176,12 +177,15 @@ timestamp Get_Timestamp()
 void GPIO_Interrupt(void)
 {
     // printf("enter interrupt");
-    switch_count = switch_count + 1;
-    En_count = En_count + 1;
     int i;
-    if(En_count < (Captured_Samples + 1))
+    if(EnQueue_flag == TRUE)
     {
-        EnQueue(&q, Get_Timestamp());
+        switch_count = switch_count + 1;
+        En_count = En_count + 1;
+        if(En_count < (Captured_Samples + 1))
+        {
+            EnQueue(&q, Get_Timestamp());
+        }
     }
 
     // if(switch_count == 1)
@@ -244,10 +248,18 @@ int main (int argc, char *argv[])
     int length = 0;
     int empty = 0;
     char *filename;
+    
+    timestamp CurrentTs;
+    char *str_Sec;
+    long int Sec;
+    int Sec_flag = TRUE;
 
-    if(argc == 2)
+    if(argc == 3)
     {
         filename = argv[1];
+        str_Sec = argv[2];
+        Sec = atol(str_Sec);
+        printf("设定时间=%ld\n",Sec);
     }
     else
     {
@@ -275,15 +287,25 @@ int main (int argc, char *argv[])
         printf("Regist PinFalling_input interrupts failed!");
         return -2;
     }*/
+    
     if(wiringPiISR(PinRising_input, INT_EDGE_BOTH, GPIO_Interrupt) < 0)    // 只用一个引脚，上升沿下降沿都检测更好一些
     {
         printf("Regist PinRising_input interrupts failed!");
         return -2;
     }
-    
 
-    while(1)
+    while(TRUE)
     {
+    	if(Sec_flag == TRUE)
+        {
+            gettimeofday(&(CurrentTs.tv), NULL); 
+            if((CurrentTs.tv.tv_sec ) > (Sec ))
+            {
+                EnQueue_flag = TRUE;
+                Sec_flag = FALSE;
+            }
+        }
+    	
         if(interrupt_flag == TRUE)    // 现在这个写法，在这里准备输出数据的时候，由于中断函数仍然还在运行
         {
             interrupt_flag = FALSE;

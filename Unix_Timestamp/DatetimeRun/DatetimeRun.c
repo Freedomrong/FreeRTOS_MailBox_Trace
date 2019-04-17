@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
         if((Ts.tv.tv_sec ) > (Sec ))    // 查询时间戳大于设定时间戳，进入if执行用户程序
         {
             // gettimeofday(&(Ts.tv), NULL);     // 这个执行速度真的快，进到if里之后，更新一下时间戳，居然小数还是0
+            system("./GPIO_Interrupt timestamp.txt");
             printf("OK\n");
             printf("%ld.%06ld\n",Ts.tv.tv_sec, Ts.tv.tv_usec);
             break;
