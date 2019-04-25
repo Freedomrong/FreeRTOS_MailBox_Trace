@@ -56,3 +56,6 @@
 
     gcc -lwiringPi Datetime_GPIO_Interrupt.c -o Datetime_GPIO_Interrupt
 
+    Please remeber add timescale 41666667 in TIMESCALE_NUMS of writer.py(/usr/local/lib/python3.4/dist-packages/vcd)
+    
+
