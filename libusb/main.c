@@ -10,7 +10,7 @@
 #define VID 0x0925
 #define PID 0x3881
 
-#define NUMS 10
+#define NUMS 3
 
 QElemType d;
 LinkQueue q;
@@ -22,6 +22,8 @@ int var_flag = 0;
 
 char *filename;
 
+struct libusb_transfer *img_transfer;
+libusb_device_handle *dev_handle;
 // static libusb_device **devs;            // pointer to pointer of device
 // static libusb_device_handle *dev_handle;// a device handle
 // static libusb_context *ctx = NULL;      // a libusb session
@@ -64,6 +66,7 @@ static int send_samplerate(libusb_device_handle *devhdl)
 {
     int r;
     unsigned char byte_cmd[3] = {0x40, 0x00, 0x01};
+    printf("ran send_samplerate\n");
     r = libusb_control_transfer(devhdl,LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_ENDPOINT_OUT, 0xb1, 0x0000, 0x0000, byte_cmd, sizeof(byte_cmd),100);
 }
 
@@ -72,10 +75,12 @@ static int send_samplerate(libusb_device_handle *devhdl)
 
 static void LIBUSB_CALL fn_recv(struct libusb_transfer *transfer)
 {
+    printf("fn_recv var_flag = %d\n",var_flag);
     if(var_flag < NUMS)
-    {
-        /*printf("ran fn_recv\n");*/
+    {       
+        printf("ran fn_recv\n");
 
+        // libusb_submit_transfer(img_transfer);
         //int i;
         // printf("buffer:");
         // for(i = 0;i < buf_fill_len;i++)      // 每次进入回调都有buf_fill_len个字节的数据
@@ -98,11 +103,12 @@ static void LIBUSB_CALL fn_recv(struct libusb_transfer *transfer)
         // if(transfer->status == LIBUSB_TRANSFER_OVERFLOW)      // LIBUSB_TRANSFER_OVERFLOW = 6
         // {
             /*fprintf(stderr, "transfer status %d\n", transfer->status);*/
-            libusb_free_transfer(transfer);
+            // libusb_free_transfer(transfer);
             // exit(3);
         // }
-        /*printf("finish fn_recv\n"); */
-        //  printf("%x\n",transfer->user_data);
+        // printf("finish fn_recv\n");
+        // printf("%x\n",transfer->user_data);
+        // libusb_submit_transfer(img_transfer);
         var_flag++;
     }
 }
@@ -137,10 +143,11 @@ static int fill_bulk_transfer(libusb_device_handle *devhdl)
 
     printf("len = %x\n",len);*/
 
-    static struct libusb_transfer *img_transfer;
+    // static struct libusb_transfer *img_transfer;
     // unsigned char buf_fill[32];
     unsigned char my_user_data[2] = {1, 2};
     // printf("my %d\n",*my_user_data);
+    printf("ran fill_bulk_transfer\n");
 
     img_transfer = libusb_alloc_transfer(0);
     
@@ -176,7 +183,7 @@ static int fill_bulk_transfer(libusb_device_handle *devhdl)
 int main(int argc, char *argv[])
 {
     static libusb_device **devs;            // pointer to pointer of device
-    static libusb_device_handle *dev_handle;// a device handle
+    // static libusb_device_handle *dev_handle;// a device handle
     static libusb_context *ctx = NULL;      // a libusb session
     int ret;                                // for return
     ssize_t cnt;                            // hold number of devices in list
@@ -246,8 +253,7 @@ int main(int argc, char *argv[])
     // revid同上
     get_revid_version(dev_handle);
     printf("ran get_revid_version.\n");
-
-    // send_samplerate(dev_handle);
+ 
 
     int count = NUMS;
     while(count--)
@@ -257,8 +263,13 @@ int main(int argc, char *argv[])
     }
     while(TRUE)
     {
+        printf("while var_flag = %d\n",var_flag);
         if(var_flag == NUMS)
         {
+
+            libusb_release_interface(dev_handle,0);
+            libusb_close(dev_handle);
+            libusb_exit(NULL);
             QueueTraverse(q);
             ClearQueue(&q);
             break;
@@ -278,6 +289,9 @@ int main(int argc, char *argv[])
     }
 
     libusb_free_device_list(devs, 1);
+    // libusb_release_interface(dev_handle,0);
+    // libusb_close(dev_handle);
+    // libusb_exit(NULL);
 
 
 

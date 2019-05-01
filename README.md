@@ -58,4 +58,10 @@
 
     Please remeber add timescale 41666667 in TIMESCALE_NUMS of writer.py(/usr/local/lib/python3.4/dist-packages/vcd)
     
+### 6. 关于时间同步的说明
+    不要被sigrok和pulseview的timestamp数据误导,ITM发出的增量时间戳包只是两次发出时间戳包之间的间隔机器时间,21位的计数器就是负责记这个间隔时间的,重发包则计数器清0重新记,所以设计同步方案和计数器是否清0无关.
+    unix时间戳有两个目的，1. 让增量时间戳和标准世界时间能够对应 2. 强行同步追踪数据和真实事件.
+    对于1，不需要（也不可能）给每个增量时间戳都找到对应的unix时间戳
+    对于2，追踪数据中的Watchpoint是一个桥梁，能记录下GPIO翻转，并能把这个记录输出到追踪数据中.
+    所以对GPIO翻转记录时间戳 = 给追踪数据中的Watchpoint记录时间戳 = 给追踪数据中距离Watchpoint最近的增量时间戳找到对应的标准世界时间.
 
